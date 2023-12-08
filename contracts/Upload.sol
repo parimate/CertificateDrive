@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // เลขที่ใบอนุญาต: GPL-3.0
 
-pragma solidity >=0.8.0 <0.10.0; // เลือกเวอร์ชันของ Solidity ที่อยู่ในช่วง 0.8.0 ถึง 0.9.0
+pragma solidity >=0.8.0 <0.10.0; // เลือกเวอร์ชันของ Solidity ที่อยู่ในช่วง 0.8.0 ถึง 0.10.0
 
 contract Upload {
 
