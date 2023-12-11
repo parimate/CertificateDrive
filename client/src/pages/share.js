@@ -7,8 +7,6 @@ function Share() {
 
   return (
     <>
-    
-
       <div>
         <p>This is The Share Page</p>
         <Link to="/">Back to Home Page</Link>

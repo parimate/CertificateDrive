@@ -1,9 +1,6 @@
 import Upload from "./pages/artifacts/contracts/Upload.sol/Upload.json";
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import FileUpload from "./components/FileUpload";
-import Display from "./components/Display";
-import Modal from "./components/Modal";
 import "./App.css";
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -24,8 +21,7 @@ function App() {
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
 
-  // กำหนด state สำหรับเปิด/ปิด Modal
-  const [modalOpen, setModalOpen] = useState(false);
+
 
   // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
   useEffect(() => {
@@ -96,29 +92,6 @@ function App() {
           <Route path="/pages/Share" element={<Share />} />
         </Routes>
       </BrowserRouter>
-
-      {/* เงื่อนไขทำให้ปุ่ม Share แสดงหรือซ่อนตามค่า state modalOpen */}
-      {!modalOpen && (
-        <button className="share" onClick={() => setModalOpen(true)}>
-          Share
-        </button>
-      )}
-      {modalOpen && (
-        <Modal setModalOpen={setModalOpen} contract={contract}></Modal>
-      )}
-
-     
-      <div className="App">
-       {/* Component FileUpload ส่ง props ไปยัง FileUpload component */}
-       <FileUpload
-          account={account}
-          provider={provider}
-          contract={contract}
-        ></FileUpload>
-
-        {/* Component Display ส่ง props ไปยัง Display component */}
-        <Display contract={contract} account={account}></Display>
-        </div>
     </>
   );
 }

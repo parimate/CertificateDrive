@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
+import Upload from "./artifacts/contracts/Upload.sol/Upload.json";
+import { useState, useEffect } from "react";
+import { ethers } from "ethers";
 import FileUpload from "./components/FileUpload";
 import Display from "./components/Display";
 import Modal from "./components/Modal";
-import "./App.css";
+import "./UploadPage.css";
 
 function UploadPage() {
   // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
@@ -60,13 +63,8 @@ function UploadPage() {
 
   return (
     <>
-      <div>
-        <p>This is The Upload Page</p>
-        <Link to="/">Back to Home Page</Link>
-      </div>
-
-       {/* เงื่อนไขทำให้ปุ่ม Share แสดงหรือซ่อนตามค่า state modalOpen */}
-       {!modalOpen && (
+      {/* เงื่อนไขทำให้ปุ่ม Share แสดงหรือซ่อนตามค่า state modalOpen */}
+      {!modalOpen && (
         <button className="share" onClick={() => setModalOpen(true)}>
           Share
         </button>
@@ -75,10 +73,10 @@ function UploadPage() {
         <Modal setModalOpen={setModalOpen} contract={contract}></Modal>
       )}
 
-     
+
       <div className="App">
-       {/* Component FileUpload ส่ง props ไปยัง FileUpload component */}
-       <FileUpload
+        {/* Component FileUpload ส่ง props ไปยัง FileUpload component */}
+        <FileUpload
           account={account}
           provider={provider}
           contract={contract}
@@ -86,7 +84,12 @@ function UploadPage() {
 
         {/* Component Display ส่ง props ไปยัง Display component */}
         <Display contract={contract} account={account}></Display>
-        </div>
+      </div>
+
+      <div className="App">
+        <p>This is The Upload Page</p>
+        <Link to="/">Back to Home Page</Link>
+      </div>
     </>
   )
 }

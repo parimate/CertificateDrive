@@ -62,7 +62,7 @@ function Home() {
         </Container>
       </div>
 
-      <div>
+      <div className="App">
         <p>This is The Home Page</p>
         <Link to="/">Back to Home Page</Link>
       </div>

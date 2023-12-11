@@ -2,6 +2,11 @@
 import { useState } from "react";
 import axios from "axios";
 import "./FileUpload.css";
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Row from 'react-bootstrap/Row';
 
 
 // Component ชื่อ FileUpload รับ props 3 ตัว contract, account, provider
@@ -60,9 +65,93 @@ const FileUpload = ({ contract, account, provider }) => {
     e.preventDefault(); // ป้องกันการเรียกใช้งาน default behavior ของ element input type="file"
   };
 
+  const handleSubmitForm = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  };
+
   // JSX ส่วนที่แสดงผลบนหน้าจอ
   return (
     <div className="top">
+      <h1 style={{ color: "black" }}>Certificate Upload</h1>
+      <Form noValidate validated={validated} onSubmit={handleSubmitForm}>
+        <Row className="mb-3">
+          <Form.Group as={Col} md="4" controlId="validationCustom01">
+            <Form.Label>First name</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="First name"
+              defaultValue="First name"
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="4" controlId="validationCustom02">
+            <Form.Label>Last name</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Last name"
+              defaultValue="Last name"
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="4" controlId="validationCustomUsername">
+            <Form.Label>Student ID</Form.Label>
+            <InputGroup hasValidation>
+              <InputGroup.Text id="inputGroupPrepend">No.</InputGroup.Text>
+              <Form.Control
+                type="text"
+                placeholder="Student ID"
+                aria-describedby="inputGroupPrepend"
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please choose a username.
+              </Form.Control.Feedback>
+            </InputGroup>
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group as={Col} md="6" controlId="validationCustom03">
+            <Form.Label>Certificate Name</Form.Label>
+            <Form.Control type="text" placeholder="Certificate Name" required />
+            <Form.Control.Feedback type="invalid">
+              Please provide a valid city.
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="3" controlId="validationCustom04">
+            <Form.Label>Faculty</Form.Label>
+            <Form.Control type="text" placeholder="Faculty" required />
+            <Form.Control.Feedback type="invalid">
+              Please provide a valid state.
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="3" controlId="validationCustom05">
+            <Form.Label>Department</Form.Label>
+            <Form.Control type="text" placeholder="Department" required />
+            <Form.Control.Feedback type="invalid">
+              Please provide a valid zip.
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+        <Form.Group className="mb-3">
+          <Form.Check
+            required
+            label="Agree to terms and conditions"
+            feedback="You must agree before submitting."
+            feedbackType="invalid"
+          />
+        </Form.Group>
+        <Button type="submit">Submit form</Button>
+      </Form>
+      <br />
+     
       <form className="form" onSubmit={handleSubmit}>
         <label htmlFor="file-upload" className="choose">
           Choose Image
