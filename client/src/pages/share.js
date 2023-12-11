@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 
-function Home() {
+function Share() {
   return (
     
     <div>
-        <p>This is The Home Page</p>
+        <p>This is The Share Page</p>
         <Link to="/">Back to Home Page</Link>
     </div>
     
   )
 }
 
-export default Home
+export default Share

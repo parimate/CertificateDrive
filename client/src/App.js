@@ -10,6 +10,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
 
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import {  Row, Col } from 'react-bootstrap';
+
+
+
 function App() {
   // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
   const [account, setAccount] = useState("");
@@ -66,14 +72,15 @@ function App() {
   // ส่วนการแสดงผลบนหน้าเว็บ
   return (
     <>
+   
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">DApp</Navbar.Brand>
+          <Navbar.Brand href="/Home">DApp</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#upload">Upload</Nav.Link>
-            <Nav.Link href="#view">View</Nav.Link>
+            <Nav.Link href="/pages/Home">Home</Nav.Link>
+            <Nav.Link href="/upload">Upload</Nav.Link>
+            <Nav.Link href="/share">Share</Nav.Link>
+            <Nav.Link href="/view">View</Nav.Link>
           </Nav>
           {/* แสดงข้อมูลบัญชีปัจจุบันที่เชื่อมต่อ */}
           <p style={{ color: "Orange" }}>
@@ -81,6 +88,7 @@ function App() {
           </p>
         </Container>
       </Navbar>
+    
 
       {/* เงื่อนไขทำให้ปุ่ม Share แสดงหรือซ่อนตามค่า state modalOpen */}
       {!modalOpen && (
@@ -92,17 +100,63 @@ function App() {
         <Modal setModalOpen={setModalOpen} contract={contract}></Modal>
       )}
 
-      
-
       <div className="App">
-        <img src="https://www.fis.psu.ac.th/en/wp-content/uploads/2022/09/PSU-Logo-01.png" className="logo" alt="PSU logo" width="150" height="100"/>
-        <img src="https://scontent-kul3-1.xx.fbcdn.net/v/t39.30808-6/305618331_513148457478709_2689011196404496399_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=VoSufyKdqd4AX8OJLEw&_nc_ht=scontent-kul3-1.xx&oh=00_AfDij5tH-YZfoRvS6dahJ2VyKFfz1w2hupb9U3LlvtqgKg&oe=65780ED1" 
-        className="logo" alt="CoE logo" width="100" height="100" />
-        <br/>
-        <h1 style={{ color: "black"}}>DApp Certificate Store</h1>
-        <br/>
-
+        <img src="https://www.fis.psu.ac.th/en/wp-content/uploads/2022/09/PSU-Logo-01.png" className="logo" alt="PSU logo" width="150" height="100" />
+        <img src="https://scontent-kul3-1.xx.fbcdn.net/v/t39.30808-6/305618331_513148457478709_2689011196404496399_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=VoSufyKdqd4AX8OJLEw&_nc_ht=scontent-kul3-1.xx&oh=00_AfDij5tH-YZfoRvS6dahJ2VyKFfz1w2hupb9U3LlvtqgKg&oe=65780ED1"
+          className="logo" alt="CoE logo" width="100" height="100" />
+        <br />
+        <h1 style={{ color: "black" }}>DApp Certificate Store</h1>
         
+        <Container style={{ padding: 20, marginTop: 20 }}>
+          <Row>
+            <Col md={4}>
+              <Card style={{ padding: 20, width: '20rem' }}>
+                <br />
+                <Card.Img variant="top" src="https://plus.unsplash.com/premium_photo-1661281234131-5a81d87a4d2a?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                <Card.Body>
+                  <Card.Title>Admin</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the
+                    bulk of the card's content.
+                  </Card.Text>
+                  <Button variant="primary" href="/Home">Login</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+
+            <Col md={4}>
+              <Card style={{ padding: 20, width: '20rem' }}>
+                <br />
+                <Card.Img variant="top" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                <Card.Body>
+                  <Card.Title>Student</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the
+                    bulk of the card's content.
+                  </Card.Text>
+                  <Button variant="primary" href="/Home">Login</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+
+            <Col md={4}>
+              <Card style={{ padding: 20, width: '20rem' }}>
+                <br />
+                <Card.Img variant="top" src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                <Card.Body>
+                  <Card.Title>Viewer</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the
+                    bulk of the card's content.
+                  </Card.Text>
+                  <Button variant="primary" href="/Home">Login</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+
+
 
         {/* Component FileUpload ส่ง props ไปยัง FileUpload component */}
         <FileUpload
@@ -113,8 +167,10 @@ function App() {
 
         {/* Component Display ส่ง props ไปยัง Display component */}
         <Display contract={contract} account={account}></Display>
+
+        
       </div>
-      
+
     </>
   );
 }
