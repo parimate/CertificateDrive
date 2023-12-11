@@ -5,6 +5,13 @@ import FileUpload from "./components/FileUpload";
 import Display from "./components/Display";
 import Modal from "./components/Modal";
 import "./App.css";
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Share from './pages/Share';
+
+
+
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -12,11 +19,13 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import {  Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+
 
 
 
 function App() {
+
   // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
@@ -72,23 +81,27 @@ function App() {
   // ส่วนการแสดงผลบนหน้าเว็บ
   return (
     <>
-   
-      <Navbar bg="dark" data-bs-theme="dark">
-        <Container>
-          <Navbar.Brand href="/Home">DApp</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="/pages/Home">Home</Nav.Link>
-            <Nav.Link href="/upload">Upload</Nav.Link>
-            <Nav.Link href="/share">Share</Nav.Link>
-            <Nav.Link href="/view">View</Nav.Link>
-          </Nav>
-          {/* แสดงข้อมูลบัญชีปัจจุบันที่เชื่อมต่อ */}
-          <p style={{ color: "Orange" }}>
-            Account : {account ? account : "Not connected"}
-          </p>
-        </Container>
-      </Navbar>
-    
+      <BrowserRouter>
+        <Navbar bg="dark" data-bs-theme="dark">
+          <Container>
+            <Navbar.Brand href="/">DApp</Navbar.Brand>
+            <Nav className="me-auto">
+              <Nav.Link href="/pages/Home">Home</Nav.Link>
+              <Nav.Link href="/pages/Upload">Upload</Nav.Link>
+              <Nav.Link href="/pages/Share">Share</Nav.Link>
+              <Nav.Link href="/pages/View">View</Nav.Link>
+            </Nav>
+            {/* แสดงข้อมูลบัญชีปัจจุบันที่เชื่อมต่อ */}
+            <p style={{ color: "Orange" }}>
+              Account : {account ? account : "Not connected"}
+            </p>
+          </Container>
+        </Navbar>
+        <Routes>
+          <Route path="/pages/Home" element={<Home />} />
+          <Route path="/pages/Share" element={<Share />} />
+        </Routes>
+      </BrowserRouter>
 
       {/* เงื่อนไขทำให้ปุ่ม Share แสดงหรือซ่อนตามค่า state modalOpen */}
       {!modalOpen && (
@@ -106,7 +119,7 @@ function App() {
           className="logo" alt="CoE logo" width="100" height="100" />
         <br />
         <h1 style={{ color: "black" }}>DApp Certificate Store</h1>
-        
+
         <Container style={{ padding: 20, marginTop: 20 }}>
           <Row>
             <Col md={4}>
@@ -168,7 +181,7 @@ function App() {
         {/* Component Display ส่ง props ไปยัง Display component */}
         <Display contract={contract} account={account}></Display>
 
-        
+
       </div>
 
     </>
