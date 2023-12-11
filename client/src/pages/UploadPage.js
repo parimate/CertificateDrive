@@ -1,24 +1,10 @@
-import Upload from "./pages/artifacts/contracts/Upload.sol/Upload.json";
-import { useState, useEffect } from "react";
-import { ethers } from "ethers";
+import { Link } from 'react-router-dom'
 import FileUpload from "./components/FileUpload";
 import Display from "./components/Display";
 import Modal from "./components/Modal";
 import "./App.css";
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Share from './pages/Share';
-import UploadPage from './pages/UploadPage';
-
-
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-
-
-function App() {
-
+function UploadPage() {
   // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
@@ -71,34 +57,16 @@ function App() {
     provider && loadProvider();
   }, []);
 
-  // ส่วนการแสดงผลบนหน้าเว็บ
+
   return (
     <>
-      <BrowserRouter>
-        <Navbar bg="dark" data-bs-theme="dark">
-          <Container>
-            <Navbar.Brand href="/">DApp</Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="/pages/Home">Home</Nav.Link>
-              <Nav.Link href="/pages/UploadPage">Upload</Nav.Link>
-              <Nav.Link href="/pages/Share">Share</Nav.Link>
-              <Nav.Link href="/pages/View">View</Nav.Link>
-            </Nav>
-            {/* แสดงข้อมูลบัญชีปัจจุบันที่เชื่อมต่อ */}
-            <p style={{ color: "Orange" }}>
-              Account : {account ? account : "Not connected"}
-            </p>
-          </Container>
-        </Navbar>
-        <Routes>
-          <Route path="/pages/Home" element={<Home />} />
-          <Route path="/pages/UploadPage" element={<UploadPage />} />
-          <Route path="/pages/Share" element={<Share />} />
-        </Routes>
-      </BrowserRouter>
+      <div>
+        <p>This is The Upload Page</p>
+        <Link to="/">Back to Home Page</Link>
+      </div>
 
-      {/* เงื่อนไขทำให้ปุ่ม Share แสดงหรือซ่อนตามค่า state modalOpen */}
-      {!modalOpen && (
+       {/* เงื่อนไขทำให้ปุ่ม Share แสดงหรือซ่อนตามค่า state modalOpen */}
+       {!modalOpen && (
         <button className="share" onClick={() => setModalOpen(true)}>
           Share
         </button>
@@ -120,7 +88,7 @@ function App() {
         <Display contract={contract} account={account}></Display>
         </div>
     </>
-  );
+  )
 }
 
-export default App;
+export default UploadPage;
