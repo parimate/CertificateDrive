@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Share from './pages/Share';
 import UploadPage from './pages/UploadPage';
+import View from './pages/View';
+
 
 
 import Container from 'react-bootstrap/Container';
@@ -90,6 +92,7 @@ function App() {
           <Route path="/pages/Home" element={<Home />} />
           <Route path="/pages/UploadPage" element={<UploadPage />} />
           <Route path="/pages/Share" element={<Share />} />
+          <Route path="/pages/View" element={<View />} />
         </Routes>
       </BrowserRouter>
     </>

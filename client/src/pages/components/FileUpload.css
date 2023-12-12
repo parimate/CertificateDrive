@@ -49,3 +49,7 @@ input[type="file"] {
 div {
   padding: 5px 10px;
 }
+
+.formInput{
+  background-color: #dcd6d6;
+}

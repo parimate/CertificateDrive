@@ -40,7 +40,16 @@ const FileUpload = ({ contract, account, provider }) => {
 
         // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-        contract.add(account, ImgHash); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
+
+        // Collect additional data from the form
+        const name = document.getElementById("validationCustom01").value;
+        const studentId = document.getElementById("validationCustomID").value;
+        const certificateName = document.getElementById("validationCustom03").value;
+        const faculty = document.getElementById("validationCustom04").value;
+        const department = document.getElementById("validationCustom05").value;
+
+
+        contract.add(account, ImgHash, name, studentId, certificateName, faculty, department); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้
@@ -51,6 +60,8 @@ const FileUpload = ({ contract, account, provider }) => {
     alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ (บรรทัดนี้อาจซ้ำกัน)
     setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected" (บรรทัดนี้อาจซ้ำกัน)
     setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้ (บรรทัดนี้อาจซ้ำกัน)
+    setValidated(true);
+    
   };
 
   // function ชื่อ retrieveFile ทำการดึงข้อมูลจากไฟล์ที่ผู้ใช้เลือกและอัปเดต state file และ fileName
@@ -72,13 +83,15 @@ const FileUpload = ({ contract, account, provider }) => {
       event.stopPropagation();
     }
 
-    setValidated(true);
+    //setValidated(true);
   };
 
   // JSX ส่วนที่แสดงผลบนหน้าจอ
   return (
     <div className="top">
       <h1 style={{ color: "black" }}>Certificate Upload</h1>
+
+      <div className="formText">
       <Form noValidate validated={validated} onSubmit={handleSubmitForm}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -101,7 +114,7 @@ const FileUpload = ({ contract, account, provider }) => {
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md="4" controlId="validationCustomUsername">
+          <Form.Group as={Col} md="4" controlId="validationCustomID">
             <Form.Label>Student ID</Form.Label>
             <InputGroup hasValidation>
               <InputGroup.Text id="inputGroupPrepend">No.</InputGroup.Text>
@@ -112,7 +125,7 @@ const FileUpload = ({ contract, account, provider }) => {
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please choose a username.
+                Please choose a Student ID.
               </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
@@ -120,23 +133,23 @@ const FileUpload = ({ contract, account, provider }) => {
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="validationCustom03">
             <Form.Label>Certificate Name</Form.Label>
-            <Form.Control type="text" placeholder="Certificate Name" required />
+            <Form.Control type="text" placeholder="Basic Programing" required />
             <Form.Control.Feedback type="invalid">
-              Please provide a valid city.
+              Please provide a valid Certificate Name.
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="3" controlId="validationCustom04">
             <Form.Label>Faculty</Form.Label>
-            <Form.Control type="text" placeholder="Faculty" required />
+            <Form.Control type="text" placeholder="Engineering" required />
             <Form.Control.Feedback type="invalid">
-              Please provide a valid state.
+              Please provide a valid Faculty.
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="3" controlId="validationCustom05">
             <Form.Label>Department</Form.Label>
-            <Form.Control type="text" placeholder="Department" required />
+            <Form.Control type="text" placeholder="Computer Engineering" required />
             <Form.Control.Feedback type="invalid">
-              Please provide a valid zip.
+              Please provide a valid Department.
             </Form.Control.Feedback>
           </Form.Group>
         </Row>
@@ -150,8 +163,10 @@ const FileUpload = ({ contract, account, provider }) => {
         </Form.Group>
         <Button type="submit">Submit form</Button>
       </Form>
+      </div>
       <br />
-     
+
+      <div>
       <form className="form" onSubmit={handleSubmit}>
         <label htmlFor="file-upload" className="choose">
           Choose Image
@@ -168,6 +183,8 @@ const FileUpload = ({ contract, account, provider }) => {
           Upload File
         </button>
       </form>
+      </div>
+
     </div>
   );
 };
