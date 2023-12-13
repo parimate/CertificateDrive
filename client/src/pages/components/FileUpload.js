@@ -46,9 +46,10 @@ const FileUpload = ({ contract, account, provider }) => {
         const certificateName = document.getElementById("validationCustom03").value;
         const faculty = document.getElementById("validationCustom04").value;
         const department = document.getElementById("validationCustom05").value;
+        const gasLimit = 500000; // Set an appropriate gas limit
 
 
-        contract.add(account, ImgHash, fullName, studentId, faculty, department, certificateName); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
+        await contract.add(account, ImgHash , fullName , studentId,{ gasLimit }); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้
@@ -59,7 +60,7 @@ const FileUpload = ({ contract, account, provider }) => {
     alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ (บรรทัดนี้อาจซ้ำกัน)
     setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected" (บรรทัดนี้อาจซ้ำกัน)
     setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้ (บรรทัดนี้อาจซ้ำกัน)
-    setValidated(true);
+    //setValidated(true);
     
   };
 
@@ -120,6 +121,7 @@ const FileUpload = ({ contract, account, provider }) => {
               <Form.Control
                 type="text"
                 placeholder="Student ID"
+                defaultValue="6510120030"
                 aria-describedby="inputGroupPrepend"
                 required
               />
@@ -132,21 +134,21 @@ const FileUpload = ({ contract, account, provider }) => {
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="validationCustom03">
             <Form.Label>Certificate Name</Form.Label>
-            <Form.Control type="text" placeholder="Basic Programing" required />
+            <Form.Control type="text" placeholder="Certificate Name" required defaultValue="Basic Programing" />
             <Form.Control.Feedback type="invalid">
               Please provide a valid Certificate Name.
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="3" controlId="validationCustom04">
             <Form.Label>Faculty</Form.Label>
-            <Form.Control type="text" placeholder="Engineering" required />
+            <Form.Control type="text" placeholder="Faculty" required defaultValue="Engineering"/>
             <Form.Control.Feedback type="invalid">
               Please provide a valid Faculty.
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="3" controlId="validationCustom05">
             <Form.Label>Department</Form.Label>
-            <Form.Control type="text" placeholder="Computer Engineering" required />
+            <Form.Control type="text" placeholder="Department" required defaultValue="Computer Engineering"/>
             <Form.Control.Feedback type="invalid">
               Please provide a valid Department.
             </Form.Control.Feedback>
