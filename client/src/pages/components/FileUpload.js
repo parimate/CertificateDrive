@@ -2,7 +2,6 @@
 import { useState } from "react";
 import axios from "axios";
 import "./FileUpload.css";
-import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -42,14 +41,14 @@ const FileUpload = ({ contract, account, provider }) => {
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
         // Collect additional data from the form
-        const name = document.getElementById("validationCustom01").value;
+        const fullName = document.getElementById("validationCustom01").value;
         const studentId = document.getElementById("validationCustomID").value;
         const certificateName = document.getElementById("validationCustom03").value;
         const faculty = document.getElementById("validationCustom04").value;
         const department = document.getElementById("validationCustom05").value;
 
 
-        contract.add(account, ImgHash, name, studentId, certificateName, faculty, department); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
+        contract.add(account, ImgHash, fullName, studentId, faculty, department, certificateName); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้
@@ -153,15 +152,6 @@ const FileUpload = ({ contract, account, provider }) => {
             </Form.Control.Feedback>
           </Form.Group>
         </Row>
-        <Form.Group className="mb-3">
-          <Form.Check
-            required
-            label="Agree to terms and conditions"
-            feedback="You must agree before submitting."
-            feedbackType="invalid"
-          />
-        </Form.Group>
-        <Button type="submit">Submit form</Button>
       </Form>
       </div>
       <br />

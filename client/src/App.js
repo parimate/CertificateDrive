@@ -24,7 +24,6 @@ function App() {
   const [provider, setProvider] = useState(null);
 
 
-
   // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
   useEffect(() => {
     // สร้าง provider จาก ethers.providers.Web3Provider โดยใช้ window.ethereum
@@ -66,6 +65,7 @@ function App() {
         console.error("Metamask is not installed"); // แสดงข้อความแจ้งเตือนในกรณีที่ไม่มี Metamask
       }
     };
+    
     provider && loadProvider();
   }, []);
 
