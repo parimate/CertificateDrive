@@ -1,19 +1,16 @@
 import Upload from "./pages/artifacts/contracts/Upload.sol/Upload.json";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import "./App.css";
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Share from './pages/Share';
+import Home from './pages/home';
+import Share from './pages/share';
 import UploadPage from './pages/UploadPage';
 import View from './pages/View';
-
-
-
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+
 
 
 function App() {
@@ -22,7 +19,6 @@ function App() {
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
-
 
   // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
   useEffect(() => {
@@ -86,6 +82,7 @@ function App() {
             <p style={{ color: "Orange" }}>
               Account : {account ? account : "Not connected"}
             </p>
+            
           </Container>
         </Navbar>
         <Routes>

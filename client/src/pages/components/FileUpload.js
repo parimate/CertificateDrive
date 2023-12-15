@@ -49,7 +49,7 @@ const FileUpload = ({ contract, account, provider }) => {
         const gasLimit = 500000; // Set an appropriate gas limit
 
 
-        await contract.add(account, ImgHash , fullName , studentId,{ gasLimit }); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
+        await contract.add(account, ImgHash , fullName , studentId, certificateName, faculty, department, {gasLimit}); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้
@@ -60,7 +60,7 @@ const FileUpload = ({ contract, account, provider }) => {
     alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ (บรรทัดนี้อาจซ้ำกัน)
     setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected" (บรรทัดนี้อาจซ้ำกัน)
     setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้ (บรรทัดนี้อาจซ้ำกัน)
-    //setValidated(true);
+    setValidated(true);
     
   };
 

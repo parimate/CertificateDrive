@@ -32,7 +32,7 @@ contract Upload {
     ) external {
         value[_user].push(url);
 
-        // เพิ่มรายการการเข้าถึงข้อมูลใหม่เข้าไปใน accessList พร้อมกับข้อมูล full-name และ student-id
+        // เพิ่มรายการการเข้าถึงข้อมูลใหม่เข้าไปใน accessList 
         accessList[_user].push(
             Access(
                 msg.sender,
