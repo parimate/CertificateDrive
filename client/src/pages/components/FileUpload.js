@@ -60,7 +60,7 @@ const FileUpload = ({ contract, account, provider }) => {
     alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ (บรรทัดนี้อาจซ้ำกัน)
     setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected" (บรรทัดนี้อาจซ้ำกัน)
     setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้ (บรรทัดนี้อาจซ้ำกัน)
-    setValidated(true);
+    //setValidated(true);
     
   };
 
