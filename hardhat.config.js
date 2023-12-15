@@ -9,6 +9,6 @@ module.exports = {
     },
   },
   paths: {
-    artifacts: "./client/src/pages/artifacts",
+    artifacts: "./client/src/artifacts",
   },
 };
