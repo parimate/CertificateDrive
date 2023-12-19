@@ -8,6 +8,7 @@ contract Upload {
     struct Access {
         address user; // ที่อยู่ของผู้ใช้
         bool access; // สถานะการเข้าถึง (true หมายถึงมีสิทธิ์เข้าถึง, false หมายถึงไม่มีสิทธิ์เข้าถึง)
+        uint256 endTime; // เวลาสิ้นสุดที่ผู้ใช้สามารถเข้าถึงได้
         string fullName; // ข้อมูลชื่อ-นามสกุล
         string studentId; // ข้อมูลรหัสนักศึกษา
         string faculty; // คณะ
@@ -24,6 +25,7 @@ contract Upload {
     function add(
         address _user,
         string memory url,
+        uint256 _endTime,
         string memory _fullName,
         string memory _studentId,
         string memory _faculty,
@@ -32,33 +34,37 @@ contract Upload {
     ) external {
         value[_user].push(url);
 
-        // เพิ่มรายการการเข้าถึงข้อมูลใหม่เข้าไปใน accessList 
+        // เพิ่มรายการการเข้าถึงข้อมูลใหม่เข้าไปใน accessList
         accessList[_user].push(
             Access(
                 msg.sender,
-                true, 
-                _fullName, 
+                true,
+                _endTime,
+                _fullName,
                 _studentId,
                 _faculty,
                 _department,
                 _certificateName
-                )
-            );
+            )
+        );
     }
 
     // ฟังก์ชันอนุญาตให้ผู้ใช้รายอื่นเข้าถึงข้อมูล
-    function allow(address user) external {
+    function allow(address user, uint256 endTime) external {
         ownership[msg.sender][user] = true; // ตั้งค่าสิทธิ์ให้กับผู้ใช้ที่ระบุเพื่อเปิดเผยข้อมูล
         if (previousData[msg.sender][user]) {
             // ถ้ามีการเข้าถึงข้อมูลก่อนหน้านี้ ให้อัปเดตสถานะการเข้าถึงให้เป็น true
             for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
                 if (accessList[msg.sender][i].user == user) {
                     accessList[msg.sender][i].access = true;
+                    accessList[msg.sender][i].endTime = endTime + block.timestamp; // อัปเดตเวลาสิ้นสุด
                 }
             }
         } else {
             // ถ้าไม่เคยมีการเข้าถึงข้อมูลก่อนหน้านี้ ให้เพิ่มรายการการเข้าถึงใหม่และตั้งค่าสถานะก่อนหน้าเป็น true
-            accessList[msg.sender].push(Access(user, true, "", "","","",""));
+            accessList[msg.sender].push(
+                Access(user,true,endTime + block.timestamp,"","","","","")
+            );
             previousData[msg.sender][user] = true;
         }
     }
@@ -74,18 +80,38 @@ contract Upload {
         }
     }
 
-    // ฟังก์ชันแสดงรายการ URL ของผู้ใช้
-    function display(address _user) external view returns (string[] memory) {
+    // ฟังก์ชันแสดงรายการ URL และข้อมูลอื่นๆ ของผู้ใช้
+    function display(address _user) external view returns (string[] memory, Access memory){
         // ตรวจสอบว่าผู้ใช้เป็นเจ้าของหรือมีสิทธิ์ในการเข้าถึงข้อมูล หากไม่ใช่จะโยนข้อผิดพลาด
         require(
             _user == msg.sender || ownership[_user][msg.sender],
             "You don't have access"
         );
-        return value[_user];
+
+        // ตรวจสอบว่าผู้ใช้เรียกดู URL ในระยะเวลาที่สามารถเข้าถึงได้
+        uint256 currentTime = block.timestamp;
+        for (uint256 i = 0; i < accessList[_user].length; i++) {
+            if (
+                accessList[_user][i].user == msg.sender &&
+                accessList[_user][i].access &&
+                accessList[_user][i].endTime >= currentTime
+            ) {
+                // ผู้ใช้มีสิทธิ์และเวลาการเข้าถึงยังไม่สิ้นสุด
+                return (value[_user], accessList[_user][i]);
+            }
+        }
+
+        // ถ้าไม่มีสิทธิ์หรือเวลาการเข้าถึงสิ้นสุดแล้ว
+        revert("You don't have access");
     }
 
     // ฟังก์ชันแสดงรายการการเข้าถึงข้อมูลของผู้ใช้เอง
     function shareAccess() public view returns (Access[] memory) {
         return accessList[msg.sender];
+    }
+
+    function getCurrentTimestamp() public view returns (uint256) {
+        uint256 currentTimestamp = block.timestamp;
+        return currentTimestamp;
     }
 }
