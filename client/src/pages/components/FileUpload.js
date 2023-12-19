@@ -41,7 +41,7 @@ const FileUpload = ({ contract, account, provider }) => {
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
         // Collect additional data from the form
-        const endTime = 1000000000000000;
+        //const endTime = 1000000000000000;
         const fullName = document.getElementById("validationCustom01").value;
         const studentId = document.getElementById("validationCustomID").value;
         const certificateName = document.getElementById("validationCustom03").value;
@@ -50,7 +50,7 @@ const FileUpload = ({ contract, account, provider }) => {
         const gasLimit = 500000; // Set an appropriate gas limit
 
 
-        await contract.add(account, ImgHash , fullName , endTime , studentId, certificateName, faculty, department, {gasLimit}); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
+        await contract.add(account, ImgHash , 0, fullName , studentId, certificateName, faculty, department, {gasLimit}); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้
@@ -87,6 +87,7 @@ const FileUpload = ({ contract, account, provider }) => {
     setValidated(true);
   };
 
+  // JSX ส่วนที่แสดงผลบนหน้าจอ
   return (
     <div className="top">
       <h1 style={{ color: "black" }}>Certificate Upload</h1>
