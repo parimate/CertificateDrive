@@ -99,7 +99,7 @@ const FileUpload = ({ contract, account, provider }) => {
               required
               type="text"
               placeholder="First name"
-              defaultValue="First name"
+              defaultValue="Parimate"
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
@@ -109,7 +109,7 @@ const FileUpload = ({ contract, account, provider }) => {
               required
               type="text"
               placeholder="Last name"
-              defaultValue="Last name"
+              defaultValue="Jaroensong"
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
