@@ -49,7 +49,7 @@ const Display = ({ contract, account }) => {
               
             </div>
 
-          <a href={data} key={i} target="_blank">
+          <a href={data} key={i} target="_blank" rel="noreferrer">
             <img
               key={i}
               src={`https://gateway.pinata.cloud/ipfs/${data.substring(6)}`}

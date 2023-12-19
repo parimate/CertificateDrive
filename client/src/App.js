@@ -1,4 +1,4 @@
-import Upload from "./pages/artifacts/contracts/Upload.sol/Upload.json";
+import Upload from "./artifacts/contracts/Upload.sol/Upload.json";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";

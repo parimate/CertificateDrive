@@ -1,13 +1,15 @@
 // การสร้าง Modal component ที่ใช้สำหรับแสดงหน้าต่างแบบโมดอลเพื่อทำการแชร์ข้อมูลให้กับผู้ใช้งานอื่น ๆ
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Modal.css";
 
 const Modal = ({ setModalOpen, contract }) => {
+   // สร้าง state สำหรับจัดเก็บข้อมูลเวลา
+  const [endTime, setEndTime] = useState("");
   // ฟังก์ชัน sharing ทำหน้าที่เมื่อผู้ใช้กดปุ่ม Share ใน Modal
   const sharing = async () => {
     const address = document.querySelector(".address").value;
-    // เรียกใช้ฟังก์ชัน allow ในสัญญาอัจฉริยะเพื่ออนุญาตให้ที่อยู่ที่ระบุมีสิทธิ์เข้าถึงข้อมูล
-    await contract.allow(address);
+    // เรียกใช้ฟังก์ชัน allow ในสัญญาอัจฉริยะเพื่ออนุญาตให้ที่อยู่ที่ระบุมีสิทธิ์เข้าถึงข้อมูลและเวลา
+    await contract.allow(address,endTime);
     // ปิด Modal เมื่อการแชร์ข้อมูลเสร็จสิ้น
     setModalOpen(false);
   };
@@ -39,12 +41,22 @@ const Modal = ({ setModalOpen, contract }) => {
         <div className="modalContainer">
           <div className="title">Share with</div>
           <div className="body">
+
             {/* กล่องข้อความในการระบุที่อยู่ที่ต้องการแชร์ข้อมูล */}
             <input
               type="text"
               className="address"
               placeholder="Enter Address"
             ></input>
+
+            {/* กล่องข้อความในการระบุเวลา (endTime) */}
+            <input
+              type="text"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              placeholder="Enter End Time (second)"
+            ></input>
+
           </div>
           <form id="myForm">
             {/* เลือกรายชื่อที่อยู่ที่มีสิทธิ์เข้าถึงข้อมูล */}

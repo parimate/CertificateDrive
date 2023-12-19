@@ -83,10 +83,7 @@ contract Upload {
     // ฟังก์ชันแสดงรายการ URL และข้อมูลอื่นๆ ของผู้ใช้
     function display(address _user) external view returns (string[] memory, Access memory){
         // ตรวจสอบว่าผู้ใช้เป็นเจ้าของหรือมีสิทธิ์ในการเข้าถึงข้อมูล หากไม่ใช่จะโยนข้อผิดพลาด
-        require(
-            _user == msg.sender || ownership[_user][msg.sender],
-            "You don't have access"
-        );
+        require(_user == msg.sender || ownership[_user][msg.sender],"You don't have access");
 
         // ตรวจสอบว่าผู้ใช้เรียกดู URL ในระยะเวลาที่สามารถเข้าถึงได้
         uint256 currentTime = block.timestamp;
