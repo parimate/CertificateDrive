@@ -90,7 +90,6 @@ const FileUpload = ({ contract, account, provider }) => {
   return (
     <div className="top">
       <h1 style={{ color: "black" }}>Certificate Upload</h1>
-
       <div className="formText">
       <Form noValidate validated={validated} onSubmit={handleSubmitForm}>
         <Row className="mb-3">
@@ -176,7 +175,6 @@ const FileUpload = ({ contract, account, provider }) => {
         </button>
       </form>
       </div>
-
     </div>
   );
 };

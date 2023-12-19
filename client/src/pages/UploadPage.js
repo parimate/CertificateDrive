@@ -71,7 +71,7 @@ function UploadPage() {
       )}
       {modalOpen && (
         <Modal setModalOpen={setModalOpen} contract={contract}></Modal>
-        
+
       )}
 
 

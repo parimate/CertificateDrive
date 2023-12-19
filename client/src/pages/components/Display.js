@@ -7,9 +7,9 @@ const Display = ({ contract, account }) => {
 
   // ฟังก์ชัน getdata เพื่อดึงข้อมูลภาพจาก contract
   const getdata = async () => {
-    let dataArray;
     // ดึงค่าที่อยู่ที่ต้องการดึงภาพ
     const Otheraddress = document.querySelector(".address").value;
+    let dataArray;
 
     try {
       if (Otheraddress) {
@@ -30,17 +30,34 @@ const Display = ({ contract, account }) => {
       const str = dataArray.toString();
       const str_array = str.split(",");
       
-      // สร้างอาร์เรย์ของภาพที่ดึงมาจาก contract เพื่อแสดงผลทีละภาพ
-      const images = str_array.map((item, i) => {
+      
+      // // สร้างอาร์เรย์ของภาพที่ดึงมาจาก contract เพื่อแสดงผลทีละภาพ
+      // const images = str_array.map((item, i) => {
+
+        // สร้างอาร์เรย์ของภาพที่ดึงมาจาก contract เพื่อแสดงผลทีละภาพ
+      const images = str_array.map((data, i) => {
         return (
-          <a href={item} key={i} target="_blank">
+          
+          <div key={i} className="image-container">
+             <div className="image-info">
+              {/* Display additional information */}
+              <p>Full Name: {data.fullName}</p>
+              <p>Student ID: {data.studentId}</p>
+              <p>Faculty: {data.faculty}</p>
+              <p>Department: {data.department}</p>
+              <p>Certificate Name: {data.certificateName}</p>
+              
+            </div>
+
+          <a href={data} key={i} target="_blank">
             <img
               key={i}
-              src={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`}
-              alt="new"
-              className="image-list"
+              src={`https://gateway.pinata.cloud/ipfs/${data.substring(6)}`}
+              alt="Click Link"
             ></img>
           </a>
+          <br/>
+          </div>
         );
       });
       setData(images); // อัปเดต state data เพื่อแสดงภาพที่ดึงมาจาก contract
@@ -52,6 +69,7 @@ const Display = ({ contract, account }) => {
   // JSX ส่วนที่แสดงผลบนหน้าเว็บ
   return (
     <>
+      <h1 style={{ color: "black" }}>Certificate list</h1>
       <div className="image-list">{data}</div>
       {/* ตัวอินพุตสำหรับกรอกที่อยู่ที่ต้องการดึงภาพ */}
       <input
