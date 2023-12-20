@@ -47,7 +47,7 @@ const FileUpload = ({ contract, account, provider }) => {
         const certificateName = document.getElementById("validationCustom03").value;
         const faculty = document.getElementById("validationCustom04").value;
         const department = document.getElementById("validationCustom05").value;
-        const gasLimit = 500000; // Set an appropriate gas limit
+        const gasLimit = 5000000; // Set an appropriate gas limit
 
 
         await contract.add(account, ImgHash , 0, fullName , studentId, certificateName, faculty, department, {gasLimit}); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
@@ -83,7 +83,6 @@ const FileUpload = ({ contract, account, provider }) => {
       event.preventDefault();
       event.stopPropagation();
     }
-
     setValidated(true);
   };
 
