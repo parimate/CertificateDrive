@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 
 
 // Component ชื่อ FileUpload รับ props 3 ตัว contract, account, provider
-const FileUpload = ({ contract, account, provider }) => {
+const FileUpload = ({ contract, account}) => {
   // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
@@ -41,28 +41,27 @@ const FileUpload = ({ contract, account, provider }) => {
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
         // Collect additional data from the form
-        //const endTime = 1000000000000000;
-        const fullName = document.getElementById("validationCustom01").value;
+        const firstName = document.getElementById("validationCustom01").value;
+        const lastName = document.getElementById("validationCustom02").value;
         const studentId = document.getElementById("validationCustomID").value;
-        const certificateName = document.getElementById("validationCustom03").value;
-        const faculty = document.getElementById("validationCustom04").value;
-        const department = document.getElementById("validationCustom05").value;
-        const gasLimit = 5000000; // Set an appropriate gas limit
+        const faculty = document.getElementById("validationCustom03").value;
+        const department = document.getElementById("validationCustom04").value;
+        const certificateName = document.getElementById("validationCustom05").value;
+        //const gasLimit = 500000; // Set an appropriate gas limit
 
-
-        await contract.add(account, ImgHash , 0, fullName , studentId, certificateName, faculty, department, {gasLimit}); // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
+        
+        // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
+        // await contract.add(account, ImgHash);
+        
+        await contract.add(firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash); 
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
-        setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้
+        setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได    
       } catch (e) {
+        console.error("Error uploading image to Pinata:", e);
         alert("Unable to upload image to Pinata"); // แสดงข้อความแจ้งเตือนว่าไม่สามารถอัปโหลดภาพไปยัง Pinata ได้
       }
-    }
-    alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ (บรรทัดนี้อาจซ้ำกัน)
-    setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected" (บรรทัดนี้อาจซ้ำกัน)
-    setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้ (บรรทัดนี้อาจซ้ำกัน)
-    setValidated(true);
-    
+    }  
   };
 
   // function ชื่อ retrieveFile ทำการดึงข้อมูลจากไฟล์ที่ผู้ใช้เลือกและอัปเดต state file และ fileName
@@ -86,7 +85,7 @@ const FileUpload = ({ contract, account, provider }) => {
     setValidated(true);
   };
 
-  // JSX ส่วนที่แสดงผลบนหน้าจอ
+
   return (
     <div className="top">
       <h1 style={{ color: "black" }}>Certificate Upload</h1>
@@ -101,7 +100,7 @@ const FileUpload = ({ contract, account, provider }) => {
               placeholder="First name"
               defaultValue="Parimate"
             />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback></Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="4" controlId="validationCustom02">
             <Form.Label>Last name</Form.Label>
@@ -111,7 +110,7 @@ const FileUpload = ({ contract, account, provider }) => {
               placeholder="Last name"
               defaultValue="Jaroensong"
             />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback></Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="4" controlId="validationCustomID">
             <Form.Label>Student ID</Form.Label>
@@ -131,25 +130,25 @@ const FileUpload = ({ contract, account, provider }) => {
           </Form.Group>
         </Row>
         <Row className="mb-3">
-          <Form.Group as={Col} md="6" controlId="validationCustom03">
-            <Form.Label>Certificate Name</Form.Label>
-            <Form.Control type="text" placeholder="Certificate Name" required defaultValue="Basic Programing" />
-            <Form.Control.Feedback type="invalid">
-              Please provide a valid Certificate Name.
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md="3" controlId="validationCustom04">
+          <Form.Group as={Col} md="3" controlId="validationCustom03">
             <Form.Label>Faculty</Form.Label>
             <Form.Control type="text" placeholder="Faculty" required defaultValue="Engineering"/>
             <Form.Control.Feedback type="invalid">
               Please provide a valid Faculty.
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md="3" controlId="validationCustom05">
+          <Form.Group as={Col} md="3" controlId="validationCustom04">
             <Form.Label>Department</Form.Label>
             <Form.Control type="text" placeholder="Department" required defaultValue="Computer Engineering"/>
             <Form.Control.Feedback type="invalid">
               Please provide a valid Department.
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="6" controlId="validationCustom05">
+            <Form.Label>Certificate Name</Form.Label>
+            <Form.Control type="text" placeholder="Certificate Name" required defaultValue="Basic Programing" />
+            <Form.Control.Feedback type="invalid">
+              Please provide a valid Certificate Name.
             </Form.Control.Feedback>
           </Form.Group>
         </Row>
