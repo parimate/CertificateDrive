@@ -35,8 +35,11 @@ const Display = ({ contract, account }) => {
     if (!isEmpty) {
       // แปลง `dataArray` เป็น string
       const str = dataArray.toString();
+      console.log("str",str);
       // แบ่ง string ที่ได้เป็น array โดยใช้ ";" เป็นตัวแบ่ง
       const str_array = str.split(";");
+      console.log("str_array",str_array);
+      
       // สร้างอาร์เรย์ของภาพที่ดึงมาจาก contract เพื่อแสดงผลทีละภาพ
       const images = str_array.map((item, i) => {
         // แยกข้อมูลจาก item แล้วแสดงผล
@@ -47,15 +50,13 @@ const Display = ({ contract, account }) => {
         const faculty = splitItems.pop();
         const studentId = splitItems.pop();
         const lastName = splitItems.pop();
-        const firstName = splitItems.pop();
-        const list = splitItems.join(","); // คำสั่ง join ใช้เพื่อรวมข้อมูลที่เหลือกันให้เป็น string และใช้ตัวคั่นเป็น ","
-                
+        const firstName = splitItems.join(",");
         
         return (
           <div key={i} className="image-container">
             <div className="image-info">
-              <p>list {list}</p>
-              <p>First Name: {firstName}</p>
+              <p>First Name: {splitItems}</p>
+              <p>First Name: {str_array[0]}</p>
               <p>Last Name: {lastName}</p>
               <p>Student ID: {studentId}</p>
               <p>Faculty: {faculty}</p>
@@ -142,7 +143,7 @@ const Display = ({ contract, account }) => {
               {sharedData.map((item, index) => (
                 <tr key={index}>
                   <td>{item.firstName}</td>
-                  <td>{item.lastNameName}</td>
+                  <td>{item.lastName}</td>
                   <td>{item.studentId}</td>
                   <td>{item.faculty}</td>
                   <td>{item.department}</td>

@@ -61,7 +61,7 @@ const FileUpload = ({ contract, account}) => {
         console.error("Error uploading image to Pinata:", e);
         alert("Unable to upload image to Pinata"); // แสดงข้อความแจ้งเตือนว่าไม่สามารถอัปโหลดภาพไปยัง Pinata ได้
       }
-    }  
+    }   
   };
 
   // function ชื่อ retrieveFile ทำการดึงข้อมูลจากไฟล์ที่ผู้ใช้เลือกและอัปเดต state file และ fileName

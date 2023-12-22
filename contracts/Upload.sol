@@ -6,8 +6,7 @@ pragma solidity >=0.8.0 <0.10.0; // เลือกเวอร์ชันข�
 contract Upload {
     // สร้างโครงสร้าง Access ที่ใช้ในการเก็บข้อมูลการเข้าถึงของผู้ใช้
     struct Access {
-        string firstName; // ข้อมูลชื่อ
-        string lastName; //นามสกุล
+        string fullName; // ข้อมูลชื่อ-นามสกุล
         string studentId; // ข้อมูลรหัสนักศึกษา
         string faculty; // คณะ
         string department; // ภาควิชา
@@ -21,13 +20,10 @@ contract Upload {
     mapping(address => mapping(address => bool)) ownership; // แม็พของสิทธิ์การเปิดเผยข้อมูลระหว่างผู้ใช้
     mapping(address => Access[]) accessList; // แม็พของรายการการเข้าถึงข้อมูลระหว่างผู้ใช้
     mapping(address => mapping(address => bool)) previousData; // แม็พของสถานะก่อนหน้าของข้อมูลระหว่างผู้ใช้
-    
-
 
     // ฟังก์ชันเพิ่ม URL ของผู้ใช้
     function add(
-        string memory _firstName,
-        string memory _lastName,
+        string memory _fullName,
         string memory _studentId,
         string memory _faculty,
         string memory _department,
@@ -40,8 +36,7 @@ contract Upload {
         // เพิ่มรายการการเข้าถึงข้อมูลใหม่เข้าไปใน accessList
         accessList[_user].push(
             Access(
-                _firstName,
-                _lastName,
+                _fullName,
                 _studentId,
                 _faculty,
                 _department,
@@ -68,7 +63,7 @@ contract Upload {
         } else {
             // ถ้าไม่เคยมีการเข้าถึงข้อมูลก่อนหน้านี้ ให้เพิ่มรายการการเข้าถึงใหม่และตั้งค่าสถานะก่อนหน้าเป็น true
             accessList[msg.sender].push(
-                Access("","","","","","",user,true,endTime + block.timestamp)
+                Access("","","","","",user,true,endTime + block.timestamp)
             );
             previousData[msg.sender][user] = true;
         }
