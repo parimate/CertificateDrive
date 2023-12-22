@@ -53,7 +53,8 @@ const FileUpload = ({ contract, account}) => {
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         // await contract.add(account, ImgHash);
         
-        await contract.add(firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash); 
+        const addData = await contract.add(firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash); 
+        console.log("addData",addData);
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได    

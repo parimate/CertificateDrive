@@ -7,13 +7,13 @@ const Display = ({ contract, account }) => {
   const [data, setData] = useState("");
   const [sharedData, setSharedData] = useState([]);
   const [showSharedData, setShowSharedData] = useState(false);
+  const [Timestamp, setTimestamp] = useState(null);
 
   // ฟังก์ชันเพื่อดึงข้อมูลภาพจาก contract
   const getdata = async () => {
     let dataArray;
     // ดึงค่าที่อยู่ที่ต้องการดึงภาพ
     const Otheraddress = document.querySelector(".address").value;
-
     try {
       if (Otheraddress) {
         // เรียกใช้งานฟังก์ชัน display ใน contract และส่งที่อยู่ที่ต้องการดึงภาพเข้าไป
@@ -37,31 +37,31 @@ const Display = ({ contract, account }) => {
       const str = dataArray.toString();
       console.log("str",str);
       // แบ่ง string ที่ได้เป็น array โดยใช้ ";" เป็นตัวแบ่ง
-      const str_array = str.split(";");
+      const str_array = str.split(",");
       console.log("str_array",str_array);
       
       // สร้างอาร์เรย์ของภาพที่ดึงมาจาก contract เพื่อแสดงผลทีละภาพ
       const images = str_array.map((item, i) => {
         // แยกข้อมูลจาก item แล้วแสดงผล
         //const [list, firstName, lastName, studentId, faculty, department, certificateName] = item.split(",");
-        const splitItems = item.split(",");
-        const certificateName = splitItems.pop();
-        const department = splitItems.pop();
-        const faculty = splitItems.pop();
-        const studentId = splitItems.pop();
-        const lastName = splitItems.pop();
-        const firstName = splitItems.join(",");
+        // const splitItems = item.split(",");
+        // const firstName = splitItems.pop();
+        // const department = splitItems.pop();
+        // const faculty = splitItems.pop();
+        // const studentId = splitItems.pop();
+        // const lastName = splitItems.pop();
+        // const certificateName = splitItems.join(",");
         
         return (
           <div key={i} className="image-container">
             <div className="image-info">
-              <p>First Name: {splitItems}</p>
-              <p>First Name: {str_array[0]}</p>
-              <p>Last Name: {lastName}</p>
-              <p>Student ID: {studentId}</p>
-              <p>Faculty: {faculty}</p>
-              <p>Department: {department}</p>
-              <p>Certificate Name: {certificateName}</p>
+              <p>First Name: {}</p>
+              <p>First Name: {}</p>
+              <p>Last Name: {}</p>
+              <p>Student ID: {}</p>
+              <p>Faculty: {}</p>
+              <p>Department: {}</p>
+              <p>Certificate Name: {}</p>
             </div>
             <a href={item} key={i} target="_blank" rel="noreferrer">
               <img
@@ -82,6 +82,29 @@ const Display = ({ contract, account }) => {
     }
   };
 
+  const fetchCurrentTimestamp = useCallback(async () => {
+    if (contract) {
+      try {
+        const currentTimestamp = await contract.getCurrentTimestamp();
+        setTimestamp(currentTimestamp.toString());
+      } catch (error) {
+        console.error("Error fetching current timestamp:", error);
+      }
+    }
+  }, [contract]);  
+
+  const unixTimestampToDate = (timestamp) => {
+    const date = new Date(timestamp * 1000); // มีการคูณ 1000 เพื่อแปลงเป็น millisecond
+    const year = date.getFullYear();
+    const month = `0${date.getMonth() + 1}`.slice(-2); // เพิ่ม 1 เพราะเดือนเริ่มที่ 0
+    const day = `0${date.getDate()}`.slice(-2);
+    const hours = `0${date.getHours()}`.slice(-2);
+    const minutes = `0${date.getMinutes()}`.slice(-2);
+    const seconds = `0${date.getSeconds()}`.slice(-2);
+  
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
   // ฟังก์ชันสำหรับการดึงข้อมูลที่ได้รับการแชร์ผ่าน contract
   const getSharedData = useCallback(async () => {
     try {
@@ -99,14 +122,14 @@ const Display = ({ contract, account }) => {
   // เมื่อ component ถูกโหลดหรือ state ที่เกี่ยวข้องมีการเปลี่ยนแปลง
   // ให้เรียกใช้งานฟังก์ชัน getSharedData เพื่อดึงข้อมูลที่ได้รับการแชร์ใหม่
   useEffect(() => {
-    getSharedData();
-  }, [getSharedData]);
+    fetchCurrentTimestamp(); 
+  }, [contract,getSharedData, fetchCurrentTimestamp]);
 
 
   return (
     <>
       <h1 style={{ color: "black" }}>Certificate list</h1>
-      <p>Current Timestamp: { }</p>
+      <p>Current Timestamp: Unix:{Timestamp},Date:{unixTimestampToDate(Timestamp)}</p>
       <div className="image-list">{data}</div>
       <input
         type="text"
@@ -149,7 +172,7 @@ const Display = ({ contract, account }) => {
                   <td>{item.department}</td>
                   <td>{item.certificateName}</td>
                   <td>{item.user}</td>
-                  <td>
+                  {/* <td>
                     {item.fileHash ? (
                       <a href={`https://gateway.pinata.cloud/ipfs/${item.fileHash}`} target="_blank" rel="noreferrer">
                         View Image
@@ -157,7 +180,7 @@ const Display = ({ contract, account }) => {
                     ) : (
                       "No Image Link"
                     )}
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

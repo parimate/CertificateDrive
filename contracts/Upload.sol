@@ -108,7 +108,6 @@ contract Upload {
     }
 
     function getCurrentTimestamp() public view returns (uint256) {
-        uint256 currentTimestamp = block.timestamp;
-        return currentTimestamp;
+        return block.timestamp;
     }
 }
