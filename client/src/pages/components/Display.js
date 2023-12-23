@@ -11,6 +11,7 @@ const Display = ({ contract, account }) => {
 
   // ฟังก์ชันเพื่อดึงข้อมูลภาพจาก contract
   const getdata = async () => {
+    fetchCurrentTimestamp();
     let dataArray;
     // ดึงค่าที่อยู่ที่ต้องการดึงภาพ
     const Otheraddress = document.querySelector(".address").value;
@@ -35,11 +36,11 @@ const Display = ({ contract, account }) => {
     if (!isEmpty) {
       // แปลง `dataArray` เป็น string
       const str = dataArray.toString();
-      console.log("str",str);
+      console.log("str", str);
       // แบ่ง string ที่ได้เป็น array โดยใช้ ";" เป็นตัวแบ่ง
       const str_array = str.split(",");
-      console.log("str_array",str_array);
-      
+      console.log("str_array", str_array);
+
       // สร้างอาร์เรย์ของภาพที่ดึงมาจาก contract เพื่อแสดงผลทีละภาพ
       const images = str_array.map((item, i) => {
         // แยกข้อมูลจาก item แล้วแสดงผล
@@ -51,22 +52,23 @@ const Display = ({ contract, account }) => {
         const studentId = splitItems.pop();
         const lastName = splitItems.pop();
         const certificateName = splitItems.join(",");
-        
+        const imageUrl = item.substring(6);
+
         return (
           <div key={i} className="image-container">
             <div className="image-info">
-              <p>splitItems: {}</p>
-              <p>First Name: {}</p>
-              <p>Last Name: {}</p>
-              <p>Student ID: {}</p>
-              <p>Faculty: {}</p>
-              <p>Department: {}</p>
-              <p>Certificate Name: {}</p>
+              <p>splitItems: { }</p>
+              <p>First Name: { }</p>
+              <p>Last Name: { }</p>
+              <p>Student ID: { }</p>
+              <p>Faculty: { }</p>
+              <p>Department: { }</p>
+              <p>Certificate Name: { }</p>
             </div>
             <a href={item} key={i} target="_blank" rel="noreferrer">
               <img
                 key={i}
-                src={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`}
+                src={`${item.substring(6)}`}
                 alt="Click Link"
                 className="image-list"
               ></img>
@@ -91,7 +93,7 @@ const Display = ({ contract, account }) => {
         console.error("Error fetching current timestamp:", error);
       }
     }
-  }, [contract]);  
+  }, [contract]);
 
   const unixTimestampToDate = (timestamp) => {
     const date = new Date(timestamp * 1000); // มีการคูณ 1000 เพื่อแปลงเป็น millisecond
@@ -101,7 +103,7 @@ const Display = ({ contract, account }) => {
     const hours = `0${date.getHours()}`.slice(-2);
     const minutes = `0${date.getMinutes()}`.slice(-2);
     const seconds = `0${date.getSeconds()}`.slice(-2);
-  
+
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
@@ -122,9 +124,9 @@ const Display = ({ contract, account }) => {
   // เมื่อ component ถูกโหลดหรือ state ที่เกี่ยวข้องมีการเปลี่ยนแปลง
   // ให้เรียกใช้งานฟังก์ชัน getSharedData เพื่อดึงข้อมูลที่ได้รับการแชร์ใหม่
   useEffect(() => {
-    fetchCurrentTimestamp(); 
     getSharedData();
-  }, [contract,getSharedData, fetchCurrentTimestamp]);
+    fetchCurrentTimestamp();
+  }, [contract, getSharedData, fetchCurrentTimestamp]);
 
 
   return (
