@@ -44,18 +44,18 @@ const Display = ({ contract, account }) => {
       const images = str_array.map((item, i) => {
         // แยกข้อมูลจาก item แล้วแสดงผล
         //const [list, firstName, lastName, studentId, faculty, department, certificateName] = item.split(",");
-        // const splitItems = item.split(",");
-        // const firstName = splitItems.pop();
-        // const department = splitItems.pop();
-        // const faculty = splitItems.pop();
-        // const studentId = splitItems.pop();
-        // const lastName = splitItems.pop();
-        // const certificateName = splitItems.join(",");
+        const splitItems = item.split(",");
+        const firstName = splitItems.pop();
+        const department = splitItems.pop();
+        const faculty = splitItems.pop();
+        const studentId = splitItems.pop();
+        const lastName = splitItems.pop();
+        const certificateName = splitItems.join(",");
         
         return (
           <div key={i} className="image-container">
             <div className="image-info">
-              <p>First Name: {}</p>
+              <p>splitItems: {}</p>
               <p>First Name: {}</p>
               <p>Last Name: {}</p>
               <p>Student ID: {}</p>
@@ -123,13 +123,14 @@ const Display = ({ contract, account }) => {
   // ให้เรียกใช้งานฟังก์ชัน getSharedData เพื่อดึงข้อมูลที่ได้รับการแชร์ใหม่
   useEffect(() => {
     fetchCurrentTimestamp(); 
+    getSharedData();
   }, [contract,getSharedData, fetchCurrentTimestamp]);
 
 
   return (
     <>
       <h1 style={{ color: "black" }}>Certificate list</h1>
-      <p>Current Timestamp: Unix:{Timestamp},Date:{unixTimestampToDate(Timestamp)}</p>
+      <p>Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
       <div className="image-list">{data}</div>
       <input
         type="text"
@@ -172,15 +173,15 @@ const Display = ({ contract, account }) => {
                   <td>{item.department}</td>
                   <td>{item.certificateName}</td>
                   <td>{item.user}</td>
-                  {/* <td>
-                    {item.fileHash ? (
-                      <a href={`https://gateway.pinata.cloud/ipfs/${item.fileHash}`} target="_blank" rel="noreferrer">
+                  <td>
+                    {item.imageUrl ? (
+                      <a href={`${item.imageUrl}`} target="_blank" rel="noreferrer">
                         View Image
                       </a>
                     ) : (
                       "No Image Link"
                     )}
-                  </td> */}
+                  </td>
                 </tr>
               ))}
             </tbody>

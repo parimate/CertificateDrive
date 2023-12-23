@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import Upload from "../artifacts/contracts/Upload.sol/Upload.json";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import FileUpload from "./components/FileUpload";
 import Display from "./components/Display";
@@ -12,22 +12,9 @@ function UploadPage() {
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
-  const [Timestamp, setTimestamp] = useState(null);
-
 
   // กำหนด state สำหรับเปิด/ปิด Modal
   const [modalOpen, setModalOpen] = useState(false);
-
-  const fetchCurrentTimestamp = useCallback(async () => {
-    if (contract) {
-      try {
-        const currentTimestamp = await contract.getCurrentTimestamp();
-        setTimestamp(currentTimestamp.toString());
-      } catch (error) {
-        console.error("Error fetching current timestamp:", error);
-      }
-    }
-  }, [contract]);  
 
   // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
   useEffect(() => {
@@ -71,8 +58,7 @@ function UploadPage() {
       }
     };
     provider && loadProvider();
-    fetchCurrentTimestamp(); 
-  }, [fetchCurrentTimestamp]);
+  }, []);
 
 
   return (
@@ -88,7 +74,6 @@ function UploadPage() {
 
       )}
 
-
       <div className="App">
         {/* Component FileUpload ส่ง props ไปยัง FileUpload component */}
         <FileUpload
@@ -96,8 +81,6 @@ function UploadPage() {
           provider={provider}
           contract={contract}
         ></FileUpload>
-
-      <p>Current Timestamp: {Timestamp}</p>
       
         {/* Component Display ส่ง props ไปยัง Display component */}
         <Display contract={contract} account={account}></Display>
