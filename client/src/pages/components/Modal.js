@@ -43,19 +43,23 @@ const Modal = ({ setModalOpen, contract }) => {
           <div className="body">
 
             {/* กล่องข้อความในการระบุที่อยู่ที่ต้องการแชร์ข้อมูล */}
+            <div class="inputWrapper">
             <input
               type="text"
               className="address"
               placeholder="Enter Address"
             ></input>
+            </div>
 
             {/* กล่องข้อความในการระบุเวลา (endTime) */}
+            <div class="inputWrapper">
             <input
               type="text"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
               placeholder="Enter End Time (second)"
             ></input>
+            </div>
 
           </div>
           <form id="myForm">

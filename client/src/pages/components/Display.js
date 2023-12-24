@@ -45,14 +45,14 @@ const Display = ({ contract, account }) => {
       const images = str_array.map((item, i) => {
         // แยกข้อมูลจาก item แล้วแสดงผล
         //const [list, firstName, lastName, studentId, faculty, department, certificateName] = item.split(",");
-        const splitItems = item.split(",");
-        const firstName = splitItems.pop();
-        const department = splitItems.pop();
-        const faculty = splitItems.pop();
-        const studentId = splitItems.pop();
-        const lastName = splitItems.pop();
-        const certificateName = splitItems.join(",");
-        const imageUrl = item.substring(6);
+        // const splitItems = item.split(",");
+        // const firstName = splitItems.pop();
+        // const department = splitItems.pop();
+        // const faculty = splitItems.pop();
+        // const studentId = splitItems.pop();
+        // const lastName = splitItems.pop();
+        // const certificateName = splitItems.join(",");
+        // const imageUrl = item.substring(6);
 
         return (
           <div key={i} className="image-container">
