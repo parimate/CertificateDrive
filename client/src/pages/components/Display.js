@@ -34,6 +34,7 @@ const Display = ({ contract, account }) => {
 
     // ถ้า dataArray ไม่ว่างเปล่า
     if (!isEmpty) {
+
       // แปลง `dataArray` เป็น string
       const str = dataArray.toString();
       console.log("str", str);
@@ -41,40 +42,48 @@ const Display = ({ contract, account }) => {
       const str_array = str.split(",");
       console.log("str_array", str_array);
 
+      // กรองเฉพาะลิงค์รูปภาพ
+      const imageLinks = str_array.filter(item => item && item.startsWith('https://'));
+      console.log("imageLinks", imageLinks);
       // สร้างอาร์เรย์ของภาพที่ดึงมาจาก contract เพื่อแสดงผลทีละภาพ
-      const images = str_array.map((item, i) => {
-        // แยกข้อมูลจาก item แล้วแสดงผล
-        //const [list, firstName, lastName, studentId, faculty, department, certificateName] = item.split(",");
-        // const splitItems = item.split(",");
-        // const firstName = splitItems.pop();
-        // const department = splitItems.pop();
-        // const faculty = splitItems.pop();
-        // const studentId = splitItems.pop();
-        // const lastName = splitItems.pop();
-        // const certificateName = splitItems.join(",");
-        // const imageUrl = item.substring(6);
-
+      const images = imageLinks.map((item, i) => {
         return (
           <div key={i} className="image-container">
-            <div className="image-info">
-              <p>splitItems: { }</p>
-              <p>First Name: { }</p>
-              <p>Last Name: { }</p>
-              <p>Student ID: { }</p>
-              <p>Faculty: { }</p>
-              <p>Department: { }</p>
-              <p>Certificate Name: { }</p>
-            </div>
-            <a href={item} key={i} target="_blank" rel="noreferrer">
-              <img
-                key={i}
-                src={`${item.substring(6)}`}
-                alt="Click Link"
-                className="image-list"
-              ></img>
-            </a>
-            <br />
+            {/* แสดงภาพในรูปแบบของตาราง */}
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Student ID</th>
+                  <th>Faculty</th>
+                  <th>Department</th>
+                  <th>Certificate Name</th>
+                  <th>Image Link</th>
+                  <th>Link</th>
+                </tr>
+              </thead>
+              <tbody>
+                {imageLinks.map((item, index) => (
+                  <tr key={index}>
+                    <td>
+                      <img
+                        src={`${item}`}
+                        alt="Click Link"
+                        className="image-list"
+                        style={{ maxWidth: '100px', maxHeight: '100px' }} // ตั้งค่าขนาดภาพตามที่คุณต้องการ
+                      />
+                    </td>
+                    <td>
+                      <a href={item} target="_blank" rel="noreferrer">View Image</a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
           </div>
+
         );
       });
       setData(images); // อัปเดต state data เพื่อแสดงภาพที่ดึงมาจาก contract
