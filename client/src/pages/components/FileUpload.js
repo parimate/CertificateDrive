@@ -174,6 +174,8 @@ const FileUpload = ({ contract, account}) => {
         </button>
       </form>
       </div>
+      <br />
+      <br />
     </div>
   );
 };

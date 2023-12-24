@@ -140,6 +140,7 @@ const Display = ({ contract, account }) => {
 
   return (
     <>
+      <br />
       <h1 style={{ color: "black" }}>Certificate list</h1>
       <p>Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
       <div className="image-list">{data}</div>
@@ -148,7 +149,7 @@ const Display = ({ contract, account }) => {
         placeholder="Enter Address"
         className="address"
       ></input>
-      <button className="center button" onClick={getdata}>Get Data</button><br />
+      <button className="center button" onClick={getdata}>Get Data</button><br /><br />
 
       {/* ปุ่มเพิ่มเติมสำหรับแสดง/ซ่อนข้อมูลที่ได้จาก shareAccess */}
       <button className="shared" onClick={() => setShowSharedData(!showSharedData)}>
@@ -156,6 +157,7 @@ const Display = ({ contract, account }) => {
       </button>
       <br />
       <br />
+      
 
       {/* แสดงข้อมูลที่ได้จาก shareAccess เมื่อคลิกปุ่ม */}
       {showSharedData && (
