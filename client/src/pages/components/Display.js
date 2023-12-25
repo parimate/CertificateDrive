@@ -14,7 +14,6 @@ const Display = ({ contract, account }) => {
     fetchCurrentTimestamp();
     let dataArray;
     // ดึงค่าที่อยู่ที่ต้องการดึงภาพ
-
     const Otheraddress = document.querySelector(".address").value;
     try {
       if (Otheraddress) {
@@ -35,16 +34,17 @@ const Display = ({ contract, account }) => {
 
     // ถ้า dataArray ไม่ว่างเปล่า
     if (!isEmpty) {
+
       // แปลง `dataArray` เป็น string
       const str = dataArray.toString();
       console.log("str", str);
       // แบ่ง string ที่ได้เป็น array โดยใช้ ";" เป็นตัวแบ่ง
       const str_array = str.split(",");
       console.log("str_array", str_array);
+
       // กรองเฉพาะลิงค์รูปภาพ
       const imageLinks = str_array.filter(item => item && item.startsWith('https://'));
       console.log("imageLinks", imageLinks);
-
       // สร้างอาร์เรย์ของภาพที่ดึงมาจาก contract เพื่อแสดงผลทีละภาพ
       const images = imageLinks.map((item, i) => {
         return (
@@ -54,14 +54,7 @@ const Display = ({ contract, account }) => {
               <thead>
                 <tr>
                   <th>Image</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Student ID</th>
-                  <th>Faculty</th>
-                  <th>Department</th>
-                  <th>Certificate Name</th>
                   <th>Image Link</th>
-                  <th>Link</th>
                 </tr>
               </thead>
               <tbody>
