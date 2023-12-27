@@ -62,12 +62,15 @@ const Modal = ({ setModalOpen, contract }) => {
             </div>
 
           </div>
+
           <form id="myForm">
             {/* เลือกรายชื่อที่อยู่ที่มีสิทธิ์เข้าถึงข้อมูล */}
-            <select id="selectNumber">
+            {/* <select id="selectNumber">
               <option className="address">People With Access</option>
-            </select>
+            </select> */}
           </form>
+
+
           <div className="footer">
             {/* ปุ่มยกเลิกเพื่อปิดหน้าต่างโมดอล */}
             <button

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // เลขที่ใบอนุญาต: GPL-3.0
 
-pragma solidity >=0.8.0 <0.10.0; // เลือกเวอร์ชันของ Solidity ที่อยู่ในช่วง 0.8.0 ถึง 0.10.0
+pragma solidity >=0.8.10 <0.10.0;
 
 contract Upload {
     // สร้างโครงสร้าง Access ที่ใช้ในการเก็บข้อมูลการเข้าถึงของผู้ใช้
@@ -18,9 +18,25 @@ contract Upload {
         string imageUrl; //URL ของรูปภาพ
     }
 
+    struct certificate {
+        string firstName; // ข้อมูลชื่อ
+        string lastName; //นามสกุล
+        string studentId; // รหัสนักศึกษา
+        string faculty; // คณะ
+        string department; // ภาควิชา
+        string certificateName; // ชื่อใบประกาศนียบัตร
+        address studentAddress; // Address นักศึกษา
+        uint256 accessTime; // เวลาที่อนุญาตให้เข้าดูข้อมูล
+        string imageUrl; //URL ของรูปภาพ
+        bool revokedStatus; // สถานะเพิกถอนใบประกาศนียบัตร
+        string issuedName; // ชื่อผู้ออกใบประกาศนียบัตร
+        address issuedAddress; // Address ผู้ออกใบประกาศนียบัตร
+    }
+
     mapping(address => string[]) value; // แม็พของรายการ URL ที่ผู้ใช้เพิ่มเข้าไป
     mapping(address => mapping(address => bool)) ownership; // แม็พของสิทธิ์การเปิดเผยข้อมูลระหว่างผู้ใช้
     mapping(address => Access[]) accessList; // แม็พของรายการการเข้าถึงข้อมูลระหว่างผู้ใช้
+    mapping(address => certificate[]) certificateList; 
     mapping(address => mapping(address => bool)) previousData; // แม็พของสถานะก่อนหน้าของข้อมูลระหว่างผู้ใช้
     
     // ฟังก์ชันเพิ่ม URL ของผู้ใช้
@@ -51,7 +67,25 @@ contract Upload {
                 _imageUrl
             )
         );
-        value[_user].push(_imageUrl);        
+        value[_user].push(_imageUrl);  
+
+        certificateList[_user].push(
+            certificate(
+                _firstName,
+                _lastName,
+                _studentId,
+                _faculty,
+                _department,
+                _certificateName,
+                _user,
+                _endTime, 
+                _imageUrl,
+                false,
+                "",
+                msg.sender
+            )
+        );
+
     }
 
     // ฟังก์ชันอนุญาตให้ผู้ใช้รายอื่นเข้าถึงข้อมูล
@@ -86,7 +120,7 @@ contract Upload {
     }
 
     // ฟังก์ชันแสดงรายการ URL และข้อมูลอื่นๆ ของผู้ใช้
-    function display(address _user) external view returns (string[] memory, Access memory){
+    function display(address _user) external view returns (Access memory,string[] memory){
         // ตรวจสอบว่าผู้ใช้เป็นเจ้าของหรือมีสิทธิ์ในการเข้าถึงข้อมูล หากไม่ใช่จะโยนข้อผิดพลาด
         require(_user == msg.sender || ownership[_user][msg.sender],"You don't have access");
 
@@ -99,7 +133,7 @@ contract Upload {
                 accessList[_user][i].endTime >= currentTime
             ) {
                 // ผู้ใช้มีสิทธิ์และเวลาการเข้าถึงยังไม่สิ้นสุด
-                return (value[_user], accessList[_user][i]);
+                return (accessList[_user][i],value[_user]);
             }
         }
 
