@@ -37,9 +37,6 @@ const FileUpload = ({ contract, account}) => {
           },
         });
 
-        // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
-        const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-
         // Collect additional data from the form
         const firstName = document.getElementById("validationCustom01").value;
         const lastName = document.getElementById("validationCustom02").value;
@@ -48,6 +45,10 @@ const FileUpload = ({ contract, account}) => {
         const department = document.getElementById("validationCustom04").value;
         const certificateName = document.getElementById("validationCustom05").value;
         //const gasLimit = 500000; // Set an appropriate gas limit
+        
+        // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
+        const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+
 
         
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash

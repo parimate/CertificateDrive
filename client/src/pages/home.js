@@ -8,8 +8,9 @@ function Home() {
     <>
       <div className="App">
         <img src="https://www.fis.psu.ac.th/en/wp-content/uploads/2022/09/PSU-Logo-01.png" className="logo" alt="PSU logo" width="150" height="100" />
-        <img src="https://scontent-kul3-1.xx.fbcdn.net/v/t39.30808-6/305618331_513148457478709_2689011196404496399_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=VoSufyKdqd4AX8OJLEw&_nc_ht=scontent-kul3-1.xx&oh=00_AfDij5tH-YZfoRvS6dahJ2VyKFfz1w2hupb9U3LlvtqgKg&oe=65780ED1"
+        <img src="https://scontent.fbkk5-3.fna.fbcdn.net/v/t39.30808-6/305618331_513148457478709_2689011196404496399_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=H3XFhNotkzAAX_ZvBZk&_nc_ht=scontent.fbkk5-3.fna&oh=00_AfBh_pbFcM5Nv17Xdjkg27IzYS7qD3nP7Pvi39UjWNfWKw&oe=658FC9D1"
           className="logo" alt="CoE logo" width="100" height="100" />
+    
         <h1 style={{ color: "black" }}>DApp Certificate Store</h1>
      
         <Container style={{ padding: 20, marginTop: 20 }}>

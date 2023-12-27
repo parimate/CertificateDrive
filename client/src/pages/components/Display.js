@@ -13,12 +13,17 @@ const Display = ({ contract, account }) => {
   const getdata = async () => {
     fetchCurrentTimestamp();
     let dataArray;
+    let endTime;
+
     // ดึงค่าที่อยู่ที่ต้องการดึงภาพ
     const Otheraddress = document.querySelector(".address").value;
+    
     try {
       if (Otheraddress) {
         // เรียกใช้งานฟังก์ชัน display ใน contract และส่งที่อยู่ที่ต้องการดึงภาพเข้าไป
         dataArray = await contract.display(Otheraddress);
+        endTime = dataArray.endTime;  // กำหนดค่า endTime
+        console.log("endTime",endTime);
       } else {
         // ถ้าไม่ได้ใส่ที่อยู่ ให้ดึงภาพของบัญชีปัจจุบัน (account)
         dataArray = await contract.display(account);
@@ -45,36 +50,30 @@ const Display = ({ contract, account }) => {
       // กรองเฉพาะลิงค์รูปภาพ
       const imageLinks = str_array.filter(item => item && item.startsWith('https://'));
       console.log("imageLinks", imageLinks);
+
+
       // สร้างอาร์เรย์ของภาพที่ดึงมาจาก contract เพื่อแสดงผลทีละภาพ
       const images = imageLinks.map((item, i) => {
         return (
-          <div key={i} className="image-container">
-            {/* แสดงภาพในรูปแบบของตาราง */}
-            <Table striped bordered hover>
+          <div key={i}>
+           <a href={item} key={i} target="_blank" rel="noreferrer">
+            <img
+              key={i}
+              src={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`}
+              alt="Link"
+              className="image-list"
+            ></img>
+          </a>
+          <Table striped bordered hover>
               <thead>
                 <tr>
-                  <th>Image</th>
-                  <th>Image Link</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Student ID</th>
                 </tr>
               </thead>
-              <tbody>
-                {imageLinks.map((item, index) => (
-                  <tr key={index}>
-                    <td>
-                      <img
-                        src={`${item}`}
-                        alt="Click Link"
-                        className="image-list"
-                        style={{ maxWidth: '100px', maxHeight: '100px' }} // ตั้งค่าขนาดภาพตามที่คุณต้องการ
-                      />
-                    </td>
-                    <td>
-                      <a href={item} target="_blank" rel="noreferrer">View Image</a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+          </Table>
+          <br/>
           </div>
 
         );
@@ -142,7 +141,7 @@ const Display = ({ contract, account }) => {
         placeholder="Enter Address"
         className="address"
       ></input>
-      <button className="center button" onClick={getdata}>Get Data</button><br /><br />
+      <button className="center button" onClick={getdata}>Get Data</button><br /><br /><br />
 
       {/* ปุ่มเพิ่มเติมสำหรับแสดง/ซ่อนข้อมูลที่ได้จาก shareAccess */}
       <button className="shared" onClick={() => setShowSharedData(!showSharedData)}>
