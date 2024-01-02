@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // เลขที่ใบอนุญาต: GPL-3.0
 
-pragma solidity >=0.8.10 <0.10.0;
+pragma solidity >=0.8.19 <0.10.0; // เลือกเวอร์ชันของ Solidity ที่อยู่ในช่วง 0.8.0 ถึง 0.10.0
 
 contract Upload {
     // สร้างโครงสร้าง Access ที่ใช้ในการเก็บข้อมูลการเข้าถึงของผู้ใช้
@@ -18,7 +18,7 @@ contract Upload {
         string imageUrl; //URL ของรูปภาพ
     }
 
-    struct certificate {
+    struct CertificateInfo {
         string firstName; // ข้อมูลชื่อ
         string lastName; //นามสกุล
         string studentId; // รหัสนักศึกษา
@@ -27,18 +27,82 @@ contract Upload {
         string certificateName; // ชื่อใบประกาศนียบัตร
         address studentAddress; // Address นักศึกษา
         uint256 accessTime; // เวลาที่อนุญาตให้เข้าดูข้อมูล
-        string imageUrl; //URL ของรูปภาพ
         bool revokedStatus; // สถานะเพิกถอนใบประกาศนียบัตร
         string issuedName; // ชื่อผู้ออกใบประกาศนียบัตร
         address issuedAddress; // Address ผู้ออกใบประกาศนียบัตร
+        string imageUrl; //URL ของรูปภาพ
     }
 
-    mapping(address => string[]) value; // แม็พของรายการ URL ที่ผู้ใช้เพิ่มเข้าไป
-    mapping(address => mapping(address => bool)) ownership; // แม็พของสิทธิ์การเปิดเผยข้อมูลระหว่างผู้ใช้
-    mapping(address => Access[]) accessList; // แม็พของรายการการเข้าถึงข้อมูลระหว่างผู้ใช้
-    mapping(address => certificate[]) certificateList; 
-    mapping(address => mapping(address => bool)) previousData; // แม็พของสถานะก่อนหน้าของข้อมูลระหว่างผู้ใช้
+    CertificateInfo[] public _StudentCertificate;
     
+
+    mapping(address => string[]) value; // แม็พของรายการ URL ที่ผู้ใช้เพิ่มเข้าไป
+    mapping(address => Access[]) accessList; // แม็พของรายการการเข้าถึงข้อมูลระหว่างผู้ใช้
+    mapping(address => CertificateInfo) certificateList; // แม็พของรายการการข้อมูลใบประกาศนียบัตร
+    mapping(address => mapping(address => bool)) previousData; // แม็พของสถานะก่อนหน้าของข้อมูลระหว่างผู้ใช้
+    mapping(address => mapping(address => bool)) ownership; // แม็พของสิทธิ์การเปิดเผยข้อมูลระหว่างผู้ใช้
+
+    mapping(address => bool) private authorizedIssuers; // รายชื่อผู้ที่มีสิทธิ์ในการออกใบประกาศนียบัตร
+    mapping(address => bool) private authorizedViewers; // รายชื่อผู้ที่มีสิทธิ์ในการดูข้อมูลใบประกาศนียบัตร
+    mapping(address => bool) private authorizedStudent; // รายชื่อนักศึกษาเจ้าของใบประกาศนียบัตร
+
+     constructor() {
+        authorizedIssuers[msg.sender] = true; // Contract creator is the initial admin
+    }
+
+    modifier onlyAuthorizedIssuer() {
+        require(
+            authorizedIssuers[msg.sender],"Only authorized issuers can call this function");
+        _;
+    }
+
+    modifier onlyAuthorizedViewer() {
+        require(authorizedViewers[msg.sender],"Only authorized viewers can call this function");
+        _;
+    }
+
+    modifier onlyStudent() {
+        require(authorizedStudent[msg.sender],"Only student can call this function");
+        _;
+    }
+    
+    // เพิ่มใบประกาศนียบัตรโดยผู้ออกใบประกาศนียบัตร
+     function issueCertificate(
+        string memory _firstName, // ข้อมูลชื่อ
+        string memory _lastName, //นามสกุล
+        string memory _studentId, // รหัสนักศึกษา
+        string memory _faculty, // คณะ
+        string memory _department, // ภาควิชา
+        string memory _certificateName, // ชื่อใบประกาศนียบัตร
+        address _studentAddress, // Address นักศึกษา
+        string memory _imageUrl //URL ของรูปภาพ    
+     ) external {
+
+        authorizedStudent[_studentAddress] = true; // เพิ่มที่อยู่ของนักเรียนให้กับนักเรียนที่ได้รับอนุญาติ
+        CertificateInfo storage certificate = certificateList[_studentAddress];
+        certificate.firstName = _firstName;
+
+         _StudentCertificate.push(
+            CertificateInfo(
+                 _firstName,
+                _lastName,
+                _studentId,
+                _faculty,
+                _department,
+                _certificateName,
+                _studentAddress,
+                0,
+                false,
+                "admin",
+                msg.sender,
+                _imageUrl
+            )
+               
+        );
+        
+     }
+
+
     // ฟังก์ชันเพิ่ม URL ของผู้ใช้
     function add(
         string memory _firstName,
@@ -67,32 +131,14 @@ contract Upload {
                 _imageUrl
             )
         );
-        value[_user].push(_imageUrl);  
-
-        certificateList[_user].push(
-            certificate(
-                _firstName,
-                _lastName,
-                _studentId,
-                _faculty,
-                _department,
-                _certificateName,
-                _user,
-                _endTime, 
-                _imageUrl,
-                false,
-                "",
-                msg.sender
-            )
-        );
-
+        //value[_user].push(_imageUrl);  
     }
-
+    
     // ฟังก์ชันอนุญาตให้ผู้ใช้รายอื่นเข้าถึงข้อมูล
     function allow(address user, uint256 endTime) external {
         ownership[msg.sender][user] = true; // ตั้งค่าสิทธิ์ให้กับผู้ใช้ที่ระบุเพื่อเปิดเผยข้อมูล
+        // ถ้ามีการเข้าถึงข้อมูลก่อนหน้านี้ ให้อัปเดตสถานะการเข้าถึงให้เป็น true
         if (previousData[msg.sender][user]) {
-            // ถ้ามีการเข้าถึงข้อมูลก่อนหน้านี้ ให้อัปเดตสถานะการเข้าถึงให้เป็น true
             for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
                 if (accessList[msg.sender][i].user == user) {
                     accessList[msg.sender][i].access = true;
@@ -101,9 +147,19 @@ contract Upload {
             }
         } else {
             // ถ้าไม่เคยมีการเข้าถึงข้อมูลก่อนหน้านี้ ให้เพิ่มรายการการเข้าถึงใหม่และตั้งค่าสถานะก่อนหน้าเป็น true
-            accessList[msg.sender].push(
-                Access("","","","","","",user,true,endTime + block.timestamp,"")
+            Access memory newAccess = Access(
+                accessList[msg.sender][0].firstName,
+                accessList[msg.sender][0].lastName,
+                accessList[msg.sender][0].studentId,
+                accessList[msg.sender][0].faculty,
+                accessList[msg.sender][0].department,
+                accessList[msg.sender][0].certificateName,
+                user,
+                true,
+                endTime + block.timestamp,
+                accessList[msg.sender][0].imageUrl
             );
+            accessList[msg.sender].push(newAccess);
             previousData[msg.sender][user] = true;
         }
     }
@@ -120,25 +176,36 @@ contract Upload {
     }
 
     // ฟังก์ชันแสดงรายการ URL และข้อมูลอื่นๆ ของผู้ใช้
-    function display(address _user) external view returns (Access memory,string[] memory){
+    function display(address _user) external view returns (Access[] memory){
         // ตรวจสอบว่าผู้ใช้เป็นเจ้าของหรือมีสิทธิ์ในการเข้าถึงข้อมูล หากไม่ใช่จะโยนข้อผิดพลาด
         require(_user == msg.sender || ownership[_user][msg.sender],"You don't have access");
 
         // ตรวจสอบว่าผู้ใช้เรียกดู URL ในระยะเวลาที่สามารถเข้าถึงได้
         uint256 currentTime = block.timestamp;
+        Access[] memory userAccessList = new Access[](accessList[_user].length);
+        uint256 validAccessCount = 0;
         for (uint256 i = 0; i < accessList[_user].length; i++) {
             if (
                 accessList[_user][i].user == msg.sender &&
                 accessList[_user][i].access &&
                 accessList[_user][i].endTime >= currentTime
-            ) {
+            ) { 
                 // ผู้ใช้มีสิทธิ์และเวลาการเข้าถึงยังไม่สิ้นสุด
-                return (accessList[_user][i],value[_user]);
+                userAccessList[validAccessCount] = accessList[_user][i];
+                validAccessCount++;
             }
         }
 
+        // ตัด array ให้เหลือข้อมูลที่ถูกใช้งานเท่านั้น
+        Access[] memory finalAccessList = new Access[](validAccessCount);
+        for(uint256 j = 0; j < validAccessCount; j++) {
+        finalAccessList[j] = userAccessList[j];
+        }
+
         // ถ้าไม่มีสิทธิ์หรือเวลาการเข้าถึงสิ้นสุดแล้ว
-        revert("You don't have access");
+        //revert("You don't have access");
+        return finalAccessList;
+
     }
 
     // ฟังก์ชันแสดงรายการการเข้าถึงข้อมูลของผู้ใช้เอง
@@ -150,3 +217,5 @@ contract Upload {
         return block.timestamp;
     }
 }
+
+

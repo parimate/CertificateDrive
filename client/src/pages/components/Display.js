@@ -11,17 +11,24 @@ const Display = ({ contract, account }) => {
 
   // ฟังก์ชันเพื่อดึงข้อมูลภาพจาก contract
   const getdata = async () => {
+
     fetchCurrentTimestamp();
     let dataArray;
+
     // ดึงค่าที่อยู่ที่ต้องการดึงภาพ
     const Otheraddress = document.querySelector(".address").value;
+
+
     try {
       if (Otheraddress) {
         // เรียกใช้งานฟังก์ชัน display ใน contract และส่งที่อยู่ที่ต้องการดึงภาพเข้าไป
         dataArray = await contract.display(Otheraddress);
+        console.log("dataArray:", dataArray);
+
       } else {
         // ถ้าไม่ได้ใส่ที่อยู่ ให้ดึงภาพของบัญชีปัจจุบัน (account)
         dataArray = await contract.display(account);
+        console.log("dataArray:", dataArray);
       }
     } catch (e) {
       // แสดงข้อความแจ้งเตือนในกรณีที่ไม่สามารถดึงภาพได้
@@ -42,49 +49,57 @@ const Display = ({ contract, account }) => {
       const str_array = str.split(",");
       console.log("str_array", str_array);
 
-      // กรองเฉพาะลิงค์รูปภาพ
-      const imageLinks = str_array.filter(item => item && item.startsWith('https://'));
-      console.log("imageLinks", imageLinks);
-      // สร้างอาร์เรย์ของภาพที่ดึงมาจาก contract เพื่อแสดงผลทีละภาพ
-      const images = imageLinks.map((item, i) => {
-        return (
-          <div key={i} className="image-container">
-            {/* แสดงภาพในรูปแบบของตาราง */}
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Image</th>
-                  <th>Image Link</th>
-                </tr>
-              </thead>
-              <tbody>
-                {imageLinks.map((item, index) => (
-                  <tr key={index}>
-                    <td>
-                      <img
-                        src={`${item}`}
-                        alt="Click Link"
-                        className="image-list"
-                        style={{ maxWidth: '100px', maxHeight: '100px' }} // ตั้งค่าขนาดภาพตามที่คุณต้องการ
-                      />
-                    </td>
-                    <td>
-                      <a href={item} target="_blank" rel="noreferrer">View Image</a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
+      const [firstName, lastName, studentId, faculty, department, certificateName, addressUser, access, endTime, link] = str_array;
+      console.log("firstName:", firstName);
+      console.log("lastName:", lastName);
+      console.log("studentId:", studentId);
+      console.log("faculty:", faculty);
+      console.log("department:", department);
+      console.log("certificateName:", certificateName);
+      console.log("addressUser:", addressUser);
+      console.log("access:", access);
+      console.log("endTime:", endTime);
+      console.log("link:", link);
 
-        );
-      });
-      setData(images); // อัปเดต state data เพื่อแสดงภาพที่ดึงมาจาก contract
+      // ประกาศ keys และสร้าง dataObject
+      const keys = ['FirstName', 'lastName', 'studentId', 'faculty', 'department', 'certificateName', 'addressUser', 'access', 'endTime', 'link'];
+      const dataObject = keys.reduce((acc, key, index) => {
+        acc[key] = str_array[index];
+        return acc;
+      }, {});
+
+
+      // สร้างตารางข้อมูล
+      setData(
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {keys.map(key => (
+              <tr key={key}>
+                <td>{key}</td>
+                <td>{dataObject[key]}</td>
+              </tr>
+            ))}
+            <tr>
+              <td>Link</td>
+              <td><a href={dataObject.link} target="_blank" rel="noreferrer">View Image</a></td>
+            </tr>
+          </tbody>
+        </Table>
+      );
+
     } else {
       // แสดงข้อความแจ้งเตือนในกรณีที่ไม่มีภาพที่ต้องการแสดง
       alert("No image to display");
     }
   };
+
+
 
   const fetchCurrentTimestamp = useCallback(async () => {
     if (contract) {
@@ -133,24 +148,12 @@ const Display = ({ contract, account }) => {
 
   return (
     <>
-      <br />
-      <h1 style={{ color: "black" }}>Certificate list</h1>
-      <p>Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
-      <div className="image-list">{data}</div>
-      <input
-        type="text"
-        placeholder="Enter Address"
-        className="address"
-      ></input>
-      <button className="center button" onClick={getdata}>Get Data</button><br /><br />
-
       {/* ปุ่มเพิ่มเติมสำหรับแสดง/ซ่อนข้อมูลที่ได้จาก shareAccess */}
       <button className="shared" onClick={() => setShowSharedData(!showSharedData)}>
         Shared Access Data
       </button>
       <br />
       <br />
-      
 
       {/* แสดงข้อมูลที่ได้จาก shareAccess เมื่อคลิกปุ่ม */}
       {showSharedData && (
@@ -194,6 +197,20 @@ const Display = ({ contract, account }) => {
           </Table>
         </div>
       )}
+      <br />
+
+      <br />
+      <h1 style={{ color: "black" }}>Certificate list</h1>
+      <p>Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
+      <div className="shared-data">{data}</div>
+      <br />
+      <input
+        type="text"
+        placeholder="Enter Address"
+        className="address"
+      ></input>
+      <button className="center button" onClick={getdata}>Get Data</button><br /><br /><br />
+
     </>
   );
 };
