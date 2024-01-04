@@ -148,6 +148,18 @@ const Display = ({ contract, account }) => {
 
   return (
     <>
+      <br />
+      <h1 style={{ color: "black" }}>Certificate list</h1>
+      <p>Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
+      <div className="shared-data">{data}</div>
+      <br />
+      <input
+        type="text"
+        placeholder="Enter Address"
+        className="address"
+      ></input>
+      <button className="center button" onClick={getdata}>Get Data</button><br /><br /><br />
+
       {/* ปุ่มเพิ่มเติมสำหรับแสดง/ซ่อนข้อมูลที่ได้จาก shareAccess */}
       <button className="shared" onClick={() => setShowSharedData(!showSharedData)}>
         Shared Access Data
@@ -197,20 +209,6 @@ const Display = ({ contract, account }) => {
           </Table>
         </div>
       )}
-      <br />
-
-      <br />
-      <h1 style={{ color: "black" }}>Certificate list</h1>
-      <p>Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
-      <div className="shared-data">{data}</div>
-      <br />
-      <input
-        type="text"
-        placeholder="Enter Address"
-        className="address"
-      ></input>
-      <button className="center button" onClick={getdata}>Get Data</button><br /><br /><br />
-
     </>
   );
 };

@@ -77,6 +77,7 @@ function App() {
               <Nav.Link href="/pages/UploadPage">Upload</Nav.Link>
               <Nav.Link href="/pages/Share">Share</Nav.Link>
               <Nav.Link href="/pages/View">View</Nav.Link>
+              <Nav.Link href="/pages/Revoke">Revoke</Nav.Link>
             </Nav>
             {/* แสดงข้อมูลบัญชีปัจจุบันที่เชื่อมต่อ */}
             <p style={{ color: "Orange" }}>
@@ -90,6 +91,7 @@ function App() {
           <Route path="/pages/UploadPage" element={<UploadPage />} />
           <Route path="/pages/Share" element={<Share />} />
           <Route path="/pages/View" element={<View />} />
+          <Route path="/pages/Revoke" element={<View />} />
         </Routes>
       </BrowserRouter>
     </>
