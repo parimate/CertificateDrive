@@ -13,7 +13,7 @@ const Display = ({ contract, account }) => {
   const getdata = async () => {
 
     fetchCurrentTimestamp();
-    let dataArray;
+    let dataArray = {};
 
     // ดึงค่าที่อยู่ที่ต้องการดึงภาพ
     const Otheraddress = document.querySelector(".address").value;
@@ -67,7 +67,6 @@ const Display = ({ contract, account }) => {
         acc[key] = str_array[index];
         return acc;
       }, {});
-
 
       // สร้างตารางข้อมูล
       setData(

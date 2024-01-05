@@ -73,7 +73,7 @@ contract Upload {
         string memory _studentId, // รหัสนักศึกษา
         string memory _faculty, // คณะ
         string memory _department, // ภาควิชา
-        string memory _certificateName, // ชื่อใบประกาศนียบัตร
+        string memory _certificateName, // ชื่อใบประกาศนียบัตร 
         address _studentAddress, // Address นักศึกษา
         string memory _imageUrl //URL ของรูปภาพ    
      ) external {
@@ -201,10 +201,10 @@ contract Upload {
         for(uint256 j = 0; j < validAccessCount; j++) {
         finalAccessList[j] = userAccessList[j];
         }
-
-        // ถ้าไม่มีสิทธิ์หรือเวลาการเข้าถึงสิ้นสุดแล้ว
-        //revert("You don't have access");
+        
         return finalAccessList;
+
+        //return accessList[msg.sender];
 
     }
 
