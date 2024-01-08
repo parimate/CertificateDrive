@@ -88,7 +88,7 @@ const FileUpload = ({ contract, account}) => {
 
   return (
     <div className="top">
-      <h1 style={{ color: "black" }}>Certificate Upload</h1>
+      <h1 style={{ color: "black" }}>Certificate Upload</h1><br/>
       <div className="formText">
       <Form noValidate validated={validated} onSubmit={handleSubmitForm}>
         <Row className="mb-3">

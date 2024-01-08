@@ -180,31 +180,31 @@ contract Upload {
         // ตรวจสอบว่าผู้ใช้เป็นเจ้าของหรือมีสิทธิ์ในการเข้าถึงข้อมูล หากไม่ใช่จะโยนข้อผิดพลาด
         require(_user == msg.sender || ownership[_user][msg.sender],"You don't have access");
 
-        // ตรวจสอบว่าผู้ใช้เรียกดู URL ในระยะเวลาที่สามารถเข้าถึงได้
-        uint256 currentTime = block.timestamp;
-        Access[] memory userAccessList = new Access[](accessList[_user].length);
-        uint256 validAccessCount = 0;
-        for (uint256 i = 0; i < accessList[_user].length; i++) {
-            if (
-                accessList[_user][i].user == msg.sender &&
-                accessList[_user][i].access &&
-                accessList[_user][i].endTime >= currentTime
-            ) { 
-                // ผู้ใช้มีสิทธิ์และเวลาการเข้าถึงยังไม่สิ้นสุด
-                userAccessList[validAccessCount] = accessList[_user][i];
-                validAccessCount++;
-            }
-        }
+        // // ตรวจสอบว่าผู้ใช้เรียกดู URL ในระยะเวลาที่สามารถเข้าถึงได้
+        // uint256 currentTime = block.timestamp;
+        // Access[] memory userAccessList = new Access[](accessList[_user].length);
+        // uint256 validAccessCount = 0;
+        // for (uint256 i = 0; i < accessList[_user].length; i++) {
+        //     if (
+        //         accessList[_user][i].user == msg.sender &&
+        //         accessList[_user][i].access &&
+        //         accessList[_user][i].endTime >= currentTime
+        //     ) { 
+        //         // ผู้ใช้มีสิทธิ์และเวลาการเข้าถึงยังไม่สิ้นสุด
+        //         userAccessList[validAccessCount] = accessList[_user][i];
+        //         validAccessCount++;
+        //     }
+        // }
 
-        // ตัด array ให้เหลือข้อมูลที่ถูกใช้งานเท่านั้น
-        Access[] memory finalAccessList = new Access[](validAccessCount);
-        for(uint256 j = 0; j < validAccessCount; j++) {
-        finalAccessList[j] = userAccessList[j];
-        }
+        // // ตัด array ให้เหลือข้อมูลที่ถูกใช้งานเท่านั้น
+        // Access[] memory finalAccessList = new Access[](validAccessCount);
+        // for(uint256 j = 0; j < validAccessCount; j++) {
+        // finalAccessList[j] = userAccessList[j];
+        // }
         
-        return finalAccessList;
+        // return finalAccessList;
 
-        //return accessList[msg.sender];
+        return accessList[msg.sender];
 
     }
 

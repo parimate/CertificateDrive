@@ -20,6 +20,8 @@ function App() {
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
 
+  
+
   // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
   useEffect(() => {
     // สร้าง provider จาก ethers.providers.Web3Provider โดยใช้ window.ethereum
@@ -94,6 +96,7 @@ function App() {
           <Route path="/pages/Revoke" element={<View />} />
         </Routes>
       </BrowserRouter>
+      
     </>
   );
 }

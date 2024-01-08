@@ -22,10 +22,9 @@ function Home() {
                 <Card.Body>
                   <Card.Title>Admin</Card.Title>
                   <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
+                    Certification officer Able to upload and add certificate information to the blockchain network.
                   </Card.Text>
-                  <Button variant="primary" href="/Home">Login</Button>
+                  <Button variant="primary" href="/pages/UploadPage">Login</Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -37,10 +36,9 @@ function Home() {
                 <Card.Body>
                   <Card.Title>Student</Card.Title>
                   <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
+                    Students can view their certificates through the system. and can set their own credential sharing policies.
                   </Card.Text>
-                  <Button variant="primary" href="/Home">Login</Button>
+                  <Button variant="primary" href="/pages/Share">Login</Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -52,10 +50,9 @@ function Home() {
                 <Card.Body>
                   <Card.Title>Viewer</Card.Title>
                   <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
+                    Users can view and validate the certificates of the students who are allowed to share their data.
                   </Card.Text>
-                  <Button variant="primary" href="/Home">Login</Button>
+                  <Button variant="primary" href="/pages/UploadPage">Login</Button>
                 </Card.Body>
               </Card>
             </Col>
