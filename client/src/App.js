@@ -10,7 +10,7 @@ import View from './pages/View';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-
+import { Provider } from "./AppContext";
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
   // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
-  const [provider, setProvider] = useState(null);
+  const [mmm, setProvider] = useState(null);
 
   
 
@@ -73,9 +73,8 @@ function App() {
       <BrowserRouter>
         <Navbar bg="dark" data-bs-theme="dark">
           <Container>
-            <Navbar.Brand href="/">DApp</Navbar.Brand>
+            <Navbar.Brand href="/">Home</Navbar.Brand>
             <Nav className="me-auto">
-              <Nav.Link href="/pages/Home">Home</Nav.Link>
               <Nav.Link href="/pages/UploadPage">Upload</Nav.Link>
               <Nav.Link href="/pages/Share">Share</Nav.Link>
               <Nav.Link href="/pages/View">View</Nav.Link>
@@ -85,16 +84,22 @@ function App() {
             <p style={{ color: "Orange" }}>
               Account : {account ? account : "Not connected"}
             </p>
-            
           </Container>
         </Navbar>
+        <Provider >
+         
         <Routes>
-          <Route path="/pages/Home" element={<Home />} />
-          <Route path="/pages/UploadPage" element={<UploadPage />} />
-          <Route path="/pages/Share" element={<Share />} />
-          <Route path="/pages/View" element={<View />} />
-          <Route path="/pages/Revoke" element={<View />} />
+          <Route path="/"  >
+            <Route index element={<Home/>} />
+            <Route path="pages/UploadPage" element={<UploadPage />} />
+            <Route path="pages/Share" element={<Share />} />
+            <Route path="pages/View" element={<View />} />
+            <Route path="pages/Revoke" element={<View />} />
+
+          <Route path="*" element={<div>No Match</div>} />
+          </Route>
         </Routes>
+        </Provider>
       </BrowserRouter>
       
     </>

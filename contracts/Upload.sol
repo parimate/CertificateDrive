@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
-// เลขที่ใบอนุญาต: GPL-3.0
+pragma solidity ^0.8.19;
 
-pragma solidity >=0.8.19 <0.10.0; // เลือกเวอร์ชันของ Solidity ที่อยู่ในช่วง 0.8.0 ถึง 0.10.0
+import "hardhat/console.sol";
 
 contract Upload {
     // สร้างโครงสร้าง Access ที่ใช้ในการเก็บข้อมูลการเข้าถึงของผู้ใช้
@@ -33,12 +33,11 @@ contract Upload {
         string imageUrl; //URL ของรูปภาพ
     }
 
-    CertificateInfo[] public _StudentCertificate;
-    
+    // CertificateInfo[] public _StudentCertificate;
 
     mapping(address => string[]) value; // แม็พของรายการ URL ที่ผู้ใช้เพิ่มเข้าไป
     mapping(address => Access[]) accessList; // แม็พของรายการการเข้าถึงข้อมูลระหว่างผู้ใช้
-    mapping(address => CertificateInfo) certificateList; // แม็พของรายการการข้อมูลใบประกาศนียบัตร
+    //mapping(address => CertificateInfo[]) certificateList; // แม็พของรายการการข้อมูลใบประกาศนียบัตร
     mapping(address => mapping(address => bool)) previousData; // แม็พของสถานะก่อนหน้าของข้อมูลระหว่างผู้ใช้
     mapping(address => mapping(address => bool)) ownership; // แม็พของสิทธิ์การเปิดเผยข้อมูลระหว่างผู้ใช้
 
@@ -46,62 +45,64 @@ contract Upload {
     mapping(address => bool) private authorizedViewers; // รายชื่อผู้ที่มีสิทธิ์ในการดูข้อมูลใบประกาศนียบัตร
     mapping(address => bool) private authorizedStudent; // รายชื่อนักศึกษาเจ้าของใบประกาศนียบัตร
 
-     constructor() {
+    constructor() {
         authorizedIssuers[msg.sender] = true; // Contract creator is the initial admin
     }
 
     modifier onlyAuthorizedIssuer() {
         require(
-            authorizedIssuers[msg.sender],"Only authorized issuers can call this function");
+            authorizedIssuers[msg.sender],
+            "Only authorized issuers can call this function"
+        );
         _;
     }
 
     modifier onlyAuthorizedViewer() {
-        require(authorizedViewers[msg.sender],"Only authorized viewers can call this function");
+        require(
+            authorizedViewers[msg.sender],
+            "Only authorized viewers can call this function"
+        );
         _;
     }
 
     modifier onlyStudent() {
-        require(authorizedStudent[msg.sender],"Only student can call this function");
+        require(
+            authorizedStudent[msg.sender],
+            "Only student can call this function"
+        );
         _;
     }
-    
-    // เพิ่มใบประกาศนียบัตรโดยผู้ออกใบประกาศนียบัตร
-     function issueCertificate(
-        string memory _firstName, // ข้อมูลชื่อ
-        string memory _lastName, //นามสกุล
-        string memory _studentId, // รหัสนักศึกษา
-        string memory _faculty, // คณะ
-        string memory _department, // ภาควิชา
-        string memory _certificateName, // ชื่อใบประกาศนียบัตร 
-        address _studentAddress, // Address นักศึกษา
-        string memory _imageUrl //URL ของรูปภาพ    
-     ) external {
 
-        authorizedStudent[_studentAddress] = true; // เพิ่มที่อยู่ของนักเรียนให้กับนักเรียนที่ได้รับอนุญาติ
-        CertificateInfo storage certificate = certificateList[_studentAddress];
-        certificate.firstName = _firstName;
+    // // เพิ่มใบประกาศนียบัตรโดยผู้ออกใบประกาศนียบัตร
+    // function issueCertificate(
+    //     string memory _firstName, // ข้อมูลชื่อ
+    //     string memory _lastName, //นามสกุล
+    //     string memory _studentId, // รหัสนักศึกษา
+    //     string memory _faculty, // คณะ
+    //     string memory _department, // ภาควิชา
+    //     string memory _certificateName, // ชื่อใบประกาศนียบัตร
+    //     address _studentAddress, // Address นักศึกษา
+    //     string memory _imageUrl //URL ของรูปภาพ
+    // ) external {
+    //     authorizedStudent[_studentAddress] = true; // เพิ่มที่อยู่ของนักเรียนให้กับนักเรียนที่ได้รับอนุญาติ
 
-         _StudentCertificate.push(
-            CertificateInfo(
-                 _firstName,
-                _lastName,
-                _studentId,
-                _faculty,
-                _department,
-                _certificateName,
-                _studentAddress,
-                0,
-                false,
-                "admin",
-                msg.sender,
-                _imageUrl
-            )
-               
-        );
-        
-     }
-
+    //     _StudentCertificate.push(
+    //         CertificateInfo(
+    //             _firstName,
+    //             _lastName,
+    //             _studentId,
+    //             _faculty,
+    //             _department,
+    //             _certificateName,
+    //             _studentAddress,
+    //             0,
+    //             false,
+    //             "admin",
+    //             msg.sender,
+    //             _imageUrl
+    //         )
+    //     );
+    // }
 
     // ฟังก์ชันเพิ่ม URL ของผู้ใช้
     function add(
@@ -114,8 +115,8 @@ contract Upload {
         address _user,
         uint256 _endTime,
         string memory _imageUrl
-
     ) external {
+        authorizedStudent[_user] = true;
         // เพิ่มรายการการเข้าถึงข้อมูลใหม่เข้าไปใน accessList
         accessList[_user].push(
             Access(
@@ -131,18 +132,20 @@ contract Upload {
                 _imageUrl
             )
         );
-        //value[_user].push(_imageUrl);  
     }
-    
+
     // ฟังก์ชันอนุญาตให้ผู้ใช้รายอื่นเข้าถึงข้อมูล
     function allow(address user, uint256 endTime) external {
         ownership[msg.sender][user] = true; // ตั้งค่าสิทธิ์ให้กับผู้ใช้ที่ระบุเพื่อเปิดเผยข้อมูล
+        authorizedViewers[user] = true;
         // ถ้ามีการเข้าถึงข้อมูลก่อนหน้านี้ ให้อัปเดตสถานะการเข้าถึงให้เป็น true
         if (previousData[msg.sender][user]) {
-            for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
+            for (uint256 i = 0; i <= accessList[msg.sender].length; i++) {
                 if (accessList[msg.sender][i].user == user) {
                     accessList[msg.sender][i].access = true;
-                    accessList[msg.sender][i].endTime = endTime + block.timestamp; // อัปเดตเวลาสิ้นสุด
+                    accessList[msg.sender][i].endTime =
+                        endTime +
+                        block.timestamp; // อัปเดตเวลาสิ้นสุด
                 }
             }
         } else {
@@ -175,37 +178,36 @@ contract Upload {
         }
     }
 
-    // ฟังก์ชันแสดงรายการ URL และข้อมูลอื่นๆ ของผู้ใช้
-    function display(address _user) external view returns (Access[] memory){
-        // ตรวจสอบว่าผู้ใช้เป็นเจ้าของหรือมีสิทธิ์ในการเข้าถึงข้อมูล หากไม่ใช่จะโยนข้อผิดพลาด
-        require(_user == msg.sender || ownership[_user][msg.sender],"You don't have access");
+    // ฟังก์ชันแสดงรายการ URL และข้อมูลอื่น ๆ ของผู้ใช้
+    function display(address _user) external view returns (Access[] memory) {
+        // ตรวจสอบว่าผู้เรียกฟังก์ชันเป็นเจ้าของหรือมีสิทธิ์ในการเข้าถึงข้อมูล
+        require(
+            _user == msg.sender ||
+                ownership[msg.sender][_user] ||
+                authorizedViewers[msg.sender] ||
+                authorizedStudent[msg.sender] ,
+            "You don't have access"
+        );
+        // สร้างตัวแปรเพื่อเก็บรายการ Access ที่มี endTime มากกว่า 0
+        Access[] memory validAccessList = new Access[](
+            accessList[_user].length
+        );
+        uint256 validAccessCount = 0;
 
-        // // ตรวจสอบว่าผู้ใช้เรียกดู URL ในระยะเวลาที่สามารถเข้าถึงได้
-        // uint256 currentTime = block.timestamp;
-        // Access[] memory userAccessList = new Access[](accessList[_user].length);
-        // uint256 validAccessCount = 0;
-        // for (uint256 i = 0; i < accessList[_user].length; i++) {
-        //     if (
-        //         accessList[_user][i].user == msg.sender &&
-        //         accessList[_user][i].access &&
-        //         accessList[_user][i].endTime >= currentTime
-        //     ) { 
-        //         // ผู้ใช้มีสิทธิ์และเวลาการเข้าถึงยังไม่สิ้นสุด
-        //         userAccessList[validAccessCount] = accessList[_user][i];
-        //         validAccessCount++;
-        //     }
-        // }
+        // วนลูปเพื่อกรองรายการที่มี endTime มากกว่า 0
+        for (uint256 i = 0; i < accessList[_user].length; i++) {
+            if (accessList[_user][i].endTime > 0) {
+                validAccessList[validAccessCount] = accessList[_user][i];
+                validAccessCount++;
+            }
+        }
 
-        // // ตัด array ให้เหลือข้อมูลที่ถูกใช้งานเท่านั้น
-        // Access[] memory finalAccessList = new Access[](validAccessCount);
-        // for(uint256 j = 0; j < validAccessCount; j++) {
-        // finalAccessList[j] = userAccessList[j];
-        // }
-        
-        // return finalAccessList;
+        // ปรับขนาดของ validAccessList ให้ตรงกับจำนวนที่มี endTime มากกว่า 0
+        assembly {
+            mstore(validAccessList, validAccessCount)
+        }
 
-        return accessList[msg.sender];
-
+        return validAccessList;
     }
 
     // ฟังก์ชันแสดงรายการการเข้าถึงข้อมูลของผู้ใช้เอง
@@ -217,5 +219,3 @@ contract Upload {
         return block.timestamp;
     }
 }
-
-

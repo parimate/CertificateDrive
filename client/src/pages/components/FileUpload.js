@@ -1,12 +1,11 @@
 // import statements สำหรับใช้ useState จาก React และ axios สำหรับการทำ HTTP requests
-import { useState } from "react";
+import { useState , useContext } from "react";
 import axios from "axios";
 import "./FileUpload.css";
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-
 
 // Component ชื่อ FileUpload รับ props 3 ตัว contract, account, provider
 const FileUpload = ({ contract, account}) => {
@@ -88,7 +87,7 @@ const FileUpload = ({ contract, account}) => {
 
   return (
     <div className="top">
-      <h1 style={{ color: "black" }}>Certificate Upload</h1><br/>
+      <h1 style={{ color: "black" }}>Certificate Upload </h1><br/>
       <div className="formText">
       <Form noValidate validated={validated} onSubmit={handleSubmitForm}>
         <Row className="mb-3">
