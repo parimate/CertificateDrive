@@ -1,12 +1,11 @@
 // import statements สำหรับใช้ useState จาก React และ axios สำหรับการทำ HTTP requests
-import { useState } from "react";
+import { useState , useContext } from "react";
 import axios from "axios";
 import "./FileUpload.css";
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-
 
 // Component ชื่อ FileUpload รับ props 3 ตัว contract, account, provider
 const FileUpload = ({ contract, account}) => {
@@ -38,6 +37,8 @@ const FileUpload = ({ contract, account}) => {
         });
 
         // Collect additional data from the form
+        
+        //const OwnerAddress = document.getElementById("validationCustom06").value;
         const firstName = document.getElementById("validationCustom01").value;
         const lastName = document.getElementById("validationCustom02").value;
         const studentId = document.getElementById("validationCustomID").value;
@@ -54,7 +55,8 @@ const FileUpload = ({ contract, account}) => {
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         // await contract.add(account, ImgHash);
         
-        await contract.add(firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash); 
+        //await contract.add(firstName, lastName, studentId, faculty, department, certificateName, OwnerAddress, 0, ImgHash); 
+        await contract.add(firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash);
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได    
@@ -89,7 +91,7 @@ const FileUpload = ({ contract, account}) => {
 
   return (
     <div className="top">
-      <h1 style={{ color: "black" }}>Certificate Upload</h1>
+      <h1 style={{ color: "black" }}>Certificate Upload </h1><br/>
       <div className="formText">
       <Form noValidate validated={validated} onSubmit={handleSubmitForm}>
         <Row className="mb-3">
@@ -99,7 +101,7 @@ const FileUpload = ({ contract, account}) => {
               required
               type="text"
               placeholder="First name"
-              defaultValue="Parimate"
+              defaultValue="Satoshi"
             />
             <Form.Control.Feedback></Form.Control.Feedback>
           </Form.Group>
@@ -109,7 +111,7 @@ const FileUpload = ({ contract, account}) => {
               required
               type="text"
               placeholder="Last name"
-              defaultValue="Jaroensong"
+              defaultValue="Nakamoto"
             />
             <Form.Control.Feedback></Form.Control.Feedback>
           </Form.Group>
@@ -150,6 +152,13 @@ const FileUpload = ({ contract, account}) => {
             <Form.Control type="text" placeholder="Certificate Name" required defaultValue="Basic Programing" />
             <Form.Control.Feedback type="invalid">
               Please provide a valid Certificate Name.
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="20" controlId="validationCustom06">
+            <Form.Label>Owner Address</Form.Label>
+            <Form.Control type="text" placeholder="Address"/>
+            <Form.Control.Feedback type="invalid">
+              Please provide a valid Address.
             </Form.Control.Feedback>
           </Form.Group>
         </Row>
