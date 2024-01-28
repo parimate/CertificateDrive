@@ -21,6 +21,7 @@ const Display = ({ contract, account }) => {
   const getdata = async () => {
     await fetchCurrentTimestamp();
     let dataArray = [];
+    
     // ดึงค่าที่อยู่ที่ต้องการดึงภาพ
     const Otheraddress = document.querySelector(".address").value;
 
@@ -81,6 +82,7 @@ const Display = ({ contract, account }) => {
                   <td>{item.faculty}</td>
                   <td>{item.department}</td>
                   <td>{item.certificateName}</td>
+                  {/* <td>{unixTimestampToDate(item.endTime)}</td> */}
                   <td>{item.endTime.toString()}</td>
                   <td>
                     {item.imageUrl ? (
@@ -113,7 +115,11 @@ const Display = ({ contract, account }) => {
         const currentTimestamp = await contract.getCurrentTimestamp();
         setTimestamp(currentTimestamp.toString());
       } catch (error) {
-        console.error("Error fetching current timestamp:", error);
+        if (error.message.includes("revert")) {
+          console.error("Revert reason:", error.reason);
+        } else {
+          console.error("Error fetching current timestamp:", error);
+        }
       }
     }
   }, [contract]);
@@ -194,6 +200,7 @@ const Display = ({ contract, account }) => {
                   <td>{item.user}</td>
                   <td>{item.access ? "true" : "false"}</td>
                   <td>{item.endTime?.toString()}</td>
+                  {/* <td>{item.endTime ? unixTimestampToDate(item.endTime) : 'N/A'}</td> */}
                   <td>
                     {item.imageUrl ? (
                       <a href={`${item.imageUrl}`} target="_blank" rel="noreferrer">

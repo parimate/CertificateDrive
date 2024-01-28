@@ -40,6 +40,8 @@ const FileUpload = ({ contract, account}) => {
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
         // Collect additional data from the form
+        
+        //const OwnerAddress = document.getElementById("validationCustom06").value;
         const firstName = document.getElementById("validationCustom01").value;
         const lastName = document.getElementById("validationCustom02").value;
         const studentId = document.getElementById("validationCustomID").value;
@@ -52,7 +54,8 @@ const FileUpload = ({ contract, account}) => {
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         // await contract.add(account, ImgHash);
         
-        await contract.add(firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash); 
+        //await contract.add(firstName, lastName, studentId, faculty, department, certificateName, OwnerAddress, 0, ImgHash); 
+        await contract.add(firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash);
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได    
@@ -148,6 +151,13 @@ const FileUpload = ({ contract, account}) => {
             <Form.Control type="text" placeholder="Certificate Name" required defaultValue="Basic Programing" />
             <Form.Control.Feedback type="invalid">
               Please provide a valid Certificate Name.
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="20" controlId="validationCustom06">
+            <Form.Label>Owner Address</Form.Label>
+            <Form.Control type="text" placeholder="Address"/>
+            <Form.Control.Feedback type="invalid">
+              Please provide a valid Address.
             </Form.Control.Feedback>
           </Form.Group>
         </Row>

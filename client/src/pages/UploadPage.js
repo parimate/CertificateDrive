@@ -42,7 +42,7 @@ function UploadPage() {
         setAccount(address); // อัปเดต state account ด้วยที่อยู่บัญชีปัจจุบัน
 
         // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract)
-        let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+        let contractAddress = "0xd4443da5F3Af0FB07a662a6BE17E34dafF795FA8";
 
         // สร้าง instance ของ contract ด้วย ethers.Contract
         const contract = new ethers.Contract(
