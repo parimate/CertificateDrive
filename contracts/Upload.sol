@@ -16,20 +16,20 @@ contract Upload {
         string imageUrl; //URL ของรูปภาพ
     }
 
-    struct CertificateInfo {
-        string firstName; // ข้อมูลชื่อ
-        string lastName; //นามสกุล
-        string studentId; // รหัสนักศึกษา
-        string faculty; // คณะ
-        string department; // ภาควิชา
-        string certificateName; // ชื่อใบประกาศนียบัตร
-        address studentAddress; // Address นักศึกษา
-        uint256 accessTime; // เวลาที่อนุญาตให้เข้าดูข้อมูล
-        bool revokedStatus; // สถานะเพิกถอนใบประกาศนียบัตร
-        string issuedName; // ชื่อผู้ออกใบประกาศนียบัตร
-        address issuedAddress; // Address ผู้ออกใบประกาศนียบัตร
-        string imageUrl; //URL ของรูปภาพ
-    }
+    // struct CertificateInfo {
+    //     string firstName; // ข้อมูลชื่อ
+    //     string lastName; //นามสกุล
+    //     string studentId; // รหัสนักศึกษา
+    //     string faculty; // คณะ
+    //     string department; // ภาควิชา
+    //     string certificateName; // ชื่อใบประกาศนียบัตร
+    //     address studentAddress; // Address นักศึกษา
+    //     uint256 accessTime; // เวลาที่อนุญาตให้เข้าดูข้อมูล
+    //     bool revokedStatus; // สถานะเพิกถอนใบประกาศนียบัตร
+    //     string issuedName; // ชื่อผู้ออกใบประกาศนียบัตร
+    //     address issuedAddress; // Address ผู้ออกใบประกาศนียบัตร
+    //     string imageUrl; //URL ของรูปภาพ
+    // }
 
     // CertificateInfo[] public _StudentCertificate;
 

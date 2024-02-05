@@ -11,7 +11,7 @@ const Display = ({ contract, account }) => {
   const sharedData = AppData.sharedData;
   const setSharedData = AppData.setSharedData;
   // const [data, setData] = useState([]);
- // const [sharedData, setSharedData] = useState([]);
+  // const [sharedData, setSharedData] = useState([]);
   const [showSharedData, setShowSharedData] = useState(false);
   const [Timestamp, setTimestamp] = useState(null);
 
@@ -82,8 +82,8 @@ const Display = ({ contract, account }) => {
                   <td>{item.faculty}</td>
                   <td>{item.department}</td>
                   <td>{item.certificateName}</td>
-                  {/* <td>{unixTimestampToDate(item.endTime)}</td> */}
-                  <td>{item.endTime.toString()}</td>
+                  <td>{unixTimestampToDate(item.endTime)}</td>
+                  {/* <td>{item.endTime.toString()}</td> */}
                   <td>
                     {item.imageUrl ? (
                       <a href={`${item.imageUrl}`} target="_blank" rel="noreferrer">
@@ -149,7 +149,7 @@ const Display = ({ contract, account }) => {
       //alert("Error fetching shared data");
       console.log("Error fetching shared data");
     }
-  }, [contract]);
+  }, [contract, setSharedData]);
 
   // เมื่อ component ถูกโหลดหรือ state ที่เกี่ยวข้องมีการเปลี่ยนแปลง
   // ให้เรียกใช้งานฟังก์ชัน getSharedData เพื่อดึงข้อมูลที่ได้รับการแชร์ใหม่
@@ -199,8 +199,8 @@ const Display = ({ contract, account }) => {
                   <td>{item.certificateName}</td>
                   <td>{item.user}</td>
                   <td>{item.access ? "true" : "false"}</td>
-                  <td>{item.endTime?.toString()}</td>
-                  {/* <td>{item.endTime ? unixTimestampToDate(item.endTime) : 'N/A'}</td> */}
+                  {/* <td>{item.endTime?.toString()}</td> */}
+                  <td>{item.endTime ? unixTimestampToDate(item.endTime) : 'N/A'}</td>
                   <td>
                     {item.imageUrl ? (
                       <a href={`${item.imageUrl}`} target="_blank" rel="noreferrer">

@@ -1,43 +1,27 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Modal from "./components/Modal";
 //import "./SharePage.css";
 
 function Share() {
-  // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
-  const [contract, setContract] = useState(null);
-   // กำหนด state สำหรับเปิด/ปิด Modal
   const [modalOpen, setModalOpen] = useState(false);
-
-
-
-
 
 
   return (
     <>
-
-      {!modalOpen && (
-        <button className="share" onClick={() => setModalOpen(true)}>
-          Share
-        </button>
-      )}
-      {modalOpen && (
-        <Modal setModalOpen={setModalOpen} contract={contract}></Modal>
-      )}
-
       <div className="App">
-        {/* Component FileUpload */}
-        {/* ... (The rest of the FileUpload component code) */}
 
-        {/* Component Display */}
-        {/* ... (The rest of the Display component code) */}
-      </div>
+        {/* Button to open the Modal */}
+        <button onClick={() => setModalOpen(true)}>Open Modal</button>
 
-
-
-
-      <div className="App">
+        {/* Render the Modal component */}
+        {modalOpen && (
+          <Modal
+            setModalOpen={setModalOpen}
+          // Pass other props to the Modal component as needed
+          />
+        )}
+        <br /><br/>
         <p>This is The Share Page</p>
         <Link to="/">Back to Home Page</Link>
       </div>
