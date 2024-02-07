@@ -37,14 +37,13 @@ const FileUpload = ({ contract, account}) => {
         });
 
         // Collect additional data from the form
-        
-        //const OwnerAddress = document.getElementById("validationCustom06").value;
         const firstName = document.getElementById("validationCustom01").value;
         const lastName = document.getElementById("validationCustom02").value;
         const studentId = document.getElementById("validationCustomID").value;
         const faculty = document.getElementById("validationCustom03").value;
         const department = document.getElementById("validationCustom04").value;
         const certificateName = document.getElementById("validationCustom05").value;
+        const OwnerAddress = document.getElementById("validationCustom06").value;
         //const gasLimit = 500000; // Set an appropriate gas limit
         
         // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
@@ -55,8 +54,8 @@ const FileUpload = ({ contract, account}) => {
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         // await contract.add(account, ImgHash);
         
-        //await contract.add(OwnerAddress,firstName, lastName, studentId, faculty, department, certificateName, 0, ImgHash); 
-        await contract.add(firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash);
+        await contract.add(OwnerAddress,firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash); 
+        //await contract.add(firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash);
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได    

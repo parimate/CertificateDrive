@@ -64,6 +64,7 @@ const Display = ({ contract, account }) => {
           <Table striped bordered hover>
             <thead>
               <tr>
+                <th>OwnerAddress</th>
                 <th>First name</th>
                 <th>Last name</th>
                 <th>Student ID</th>
@@ -77,6 +78,7 @@ const Display = ({ contract, account }) => {
             <tbody>
               {filteredData.map((item, index) => (
                 <tr key={index}>
+                  <td>{item.OwnerAddress}</td>
                   <td>{item.firstName}</td>
                   <td>{item.lastName}</td>
                   <td>{item.studentId}</td>
@@ -176,6 +178,7 @@ const Display = ({ contract, account }) => {
           <Table striped bordered hover>
             <thead>
               <tr>
+                <th>OwnerAddress</th>
                 <th>First name</th>
                 <th>Last name</th>
                 <th>Student ID</th>
@@ -192,6 +195,7 @@ const Display = ({ contract, account }) => {
               {console.log('Shared Data',sharedData)}
               {sharedData.map((item, index) => (
                 <tr key={index}>
+                  <td>{item.OwnerAddress}</td>
                   <td>{item.firstName}</td>
                   <td>{item.lastName}</td>
                   <td>{item.studentId}</td>

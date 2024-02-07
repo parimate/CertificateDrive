@@ -4,6 +4,7 @@ pragma solidity ^0.8.19;
 contract Upload {
     // สร้างโครงสร้าง Access ที่ใช้ในการเก็บข้อมูลการเข้าถึงของผู้ใช้
     struct Access {
+        address studentAddress; // Address นักศึกษา
         string firstName; // ข้อมูลชื่อ
         string lastName; //นามสกุล
         string studentId; // ข้อมูลรหัสนักศึกษา
@@ -104,6 +105,7 @@ contract Upload {
 
     // ฟังก์ชันเพิ่ม URL ของผู้ใช้
     function add(
+        address _studentAddress,
         string memory _firstName,
         string memory _lastName,
         string memory _studentId,
@@ -114,10 +116,27 @@ contract Upload {
         uint256 _endTime,
         string memory _imageUrl
     ) external {
-        authorizedStudent[_user] = true;
+        authorizedStudent[_studentAddress] = true;
+        authorizedIssuers[_user] = true;
         // เพิ่มรายการการเข้าถึงข้อมูลใหม่เข้าไปใน accessList
+        accessList[_studentAddress].push(
+            Access(
+                _studentAddress,
+                _firstName,
+                _lastName,
+                _studentId,
+                _faculty,
+                _department,
+                _certificateName,
+                msg.sender,
+                true,
+                _endTime,
+                _imageUrl
+            )
+        );
         accessList[_user].push(
             Access(
+                _studentAddress,
                 _firstName,
                 _lastName,
                 _studentId,
@@ -149,6 +168,7 @@ contract Upload {
         } else {
             // ถ้าไม่เคยมีการเข้าถึงข้อมูลก่อนหน้านี้ ให้เพิ่มรายการการเข้าถึงใหม่และตั้งค่าสถานะก่อนหน้าเป็น true
             Access memory newAccess = Access(
+                accessList[msg.sender][0].studentAddress,
                 accessList[msg.sender][0].firstName,
                 accessList[msg.sender][0].lastName,
                 accessList[msg.sender][0].studentId,
@@ -177,25 +197,32 @@ contract Upload {
     }
 
     // ฟังก์ชันแสดงรายการ URL และข้อมูลอื่น ๆ ของผู้ใช้
-    function display(address _user) external view returns (Access[] memory) {
-        // ตรวจสอบว่าผู้เรียกฟังก์ชันเป็นเจ้าของหรือมีสิทธิ์ในการเข้าถึงข้อมูล
+    function display(address userToDisplay) external view returns (Access[] memory){
+        // ตรวจสอบว่าผู้เรียกฟังก์ชันได้รับอนุญาติในการดูข้อมูล
         require(
-            _user == msg.sender ||
-                ownership[msg.sender][_user] ||
-                authorizedViewers[msg.sender] ||
-                authorizedStudent[msg.sender] ,
+            authorizedViewers[msg.sender] || authorizedStudent[msg.sender],
             "You don't have access"
         );
+
+        // ตรวจสอบว่า address userToDisplay ได้รับอนุญาติในการดูข้อมูลหรือไม่
+        require(
+            ownership[msg.sender][userToDisplay] ||
+                authorizedStudent[userToDisplay],
+            "User is not authorized to view data"
+        );
+
         // สร้างตัวแปรเพื่อเก็บรายการ Access ที่มี endTime มากกว่า 0
         Access[] memory validAccessList = new Access[](
-            accessList[_user].length
+            accessList[userToDisplay].length
         );
         uint256 validAccessCount = 0;
 
         // วนลูปเพื่อกรองรายการที่มี endTime มากกว่า 0
-        for (uint256 i = 0; i < accessList[_user].length; i++) {
-            if (accessList[_user][i].endTime > 0) {
-                validAccessList[validAccessCount] = accessList[_user][i];
+        for (uint256 i = 0; i < accessList[userToDisplay].length; i++) {
+            if (accessList[userToDisplay][i].endTime > 0) {
+                validAccessList[validAccessCount] = accessList[userToDisplay][
+                    i
+                ];
                 validAccessCount++;
             }
         }
