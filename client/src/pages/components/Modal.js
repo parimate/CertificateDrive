@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import "./Modal.css";
 
+
 const Modal = ({ setModalOpen, contract }) => {
    // สร้าง state สำหรับจัดเก็บข้อมูลเวลา
   const [endTime, setEndTime] = useState("");

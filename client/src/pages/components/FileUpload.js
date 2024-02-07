@@ -55,7 +55,7 @@ const FileUpload = ({ contract, account}) => {
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         // await contract.add(account, ImgHash);
         
-        //await contract.add(firstName, lastName, studentId, faculty, department, certificateName, OwnerAddress, 0, ImgHash); 
+        //await contract.add(OwnerAddress,firstName, lastName, studentId, faculty, department, certificateName, 0, ImgHash); 
         await contract.add(firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash);
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"

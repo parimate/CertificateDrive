@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback,useContext } from "react";
 import "./Display.css";
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import { AppContext } from "../../AppContext";
 
 const Display = ({ contract, account }) => {
@@ -229,7 +230,9 @@ const Display = ({ contract, account }) => {
         placeholder="Enter Address"
         className="address"
       ></input>
-      <button className="center button" onClick={getdata}>Get Data</button><br />
+      <Button as="input" type="submit" value="Get Data" onClick={getdata} />
+      {/* <button className="center button" onClick={getdata}>Get Data</button><br /> */}
+
     </>
   );
 };
