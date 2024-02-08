@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback,useContext } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import "./Display.css";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+
 import { AppContext } from "../../AppContext";
 
 const Display = ({ contract, account }) => {
@@ -16,13 +17,13 @@ const Display = ({ contract, account }) => {
   const [showSharedData, setShowSharedData] = useState(false);
   const [Timestamp, setTimestamp] = useState(null);
 
-  console.log('App Data',AppData)
-  
+  //console.log('App Data', AppData)
+
   // ฟังก์ชันเพื่อดึงข้อมูลภาพจาก contract
   const getdata = async () => {
     await fetchCurrentTimestamp();
     let dataArray = [];
-    
+
     // ดึงค่าที่อยู่ที่ต้องการดึงภาพ
     const Otheraddress = document.querySelector(".address").value;
 
@@ -32,14 +33,14 @@ const Display = ({ contract, account }) => {
         dataArray = await contract.display(Otheraddress);
         console.log("dataArray:", dataArray);
         setData(dataArray);
-      //  AppData.setData(dataArray)
+        //  AppData.setData(dataArray)
       } else {
         // ถ้าไม่ได้ใส่ที่อยู่ ให้ดึงภาพของบัญชีปัจจุบัน (account)
         dataArray = await contract.display(account);
         console.log("dataArray:", dataArray);
         setData(dataArray);
         //AppData.setData(dataArray)
-        
+
       }
     } catch (e) {
       // แสดงข้อความแจ้งเตือนในกรณีที่ไม่สามารถดึงภาพได้
@@ -78,7 +79,7 @@ const Display = ({ contract, account }) => {
             <tbody>
               {filteredData.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.OwnerAddress}</td>
+                  <td>{item.studentAddress}</td>
                   <td>{item.firstName}</td>
                   <td>{item.lastName}</td>
                   <td>{item.studentId}</td>
@@ -152,7 +153,7 @@ const Display = ({ contract, account }) => {
       //alert("Error fetching shared data");
       console.log("Error fetching shared data");
     }
-  }, [contract, setSharedData]);
+  }, [contract]);
 
   // เมื่อ component ถูกโหลดหรือ state ที่เกี่ยวข้องมีการเปลี่ยนแปลง
   // ให้เรียกใช้งานฟังก์ชัน getSharedData เพื่อดึงข้อมูลที่ได้รับการแชร์ใหม่
@@ -166,6 +167,7 @@ const Display = ({ contract, account }) => {
     <>
       <h1 style={{ color: "black" }}>Certificate list</h1>
       <br />
+      
       {/* ปุ่มเพิ่มเติมสำหรับแสดง/ซ่อนข้อมูลที่ได้จาก shareAccess */}
       <button className="shared" onClick={() => setShowSharedData(!showSharedData)}>
         Shared Access Data
@@ -192,10 +194,10 @@ const Display = ({ contract, account }) => {
               </tr>
             </thead>
             <tbody>
-              {console.log('Shared Data',sharedData)}
+              {console.log('Shared Data', sharedData)}
               {sharedData.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.OwnerAddress}</td>
+                  <td>{item.studentAddress}</td>
                   <td>{item.firstName}</td>
                   <td>{item.lastName}</td>
                   <td>{item.studentId}</td>
@@ -234,9 +236,11 @@ const Display = ({ contract, account }) => {
         placeholder="Enter Address"
         className="address"
       ></input>
+      <br />
       <Button as="input" type="submit" value="Get Data" onClick={getdata} />
       {/* <button className="center button" onClick={getdata}>Get Data</button><br /> */}
-
+      <br />
+      <br />
     </>
   );
 };

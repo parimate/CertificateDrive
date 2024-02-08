@@ -153,6 +153,8 @@ const FileUpload = ({ contract, account}) => {
               Please provide a valid Certificate Name.
             </Form.Control.Feedback>
           </Form.Group>
+          </Row>
+          <Row className="mb-3">
           <Form.Group as={Col} md="20" controlId="validationCustom06">
             <Form.Label>Owner Address</Form.Label>
             <Form.Control type="text" placeholder="Address"/>
@@ -160,7 +162,7 @@ const FileUpload = ({ contract, account}) => {
               Please provide a valid Address.
             </Form.Control.Feedback>
           </Form.Group>
-        </Row>
+          </Row>
       </Form>
       </div>
       <br />
