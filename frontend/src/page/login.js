@@ -29,8 +29,8 @@ function Login() {
         </div>
       </div>
 
-      <div className="relative flex flex-col justify-center h-screen overflow-hidden">
-        <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg">
+      <div className="relative flex flex-col justify-center h-screen overflow-hidden" style={{ height: "90vh" }}>
+        <div className="w-full p-8 m-auto bg-white rounded-md shadow-md lg:max-w-lg">
           <h1 className="text-3xl font-semibold text-center text-purple-700">Login PSU Passport</h1>
           <form className="space-y-4">
             <div>
