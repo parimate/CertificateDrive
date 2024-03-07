@@ -33,6 +33,7 @@ function Home() {
           <p>Issue a certificate</p>
           <div className="card-actions justify-end">
             <button className="btn btn-primary" onClick={handleUploadClick}>Upload Certificate</button>
+            <button className="btn btn-primary" onClick={handleOwnerClick}>View Certificate</button>
           </div>
         </div>
       </div>

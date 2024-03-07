@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 import { ethers } from "ethers";
 import Upload from "../artifacts/contracts/Upload.sol/Upload.json";
 
@@ -61,10 +60,20 @@ function Navbar() {
         <>
             <div className="navbar bg-base-100 bg-primary">
                 <div className="navbar-start">
-                    <Link to="/page/home" className="btn btn-ghost text-xl">Decentralized Certificate Storage Application</Link>
+                    <button
+                        onClick={() => {
+                            window.location = '/page/home';
+                        }}
+                        className="btn btn-ghost text-xl"
+                        tabIndex={0}
+                    >
+                        Decentralized Certificate Storage Application
+                    </button>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">User Address</a>
+                    <p className="btn" style={{ color: "Black" }}>
+                        Account : {account ? account : "Not connected"}
+                    </p>
                 </div>
             </div>
         </>

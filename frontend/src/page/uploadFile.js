@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from '../components/navbar';
 import axios from "axios";
 
-function UploadPage({ contract, account }) {
+function UploadFile({ contract, account }) {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
   const [validated, setValidated] = useState(false);
@@ -93,7 +93,6 @@ function UploadPage({ contract, account }) {
 
       <div className="container mx-auto mt-7 max-w-2xl">
         <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
-          {/* ... (other form inputs) */}
           <label className="input input-bordered flex items-center gap-2 mb-4">
             Student ID
             <input
@@ -175,4 +174,4 @@ function UploadPage({ contract, account }) {
   );
 }
 
-export default UploadPage;
+export default UploadFile;

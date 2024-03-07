@@ -12,16 +12,16 @@ function App() {
   return (
     <>
       <div>
-        <Routes>
-          <Route index element={<Login />} />
-          <Route path="/page/login" element={<Login />} />
-          <Route path="/page/home" element={<Home />} />
-          <Route path="/page/uploadFile" element={<UploadFile />} />
-          <Route path="/page/ownerDisplay" element={<OwnerDisplay />} />
-          <Route path="/page/viewerDisplay" element={<ViewerDisplay />} />
-          <Route path="/page/setPolicy" element={<SetPolicy />} />
-          <Route path="*" element={<div>No Match</div>} />
-        </Routes>
+          <Routes>
+            <Route index element={<Login />} />
+            <Route path="/page/login" element={<Login />} />
+            <Route path="/page/home" element={<Home />} />
+            <Route path="/page/uploadFile" element={<UploadFile />} />
+            <Route path="/page/ownerDisplay" element={<OwnerDisplay />} />
+            <Route path="/page/viewerDisplay" element={<ViewerDisplay />} />
+            <Route path="/page/setPolicy" element={<SetPolicy />} />
+            <Route path="*" element={<div>No Match</div>} />
+          </Routes>
       </div>
     </>
   );
