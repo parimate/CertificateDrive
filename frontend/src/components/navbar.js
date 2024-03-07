@@ -61,21 +61,17 @@ function Navbar() {
         <>
             <div className="navbar bg-base-100 bg-primary">
                 <div className="navbar-start">
-                    
-                    <button
-                        onClick={() => {
-                            window.location = '/page/home';
-                        }}
-                        className="btn btn-ghost text-xl"
-                        tabIndex={0}
-                    >
-                        Decentralized Certificate Storage Application
-                    </button>
+                    <Link to="/page/home" className="btn btn-ghost text-xl">Decentralized Certificate Storage Application</Link>
+                </div>
+                <div className="navbar-center hidden lg:flex">
+                    <ul className="menu menu-horizontal px-1">
+                        <li><a> </a></li>
+                        <li><a> </a></li>
+                        <li><a> </a></li>
+                    </ul>
                 </div>
                 <div className="navbar-end">
-                    <p className="btn" style={{ color: "Black" }}>
-                        Account : {account ? account : "Not connected"}
-                    </p>
+                    <a className="btn">User Address</a>
                 </div>
 
                 {/* Component FileUpload ส่ง props ไปยัง FileUpload component */}

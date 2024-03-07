@@ -79,82 +79,115 @@ function UploadPage({contract, account,provider}) {
   return (
     <>
       <Navbar />
-
-      <div className="container mx-auto mt-7 max-w-2xl">
-        <form className="max-w-2xl mx-auto" onSubmit={handleSubmit}>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Owner Account
-            <input id="OwnerAddress" type="text" className="grow" placeholder="Input Address" />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            First Name
-            <input id="firstName" type="text" className="grow" placeholder="Input First Name" />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Last Name
-            <input id="lastName" type="text" className="grow" placeholder="Input Last Name" />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Student ID
-            <input id="studentId" type="text" className="grow" placeholder="Input ID" />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Faculty
-            <input id="faculty" type="text" className="grow" placeholder="Input Faculty" />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Department
-            <input id="department" type="text" className="grow" placeholder="Input Department" />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Certificate Name
-            <input id="certificateName" type="text" className="grow" placeholder="Input CertificateName" />
-          </label>
-
-          {/* File upload section */}
-          <div className="mt-4">
-            <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700">
-              Choose Certificate File
+      
+      <div className="container mx-auto mt-5">
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
+          <div className="mb-4">
+            <label htmlFor="StudentAddres" className="block text-sm font-medium text-gray-600">
+              StudentAddres
             </label>
-            <div className="mt-3 flex items-center">
-              <input
-                disabled={!account} // ปิดการใช้งาน input ถ้าไม่มี account ที่ถูกส่งมาใน props
-                type="file"
-                id="file-upload"
-                name="data"
-                onChange={retrieveFile} // เมื่อมีการเลือกไฟล์ใหม่ให้เรียกใช้งานฟังก์ชัน retrieveFile
-                className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-              />
-
-              <label
-                htmlFor="file-upload"
-                className={`${!account ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-                  } text-white p-2 rounded-md cursor-pointer`}
-              >
-                Upload File       
-              </label>
-              <span className="ml-6 textArea">Image: {fileName}</span>
-              <button
-                type="submit"
-                className="btn btn-secondary btn-md  p-3 rounded-md hover:bg-blue-600 mt-0 ml-6 "
-                noValidate
-                validated={validated}
-                onSubmit={handleSubmitForm}
-              >
-                Submit
-              </button>
-            </div>
+            <input
+              type="text"
+              id="certificateName"
+              name="certificateName"
+              value={formData.certificateName}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border rounded-md"
+            />
           </div>
 
+          <div className="mb-4">
+            <label htmlFor="firstName" className="block text-sm font-medium text-gray-600">
+              First Name
+            </label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border rounded-md"
+            />
+          </div>
 
+          <div className="mb-4">
+            <label htmlFor="lastName" className="block text-sm font-medium text-gray-600">
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border rounded-md"
+            />
+          </div>
 
+          <div className="mb-4">
+            <label htmlFor="studentId" className="block text-sm font-medium text-gray-600">
+              Student ID
+            </label>
+            <input
+              type="text"
+              id="studentId"
+              name="studentId"
+              value={formData.studentId}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border rounded-md"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="faculty" className="block text-sm font-medium text-gray-600">
+              Faculty
+            </label>
+            <input
+              type="text"
+              id="faculty"
+              name="faculty"
+              value={formData.faculty}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border rounded-md"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="department" className="block text-sm font-medium text-gray-600">
+              Department
+            </label>
+            <input
+              type="text"
+              id="department"
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border rounded-md"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="certificateName" className="block text-sm font-medium text-gray-600">
+              Certificate Name
+            </label>
+            <input
+              type="text"
+              id="certificateName"
+              name="certificateName"
+              value={formData.certificateName}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border rounded-md"
+            />
+          </div>
+
+          <input type="file" className="file-input file-input-bordered w-full max-w-xs" />
+
+          <button
+            type="submit"
+            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+          >
+            Submit
+          </button>
         </form>
       </div>
     </>

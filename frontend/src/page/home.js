@@ -6,7 +6,7 @@ function Home() {
   const navigate = useNavigate();
 
   const handleUploadClick = () => {
-    navigate('/page/uploadpage');
+    navigate('/page/upload');
   };
 
   const handleOwnerClick = () => {
