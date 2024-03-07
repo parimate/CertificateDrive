@@ -2,11 +2,23 @@ import React, { useState } from "react";
 import Navbar from '../components/navbar';
 import axios from "axios";
 
-function UploadPage({contract, account,provider}) {
+function UploadPage({contract, account, provider}) {
   // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
   const [validated, setValidated] = useState(false);
+
+  const [formData, setFormData] = useState({
+    certificateName: "",
+    firstName: "",
+    lastName: "",
+    studentId: "",
+    faculty: "",
+    department: "",
+  });
+
+
+
   // function ชื่อ handleSubmit ทำการอัปโหลดภาพไปยัง IPFS เมื่อผู้ใช้กด submit form
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form behavior
@@ -81,7 +93,7 @@ function UploadPage({contract, account,provider}) {
       <Navbar />
       
       <div className="container mx-auto mt-5">
-        <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
+        <form onSubmit={handleSubmitForm} className="max-w-lg mx-auto">
           <div className="mb-4">
             <label htmlFor="StudentAddres" className="block text-sm font-medium text-gray-600">
               StudentAddres
@@ -91,7 +103,7 @@ function UploadPage({contract, account,provider}) {
               id="certificateName"
               name="certificateName"
               value={formData.certificateName}
-              onChange={handleChange}
+              onChange={retrieveFile}
               className="mt-1 p-2 w-full border rounded-md"
             />
           </div>
@@ -105,7 +117,7 @@ function UploadPage({contract, account,provider}) {
               id="firstName"
               name="firstName"
               value={formData.firstName}
-              onChange={handleChange}
+              onChange={retrieveFile}
               className="mt-1 p-2 w-full border rounded-md"
             />
           </div>
@@ -119,7 +131,7 @@ function UploadPage({contract, account,provider}) {
               id="lastName"
               name="lastName"
               value={formData.lastName}
-              onChange={handleChange}
+              onChange={retrieveFile}
               className="mt-1 p-2 w-full border rounded-md"
             />
           </div>
@@ -133,7 +145,7 @@ function UploadPage({contract, account,provider}) {
               id="studentId"
               name="studentId"
               value={formData.studentId}
-              onChange={handleChange}
+              onChange={retrieveFile}
               className="mt-1 p-2 w-full border rounded-md"
             />
           </div>
@@ -147,7 +159,7 @@ function UploadPage({contract, account,provider}) {
               id="faculty"
               name="faculty"
               value={formData.faculty}
-              onChange={handleChange}
+              onChange={retrieveFile}
               className="mt-1 p-2 w-full border rounded-md"
             />
           </div>
@@ -161,7 +173,7 @@ function UploadPage({contract, account,provider}) {
               id="department"
               name="department"
               value={formData.department}
-              onChange={handleChange}
+              onChange={retrieveFile}
               className="mt-1 p-2 w-full border rounded-md"
             />
           </div>
@@ -175,7 +187,7 @@ function UploadPage({contract, account,provider}) {
               id="certificateName"
               name="certificateName"
               value={formData.certificateName}
-              onChange={handleChange}
+              onChange={retrieveFile}
               className="mt-1 p-2 w-full border rounded-md"
             />
           </div>
