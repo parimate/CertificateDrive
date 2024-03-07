@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import Navbar from '../components/navbar';
 import axios from "axios";
 
-function Upload({ contract, account }) {
+function UploadPage({contract, account,provider}) {
+  // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
   const [validated, setValidated] = useState(false);
-
+  // function ชื่อ handleSubmit ทำการอัปโหลดภาพไปยัง IPFS เมื่อผู้ใช้กด submit form
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form behavior
     // Add your file upload logic here
@@ -80,21 +81,21 @@ function Upload({ contract, account }) {
       <Navbar />
 
       <div className="container mx-auto mt-7 max-w-2xl">
-        <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
+        <form className="max-w-2xl mx-auto" onSubmit={handleSubmit}>
 
           <label className="input input-bordered flex items-center gap-2 mb-4">
-            Owner Address
+            Owner Account
             <input id="OwnerAddress" type="text" className="grow" placeholder="Input Address" />
           </label>
 
           <label className="input input-bordered flex items-center gap-2 mb-4">
-            FirstName
-            <input id="firstName" type="text" className="grow" placeholder="Input FirstName" />
+            First Name
+            <input id="firstName" type="text" className="grow" placeholder="Input First Name" />
           </label>
 
           <label className="input input-bordered flex items-center gap-2 mb-4">
-            Last name
-            <input id="lastName" type="text" className="grow" placeholder="Input LastName" />
+            Last Name
+            <input id="lastName" type="text" className="grow" placeholder="Input Last Name" />
           </label>
 
           <label className="input input-bordered flex items-center gap-2 mb-4">
@@ -120,9 +121,9 @@ function Upload({ contract, account }) {
           {/* File upload section */}
           <div className="mt-4">
             <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700">
-              Choose Image
+              Choose Certificate File
             </label>
-            <div className="mt-1 flex items-center">
+            <div className="mt-3 flex items-center">
               <input
                 disabled={!account} // ปิดการใช้งาน input ถ้าไม่มี account ที่ถูกส่งมาใน props
                 type="file"
@@ -131,27 +132,28 @@ function Upload({ contract, account }) {
                 onChange={retrieveFile} // เมื่อมีการเลือกไฟล์ใหม่ให้เรียกใช้งานฟังก์ชัน retrieveFile
                 className="file-input file-input-bordered file-input-primary w-full max-w-xs"
               />
-              
-              {/* <label
+
+              <label
                 htmlFor="file-upload"
                 className={`${!account ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
                   } text-white p-2 rounded-md cursor-pointer`}
               >
-                Upload File
-              </label> */}
-              <span className="ml-3 textArea">Image: {fileName}</span>
+                Upload File       
+              </label>
+              <span className="ml-6 textArea">Image: {fileName}</span>
+              <button
+                type="submit"
+                className="btn btn-secondary btn-md  p-3 rounded-md hover:bg-blue-600 mt-0 ml-6 "
+                noValidate
+                validated={validated}
+                onSubmit={handleSubmitForm}
+              >
+                Submit
+              </button>
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 mt-4"
-            noValidate
-            validated={validated}
-            onSubmit={handleSubmitForm}
-          >
-            Submit
-          </button>
+
 
         </form>
       </div>
@@ -159,4 +161,4 @@ function Upload({ contract, account }) {
   );
 }
 
-export default Upload;
+export default UploadPage;

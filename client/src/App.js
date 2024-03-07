@@ -87,7 +87,6 @@ function App() {
           </Container>
         </Navbar>
         <Provider >
-         
         <Routes>
           <Route path="/"  >
             <Route index element={<Home/>} />
@@ -95,8 +94,7 @@ function App() {
             <Route path="pages/Share" element={<Share />} />
             <Route path="pages/View" element={<View />} />
             <Route path="pages/Revoke" element={<View />} />
-
-          <Route path="*" element={<div>No Match</div>} />
+            <Route path="*" element={<div>No Match</div>} />
           </Route>
         </Routes>
         </Provider>

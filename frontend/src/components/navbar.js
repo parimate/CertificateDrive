@@ -1,17 +1,15 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 import { ethers } from "ethers";
 import Upload from "../artifacts/contracts/Upload.sol/Upload.json";
+import UploadPage from "../page/uploadpage";
 
 
 function Navbar() {
     // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
     const [account, setAccount] = useState("");
     const [contract, setContract] = useState(null);
-    const [mmm, setProvider] = useState(null);
-
-
+    const [provider, setProvider] = useState(null);
 
     // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
     useEffect(() => {
@@ -57,24 +55,35 @@ function Navbar() {
 
         provider && loadProvider();
     }, []);
+
+
     return (
         <>
             <div className="navbar bg-base-100 bg-primary">
                 <div className="navbar-start">
-                    <Link to="/page/home" className="btn btn-ghost text-xl">Decentralized Certificate Storage Application</Link>
-                </div>
-                <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
-                        <li><a> </a></li>
-                        <li><a> </a></li>
-                        <li><a> </a></li>
-                    </ul>
+                    
+                    <button
+                        onClick={() => {
+                            window.location = '/page/home';
+                        }}
+                        className="btn btn-ghost text-xl"
+                        tabIndex={0}
+                    >
+                        Decentralized Certificate Storage Application
+                    </button>
                 </div>
                 <div className="navbar-end">
                     <p className="btn" style={{ color: "Black" }}>
                         Account : {account ? account : "Not connected"}
                     </p>
                 </div>
+
+                {/* Component FileUpload ส่ง props ไปยัง FileUpload component */}
+                <UploadPage
+                    account={account}
+                    provider={provider}
+                    contract={contract}
+                ></UploadPage>
             </div>
         </>
     )
