@@ -1,16 +1,18 @@
 import React from 'react'
 import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { ethers } from "ethers";
 import { Link } from 'react-router-dom';
 import Upload from "../artifacts/contracts/Upload.sol/Upload.json";
-import UploadPage from "../page/uploadpage";
 
 
 function Navbar() {
     // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
     const [account, setAccount] = useState("");
     const [contract, setContract] = useState(null);
-    const [provider, setProvider] = useState(null);
+    const [mmm, setProvider] = useState(null);
+
+
 
     // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
     useEffect(() => {
@@ -56,8 +58,6 @@ function Navbar() {
 
         provider && loadProvider();
     }, []);
-
-
     return (
         <>
             <div className="navbar bg-base-100 bg-primary">
@@ -74,13 +74,6 @@ function Navbar() {
                 <div className="navbar-end">
                     <a className="btn">User Address</a>
                 </div>
-
-                {/* Component FileUpload ส่ง props ไปยัง FileUpload component */}
-                <UploadPage
-                    account={account}
-                    provider={provider}
-                    contract={contract}
-                ></UploadPage>
             </div>
         </>
     )

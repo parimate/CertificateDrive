@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import Navbar from '../components/navbar';
 import axios from "axios";
 
+<<<<<<< HEAD
 function UploadPage({contract, account, provider}) {
   // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
+=======
+function Upload({ contract, account }) {
+>>>>>>> parent of 43ea8b9 (edit 7/3/2567)
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
   const [validated, setValidated] = useState(false);
 
+<<<<<<< HEAD
   const [formData, setFormData] = useState({
     certificateName: "",
     firstName: "",
@@ -20,6 +25,8 @@ function UploadPage({contract, account, provider}) {
 
 
   // function ชื่อ handleSubmit ทำการอัปโหลดภาพไปยัง IPFS เมื่อผู้ใช้กด submit form
+=======
+>>>>>>> parent of 43ea8b9 (edit 7/3/2567)
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form behavior
     // Add your file upload logic here
@@ -91,6 +98,7 @@ function UploadPage({contract, account, provider}) {
   return (
     <>
       <Navbar />
+<<<<<<< HEAD
       
       <div className="container mx-auto mt-5">
         <form onSubmit={handleSubmitForm} className="max-w-lg mx-auto">
@@ -135,6 +143,82 @@ function UploadPage({contract, account, provider}) {
               className="mt-1 p-2 w-full border rounded-md"
             />
           </div>
+=======
+
+      <div className="container mx-auto mt-7 max-w-2xl">
+        <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
+
+          <label className="input input-bordered flex items-center gap-2 mb-4">
+            Owner Address
+            <input id="OwnerAddress" type="text" className="grow" placeholder="Input Address" />
+          </label>
+
+          <label className="input input-bordered flex items-center gap-2 mb-4">
+            FirstName
+            <input id="firstName" type="text" className="grow" placeholder="Input FirstName" />
+          </label>
+
+          <label className="input input-bordered flex items-center gap-2 mb-4">
+            Last name
+            <input id="lastName" type="text" className="grow" placeholder="Input LastName" />
+          </label>
+
+          <label className="input input-bordered flex items-center gap-2 mb-4">
+            Student ID
+            <input id="studentId" type="text" className="grow" placeholder="Input ID" />
+          </label>
+
+          <label className="input input-bordered flex items-center gap-2 mb-4">
+            Faculty
+            <input id="faculty" type="text" className="grow" placeholder="Input Faculty" />
+          </label>
+
+          <label className="input input-bordered flex items-center gap-2 mb-4">
+            Department
+            <input id="department" type="text" className="grow" placeholder="Input Department" />
+          </label>
+
+          <label className="input input-bordered flex items-center gap-2 mb-4">
+            Certificate Name
+            <input id="certificateName" type="text" className="grow" placeholder="Input CertificateName" />
+          </label>
+
+          {/* File upload section */}
+          <div className="mt-4">
+            <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700">
+              Choose Image
+            </label>
+            <div className="mt-1 flex items-center">
+              <input
+                disabled={!account} // ปิดการใช้งาน input ถ้าไม่มี account ที่ถูกส่งมาใน props
+                type="file"
+                id="file-upload"
+                name="data"
+                onChange={retrieveFile} // เมื่อมีการเลือกไฟล์ใหม่ให้เรียกใช้งานฟังก์ชัน retrieveFile
+                className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+              />
+              
+              {/* <label
+                htmlFor="file-upload"
+                className={`${!account ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+                  } text-white p-2 rounded-md cursor-pointer`}
+              >
+                Upload File
+              </label> */}
+              <span className="ml-3 textArea">Image: {fileName}</span>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 mt-4"
+            noValidate
+            validated={validated}
+            onSubmit={handleSubmitForm}
+          >
+            Submit
+          </button>
+>>>>>>> parent of 43ea8b9 (edit 7/3/2567)
 
           <div className="mb-4">
             <label htmlFor="studentId" className="block text-sm font-medium text-gray-600">
@@ -206,4 +290,4 @@ function UploadPage({contract, account, provider}) {
   );
 }
 
-export default UploadPage;
+export default Upload;
