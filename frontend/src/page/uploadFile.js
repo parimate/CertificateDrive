@@ -1,190 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ethers } from "ethers";
 import Navbar from '../components/navbar';
-import axios from "axios";
+import FileInput from "../components/fileInput";
+import Upload from "../artifacts/contracts/Upload.sol/Upload.json";
 
-// Component ชื่อ FileUpload รับ props 3 ตัว contract, account, provider
-function UploadFile({ contract, account }) {
-  // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
-  const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState("No image selected");
-  const [validated, setValidated] = useState(false);
 
-  // function ชื่อ handleSubmit ทำการอัปโหลดภาพไปยัง IPFS เมื่อผู้ใช้กด submit form
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    if (file) {
-      try {
-        const formDataUpload = new FormData();
-        formDataUpload.append("file", file);
+function UploadFile() {
+  // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
+  const [account, setAccount] = useState("");
+  const [contract, setContract] = useState(null);
+  const [provider, setProvider] = useState(null);
 
-        const resFile = await axios({
-          method: "post",
-          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-          data: formDataUpload,
-          headers: {
-            pinata_api_key: `1017366b54483158e7bb`,
-            pinata_secret_api_key: `e928f7d29be0a8ef84784d2af8a3925cdb2f5bcb961fd7b4e3193318d6bc7a2e`,
-            "Content-Type": "multipart/form-data",
-          },
+  // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
+  useEffect(() => {
+    // สร้าง provider จาก ethers.providers.Web3Provider โดยใช้ window.ethereum
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    const loadProvider = async () => {
+      if (provider) { // ตรวจสอบว่า provider มีค่าหรือไม่
+        // ตั้งค่า event listener สำหรับตรวจสอบการเปลี่ยนแปลง network และ account
+        window.ethereum.on("chainChanged", () => {
+          window.location.reload(); // รีโหลดหน้าเว็บเมื่อเปลี่ยนเครือข่าย
         });
 
-        // Collect additional data from the form
-        const OwnerAddress = document.getElementById("studentAccount").value;
-        const firstName = document.getElementById("firstName").value;
-        const lastName = document.getElementById("lastName").value;
-        const studentId = document.getElementById("studentId").value;
-        const faculty = document.getElementById("faculty").value;
-        const department = document.getElementById("department").value;
-        const certificateName = document.getElementById("certificateName").value;
+        window.ethereum.on("accountsChanged", () => {
+          window.location.reload(); // รีโหลดหน้าเว็บเมื่อมีการเปลี่ยนบัญชี
+        });
 
-        // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
-        const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+        // ขอสิทธิ์ในการเข้าถึงบัญชีจาก metamask
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
 
-        // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
-        await contract.add(OwnerAddress, firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash);
+        // รับที่อยู่ของบัญชีปัจจุบัน
+        const address = await signer.getAddress();
+        console.log(address);
+        setAccount(address); // อัปเดต state account ด้วยที่อยู่บัญชีปัจจุบัน
 
-        alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
-        setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
-        setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้
-      } catch (e) {
-        console.error("Error uploading image to Pinata:", e);
-        alert("Unable to upload image to Pinata"); // แสดงข้อความแจ้งเตือนว่าไม่สามารถอัปโหลดภาพไปยัง Pinata ได้
+        // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract)
+        let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+
+        // สร้าง instance ของ contract ด้วย ethers.Contract
+        const contract = new ethers.Contract(
+          contractAddress,
+          Upload.abi,
+          signer
+        );
+        setContract(contract); // อัปเดต state contract ด้วย instance ของ contract ที่สร้างขึ้น
+        setProvider(provider); // อัปเดต state provider ด้วย provider ที่สร้างขึ้น
+      
+      } else {
+        console.error("Metamask is not installed"); // แสดงข้อความแจ้งเตือนในกรณีที่ไม่มี Metamask
       }
-    }
-  };
-
-  const retrieveFile = (e) => {
-    const data = e.target.files[0];
-    const reader = new window.FileReader();
-    reader.readAsArrayBuffer(data);
-    reader.onloadend = () => {
-      setFile(e.target.files[0]);
     };
-    e.preventDefault();
-  };
-
-  const handleSubmitForm = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    setValidated(true);
-  };
+    provider && loadProvider();
+  }, []);
 
   return (
     <>
       <Navbar />
-
-      <div className="container mx-auto mt-4 max-w-2xl w-full">
-        <h1 style={{ color: "black", fontSize: "2rem", textAlign: "center" }}>Certificate Upload </h1><br />
-        <form className="max-w-full  mx-auto" validated={validated} onSubmit={handleSubmitForm}>
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Student Account
-            <input
-              id="studentAccount"
-              type="text"
-              className="grow"
-              placeholder="Input studentAccount"
-              value=""
-            />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            First Name
-            <input
-              id="firstName"
-              type="text"
-              className="grow"
-              placeholder="Input FirstName"
-              value=""
-            />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Last Name
-            <input
-              id="lastName"
-              type="text"
-              className="grow"
-              placeholder="Input LastName"
-              value=""
-            />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Student ID
-            <input
-              id="studentId"
-              type="text"
-              className="grow"
-              placeholder="Input ID"
-              value=""
-            />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Faculty
-            <input
-              id="faculty"
-              type="text"
-              className="grow"
-              placeholder="Input Faculty"
-              value=""
-            />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Department
-            <input
-              id="department"
-              type="text"
-              className="grow"
-              placeholder="Input Department"
-              value=""
-            />
-          </label>
-
-          <label className="input input-bordered flex items-center gap-2 mb-4">
-            Certificate Name
-            <input
-              id="certificateName"
-              type="text"
-              className="grow"
-              placeholder="Input CertificateName"
-              value=""
-            />
-          </label>
-        </form>
-
-        {/* File upload section */}
-        <div className="mt-5">
-          <form className="form" onSubmit={handleSubmit}>
-            <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700">
-              Choose Image
-            </label>
-            <div className="mt-5 flex items-center">
-              <input
-                className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-                disabled={!account} // ปิดการใช้งาน input ถ้าไม่มี account ที่ถูกส่งมาใน props
-                type="file"
-                id="file-upload"
-                name="data"
-                onChange={retrieveFile} // เมื่อมีการเลือกไฟล์ใหม่ให้เรียกใช้งานฟังก์ชัน retrieveFile
-              />
-              <span className="ml-1 textArea">Image: {fileName}</span>
-              <button
-                type="submit"
-                className="ml-8 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 mt-4"
-                disabled={!file}
-              >
-                Upload File
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <FileInput account={account} provider={provider} contract={contract} />
     </>
   );
 }
