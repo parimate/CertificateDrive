@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row';
 // Component ชื่อ FileUpload รับ props 3 ตัว contract, account, provider
 const FileUpload = ({ contract, account}) => {
   // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
+  const [account] = useState("");
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
   const [validated, setValidated] = useState(false);

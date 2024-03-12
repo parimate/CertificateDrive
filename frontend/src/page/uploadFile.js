@@ -2,17 +2,14 @@ import React, { useState } from "react";
 import Navbar from '../components/navbar';
 import axios from "axios";
 
+// Component ชื่อ FileUpload รับ props 3 ตัว contract, account, provider
 function UploadFile({ contract, account }) {
+  // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
   const [validated, setValidated] = useState(false);
-  const [formData, setFormData] = useState({
-    studentId: "",
-    faculty: "",
-    department: "",
-    certificateName: "",
-  });
-
+  
+  // function ชื่อ handleSubmit ทำการอัปโหลดภาพไปยัง IPFS เมื่อผู้ใช้กด submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -32,30 +29,27 @@ function UploadFile({ contract, account }) {
           },
         });
 
-        const {
-          studentId,
-          faculty,
-          department,
-          certificateName,
-        } = formData;
-
+        // Collect additional data from the form
+        const OwnerAddress = document.getElementById("studentAccount").value;
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const studentId = document.getElementById("studentId").value;
+        const faculty = document.getElementById("faculty").value;
+        const department = document.getElementById("department").value;
+        const certificateName = document.getElementById("certificateName").value;
+        
+        // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
-        await contract.add(
-          account,
-          studentId,
-          faculty,
-          department,
-          certificateName,
-          ImgHash
-        );
+        // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
+        await contract.add(OwnerAddress,firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash); 
 
-        alert("Successfully Image Uploaded");
-        setFileName("No image selected");
-        setFile(null);
+        alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
+        setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
+        setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้
       } catch (e) {
         console.error("Error uploading image to Pinata:", e);
-        alert("Unable to upload image to Pinata");
+        alert("Unable to upload image to Pinata"); // แสดงข้อความแจ้งเตือนว่าไม่สามารถอัปโหลดภาพไปยัง Pinata ได้
       }
     }
   };
@@ -68,14 +62,6 @@ function UploadFile({ contract, account }) {
       setFile(e.target.files[0]);
     };
     e.preventDefault();
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
   };
 
   const handleSubmitForm = (event) => {
@@ -91,8 +77,41 @@ function UploadFile({ contract, account }) {
     <>
       <Navbar />
 
-      <div className="container mx-auto mt-7 max-w-2xl">
-        <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
+      <div className="container mx-auto mt-7 max-w-2xl w-full">
+        <form className="max-w-full  mx-auto" onSubmit={handleSubmit}>
+        <label className="input input-bordered flex items-center gap-2 mb-4">
+            Student Account
+            <input
+              id="studentAccount"
+              type="text"
+              className="grow"
+              placeholder="Input studentAccount"
+              value=""
+            />
+          </label>
+
+          <label className="input input-bordered flex items-center gap-2 mb-4">
+            First Name
+            <input
+              id="firstName"
+              type="text"
+              className="grow"
+              placeholder="Input FirstName"
+              value=""
+            />
+          </label>
+
+          <label className="input input-bordered flex items-center gap-2 mb-4">
+            Last Name
+            <input
+              id="lastName"
+              type="text"
+              className="grow"
+              placeholder="Input LastName"
+              value=""
+            />
+          </label>
+
           <label className="input input-bordered flex items-center gap-2 mb-4">
             Student ID
             <input
@@ -100,8 +119,7 @@ function UploadFile({ contract, account }) {
               type="text"
               className="grow"
               placeholder="Input ID"
-              value={formData.studentId}
-              onChange={handleChange}
+              value=""
             />
           </label>
 
@@ -112,8 +130,7 @@ function UploadFile({ contract, account }) {
               type="text"
               className="grow"
               placeholder="Input Faculty"
-              value={formData.faculty}
-              onChange={handleChange}
+              value=""
             />
           </label>
 
@@ -124,8 +141,7 @@ function UploadFile({ contract, account }) {
               type="text"
               className="grow"
               placeholder="Input Department"
-              value={formData.department}
-              onChange={handleChange}
+              value=""
             />
           </label>
 
@@ -136,8 +152,7 @@ function UploadFile({ contract, account }) {
               type="text"
               className="grow"
               placeholder="Input CertificateName"
-              value={formData.certificateName}
-              onChange={handleChange}
+              value=""
             />
           </label>
 
