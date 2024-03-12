@@ -8,7 +8,7 @@ function UploadFile({ contract, account }) {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
   const [validated, setValidated] = useState(false);
-  
+
   // function ชื่อ handleSubmit ทำการอัปโหลดภาพไปยัง IPFS เมื่อผู้ใช้กด submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,12 +37,12 @@ function UploadFile({ contract, account }) {
         const faculty = document.getElementById("faculty").value;
         const department = document.getElementById("department").value;
         const certificateName = document.getElementById("certificateName").value;
-        
+
         // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
-        await contract.add(OwnerAddress,firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash); 
+        await contract.add(OwnerAddress, firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash);
 
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
@@ -77,9 +77,10 @@ function UploadFile({ contract, account }) {
     <>
       <Navbar />
 
-      <div className="container mx-auto mt-7 max-w-2xl w-full">
-        <form className="max-w-full  mx-auto" onSubmit={handleSubmit}>
-        <label className="input input-bordered flex items-center gap-2 mb-4">
+      <div className="container mx-auto mt-4 max-w-2xl w-full">
+        <h1 style={{ color: "black", fontSize: "2rem", textAlign: "center" }}>Certificate Upload </h1><br />
+        <form className="max-w-full  mx-auto" validated={validated} onSubmit={handleSubmitForm}>
+          <label className="input input-bordered flex items-center gap-2 mb-4">
             Student Account
             <input
               id="studentAccount"
@@ -155,35 +156,34 @@ function UploadFile({ contract, account }) {
               value=""
             />
           </label>
+        </form>
 
-          {/* File upload section */}
-          <div className="mt-4">
+        {/* File upload section */}
+        <div className="mt-5">
+          <form className="form" onSubmit={handleSubmit}>
             <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700">
               Choose Image
             </label>
-            <div className="mt-1 flex items-center">
+            <div className="mt-5 flex items-center">
               <input
-                disabled={!account}
+                className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+                disabled={!account} // ปิดการใช้งาน input ถ้าไม่มี account ที่ถูกส่งมาใน props
                 type="file"
                 id="file-upload"
                 name="data"
-                onChange={retrieveFile}
-                className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+                onChange={retrieveFile} // เมื่อมีการเลือกไฟล์ใหม่ให้เรียกใช้งานฟังก์ชัน retrieveFile
               />
-              <span className="ml-3 textArea">Image: {fileName}</span>
+              <span className="ml-1 textArea">Image: {fileName}</span>
+              <button
+                type="submit"
+                className="ml-8 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 mt-4"
+                disabled={!file}
+              >
+                Upload File
+              </button>
             </div>
-          </div>
-
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 mt-4"
-            noValidate
-            validated={validated}
-            onSubmit={handleSubmitForm}
-          >
-            Submit
-          </button>
-        </form>
+          </form>
+        </div>
       </div>
     </>
   );
