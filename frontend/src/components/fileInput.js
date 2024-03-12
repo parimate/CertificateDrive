@@ -2,8 +2,6 @@
 import React,{ useState } from "react";
 import axios from "axios";
 
-
-
 // Component ชื่อ FileUpload รับ props 3 ตัว contract, account, provider
 const FileInput = ({ contract, account}) => {
   // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
@@ -31,22 +29,14 @@ const FileInput = ({ contract, account}) => {
           },
         });
 
-        // Collect additional data from the form
-        // const OwnerAddress = document.getElementById("studentAccount").value;
-        // const firstName = document.getElementById("firstName").value;
-        // const lastName = document.getElementById("lastName").value;
-        // const studentId = document.getElementById("studentId").value;
-        // const faculty = document.getElementById("faculty").value;
-        // const department = document.getElementById("department").value;
-        // const certificateName = document.getElementById("certificateName").value;
-
-        const OwnerAddress = "0x90F79bf6EB2c4f870365E785982E1f101E93b906"
-        const firstName = "parimate"
-        const lastName = "jaaroensong"
-        const studentId = "6510120030"
-        const faculty = "Engineering"
-        const department = "Computer Engineering"
-        const certificateName = "Basic Programing"
+        //เก็บข้อมูลจาก form
+        const OwnerAddress = document.getElementById("studentAccount").value;
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const studentId = document.getElementById("studentId").value;
+        const faculty = document.getElementById("faculty").value;
+        const department = document.getElementById("department").value;
+        const certificateName = document.getElementById("certificateName").value;
 
         // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
@@ -64,24 +54,37 @@ const FileInput = ({ contract, account}) => {
     }
   };
 
-  const retrieveFile = (e) => {
+  // ฟังก์ชัน retrieveFile ใช้สำหรับดึงข้อมูลของไฟล์ที่ผู้ใช้เลือก
+const retrieveFile = (e) => {
+    // ดึงข้อมูลของไฟล์จากอีเวนต์ที่เกิดขึ้น
     const data = e.target.files[0];
+    // สร้าง Reader ของไฟล์เพื่ออ่านข้อมูลเป็น Array Buffer
     const reader = new window.FileReader();
     reader.readAsArrayBuffer(data);
+    // เมื่อการอ่านข้อมูลเสร็จสิ้น
     reader.onloadend = () => {
+      // กำหนดข้อมูลไฟล์ใน state file
       setFile(e.target.files[0]);
     };
+    // ป้องกันการกระทำเดิมของอีเวนต์
     e.preventDefault();
   };
-
+  
+  // ฟังก์ชัน handleSubmitForm ใช้สำหรับการตรวจสอบความถูกต้องของฟอร์มเมื่อผู้ใช้กด submit
   const handleSubmitForm = (event) => {
+    // ดึงข้อมูลของฟอร์ม
     const form = event.currentTarget;
+    // ถ้าฟอร์มไม่ถูกต้อง
     if (form.checkValidity() === false) {
+      // ป้องกันการกระทำเดิมของอีเวนต์ submit
       event.preventDefault();
+      // ป้องกันการกระทำต่อจากนั้นของอีเวนต์
       event.stopPropagation();
     }
+    // กำหนด state validated เป็น true เพื่อแสดงว่าฟอร์มถูกต้อง
     setValidated(true);
   };
+  
 
   return (
     <>
@@ -105,6 +108,7 @@ const FileInput = ({ contract, account}) => {
               type="text"
               className="grow"
               placeholder="Input FirstName"
+              defaultValue="Satoshi"
             />
           </label>
 
@@ -115,6 +119,7 @@ const FileInput = ({ contract, account}) => {
               type="text"
               className="grow"
               placeholder="Input LastName"
+              defaultValue="Nakamoto"
             />
           </label>
 
@@ -125,6 +130,7 @@ const FileInput = ({ contract, account}) => {
               type="text"
               className="grow"
               placeholder="Input ID"
+              defaultValue="6510120030"
             />
           </label>
 
@@ -135,6 +141,7 @@ const FileInput = ({ contract, account}) => {
               type="text"
               className="grow"
               placeholder="Input Faculty"
+              defaultValue="Engineering"
             />
           </label>
 
@@ -145,6 +152,7 @@ const FileInput = ({ contract, account}) => {
               type="text"
               className="grow"
               placeholder="Input Department"
+              defaultValue="Computer Engineering"
             />
           </label>
 
@@ -155,17 +163,18 @@ const FileInput = ({ contract, account}) => {
               type="text"
               className="grow"
               placeholder="Input CertificateName"
+              defaultValue="Basic Programing"
             />
           </label>
         </form>
 
         {/* File upload section */}
-        <div className="mt-6">
-          <form className="form" onSubmit={handleSubmit}>
+        <div className="mt-2">
+          <form className="mt-6 ml-8 items-center w-full" onSubmit={handleSubmit}>
             <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700">
               Choose Certificate File
             </label>
-            <div className="mt-5 ml-8 flex items-center w-full">
+            <div className="mt-6 ml-1 flex items-center w-full">
               <input
                 className="file-input file-input-bordered file-input-primary w-full max-w-xs"
                 disabled={!account} // ปิดการใช้งาน input ถ้าไม่มี account ที่ถูกส่งมาใน props
@@ -176,7 +185,7 @@ const FileInput = ({ contract, account}) => {
               />
               <button
                 type="submit"
-                className=" ml-8 btn btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+                className=" ml-10 btn btn-secondary btn-lg "
                 disabled={!file}
               >
                 Upload File
