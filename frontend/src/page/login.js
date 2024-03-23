@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/navbar";
 
 
 function Login() {
@@ -15,7 +16,7 @@ function Login() {
 
   return (
     <>
-      <div className="navbar bg-base-100 bg-primary">
+      {/* <div className="navbar bg-base-100 bg-primary">
         <div className="flex-1">
           <button className="btn btn-ghost text-xl">Decentralized Certificate Storage Application</button>
         </div>
@@ -27,7 +28,9 @@ function Login() {
           </button>
           <button className="btn" onClick={handleLogin}>Connect Wallet</button>
         </div>
-      </div>
+      </div> */}
+
+      <Navbar/>
 
       <div className="relative flex flex-col justify-center h-screen overflow-hidden" style={{ height: "90vh" }}>
         <div className="w-full p-8 m-auto bg-white rounded-md shadow-md lg:max-w-lg">

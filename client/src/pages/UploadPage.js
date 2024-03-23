@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import Upload from "../artifacts/contracts/Upload.sol/Upload.json";
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
+
 import FileUpload from "./components/FileUpload";
 import Display from "./components/Display";
 import Modal from "./components/Modal";
