@@ -1,13 +1,15 @@
 // import statements สำหรับใช้ useState จาก React และ axios สำหรับการทำ HTTP requests
-import React,{ useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 // Component ชื่อ FileUpload รับ props 3 ตัว contract, account, provider
-const FileInput = ({ contract, account}) => {
+const FileInput = ({ contract, account }) => {
   // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
   const [validated, setValidated] = useState(false);
+  const navigate = useNavigate();
 
   // function ชื่อ handleSubmit ทำการอัปโหลดภาพไปยัง IPFS เมื่อผู้ใช้กด submit form
   const handleSubmit = async (e) => {
@@ -55,7 +57,7 @@ const FileInput = ({ contract, account}) => {
   };
 
   // ฟังก์ชัน retrieveFile ใช้สำหรับดึงข้อมูลของไฟล์ที่ผู้ใช้เลือก
-const retrieveFile = (e) => {
+  const retrieveFile = (e) => {
     // ดึงข้อมูลของไฟล์จากอีเวนต์ที่เกิดขึ้น
     const data = e.target.files[0];
     // สร้าง Reader ของไฟล์เพื่ออ่านข้อมูลเป็น Array Buffer
@@ -69,7 +71,7 @@ const retrieveFile = (e) => {
     // ป้องกันการกระทำเดิมของอีเวนต์
     e.preventDefault();
   };
-  
+
   // ฟังก์ชัน handleSubmitForm ใช้สำหรับการตรวจสอบความถูกต้องของฟอร์มเมื่อผู้ใช้กด submit
   const handleSubmitForm = (event) => {
     // ดึงข้อมูลของฟอร์ม
@@ -84,7 +86,11 @@ const retrieveFile = (e) => {
     // กำหนด state validated เป็น true เพื่อแสดงว่าฟอร์มถูกต้อง
     setValidated(true);
   };
-  
+
+  const handleOwnerClick = () => {
+    navigate('/page/ownerDisplay');
+  };
+
 
   return (
     <>
@@ -170,11 +176,11 @@ const retrieveFile = (e) => {
 
         {/* File upload section */}
         <div className="mt-2">
-          <form className="mt-6 ml-8 items-center w-full" onSubmit={handleSubmit}>
+          <form className="mt-6 ml-6 items-center w-full" onSubmit={handleSubmit}>
             <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700">
               Choose Certificate File
             </label>
-            <div className="mt-6 ml-1 flex items-center w-full">
+            <div className="mt-4 ml-1 flex items-center w-full">
               <input
                 className="file-input file-input-bordered file-input-primary w-full max-w-xs"
                 disabled={!account} // ปิดการใช้งาน input ถ้าไม่มี account ที่ถูกส่งมาใน props
@@ -185,11 +191,14 @@ const retrieveFile = (e) => {
               />
               <button
                 type="submit"
-                className=" ml-10 btn btn-secondary btn-lg "
+                className=" ml-8 btn btn-secondary btn-lg "
                 disabled={!file}
               >
                 Upload File
               </button>
+              <div >
+                <button className="btn ml-8 btn-primary" onClick={handleOwnerClick}>View Certificate</button>
+              </div>
             </div>
           </form>
         </div>

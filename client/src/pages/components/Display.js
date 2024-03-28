@@ -225,8 +225,6 @@ const Display = ({ contract, account }) => {
       )}
       <br /><br /><br /><br />
 
-
-
       <h1 style={{ color: "black" }}>Certificate Display</h1>
       <p>Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
       <div className="shared-data">{data}</div>

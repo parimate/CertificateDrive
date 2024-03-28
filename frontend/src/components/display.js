@@ -165,6 +165,7 @@ function Display({ contract, account }) {
                 <table className="table">
                     <thead>
                         <tr>
+                            <th>Address Owner</th>
                             <th>First name</th>
                             <th>Last name</th>
                             <th>Student ID</th>
@@ -206,7 +207,8 @@ function Display({ contract, account }) {
                     </tbody>
                 </table>
             </div>
-            <br /><br /><br />
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <div class="mx-auto max-w-lg"> 
             <h1 style={{ color: "black" }}>Certificate Display</h1>
             <p>Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
             <div className="shared-data">{data}</div>
@@ -214,13 +216,12 @@ function Display({ contract, account }) {
             <input
                 type="text"
                 placeholder="Enter Address"
-                className="address"
+                className="address border-2 border-gray-300 rounded-md px-4 py-2"
             ></input>
-            <br />
-            <button as="input" type="submit" value="Get Data" onClick={getdata} />
-            {/* <button className="center button" onClick={getdata}>Get Data</button><br /> */}
-            <br />
-            <br />
+            <br /> <br />
+            {/* <button as="input" type="submit" value="Get Data" onClick={getdata} /> */}
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={getdata}>Get Data</button><br /> 
+            </div>
         </>
     );
 }
