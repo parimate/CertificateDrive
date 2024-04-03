@@ -207,8 +207,8 @@ function Display({ contract, account }) {
                     </tbody>
                 </table>
             </div>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-            <div class="mx-auto max-w-lg"> 
+        
+            <div class="mt-16 mb-4 mx-auto max-w-lg sm:mx-4 sm:max-w-none"> 
             <h1 style={{ color: "black" }}>Certificate Display</h1>
             <p>Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
             <div className="shared-data">{data}</div>
