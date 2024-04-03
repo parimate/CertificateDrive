@@ -1,42 +1,67 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { ethers } from "ethers";
 import Navbar from '../components/navbar';
+import Upload from "../artifacts/contracts/Upload.sol/Upload.json";
+import SharingCertificate from "../components/sharing";
+
 
 function SetPolicy() {
+
+  // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
+  const [account, setAccount] = useState("");
+  const [contract, setContract] = useState(null);
+  const [provider, setProvider] = useState(null);
+
+  // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
+  useEffect(() => {
+    // สร้าง provider จาก ethers.providers.Web3Provider โดยใช้ window.ethereum
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    const loadProvider = async () => {
+      if (provider) { // ตรวจสอบว่า provider มีค่าหรือไม่
+        // ตั้งค่า event listener สำหรับตรวจสอบการเปลี่ยนแปลง network และ account
+        window.ethereum.on("chainChanged", () => {
+          window.location.reload(); // รีโหลดหน้าเว็บเมื่อเปลี่ยนเครือข่าย
+        });
+
+        window.ethereum.on("accountsChanged", () => {
+          window.location.reload(); // รีโหลดหน้าเว็บเมื่อมีการเปลี่ยนบัญชี
+        });
+
+        // ขอสิทธิ์ในการเข้าถึงบัญชีจาก metamask
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+
+        // รับที่อยู่ของบัญชีปัจจุบัน
+        const address = await signer.getAddress();
+        console.log(address);
+        setAccount(address); // อัปเดต state account ด้วยที่อยู่บัญชีปัจจุบัน
+
+        // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract)
+        let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+
+        // สร้าง instance ของ contract ด้วย ethers.Contract
+        const contract = new ethers.Contract(
+          contractAddress,
+          Upload.abi,
+          signer
+        );
+        setContract(contract); // อัปเดต state contract ด้วย instance ของ contract ที่สร้างขึ้น
+        setProvider(provider); // อัปเดต state provider ด้วย provider ที่สร้างขึ้น
+      
+      } else {
+        console.error("Metamask is not installed"); // แสดงข้อความแจ้งเตือนในกรณีที่ไม่มี Metamask
+      }
+    };
+    provider && loadProvider();
+  }, []);
+
+
+
   return (
     <>
       <Navbar />
-      <br></br>
-      <br></br>
-      <br></br>
-      <div className="flex flex-col justify-top items-center h-screen bg-base-100">
-        <h1 className="text-3xl font-bold mb-4">Share Certificate With</h1>
-        <div className="rounded-box w-80 p-4">
-          <label htmlFor="text1" className="block mb-2 font-semibold">Address Viewer</label>
-          <input
-            id="text1"
-            type="text"
-            className="border border-gray-300 p-2 mb-2 block w-full rounded-md"
-            placeholder="Input Address"
-          />
-          <label htmlFor="text2" className="block mb-2 font-semibold">End Time</label>
-          <input
-            id="text2"
-            type="text"
-            className="border border-gray-300 p-2 block w-full rounded-md"
-            placeholder="Input End Time (sec)"
-          />
-          <br></br>
-          <br></br>
-          <div className="flex justify-between">
-            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-              Share
-            </button>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
+      <SharingCertificate contract={contract}/>
     </>
   );
 }
