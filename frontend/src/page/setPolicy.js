@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import Navbar from '../components/navbar';
 import Upload from "../artifacts/contracts/Upload.sol/Upload.json";
@@ -61,7 +61,7 @@ function SetPolicy() {
   return (
     <>
       <Navbar />
-      <SharingCertificate contract={contract}/>
+      <SharingCertificate account={account} provider={provider} contract={contract}/>
     </>
   );
 }

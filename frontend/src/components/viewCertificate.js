@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 
-function Display({ contract, account }) {
+function ViewCertificate({ contract, account }) {
     // กำหนด state สำหรับเก็บข้อมูลภาพที่ได้รับจาก contract
     const [data, setData] = useState([]);
-    const [sharedData, setSharedData] = useState([]);
     const [Timestamp, setTimestamp] = useState(null);
-    //console.log('App Data', AppData)
 
     // ฟังก์ชันเพื่อดึงข้อมูลภาพจาก contract
     const getdata = async () => {
@@ -129,82 +127,29 @@ function Display({ contract, account }) {
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     };
 
-    // ฟังก์ชันสำหรับการดึงข้อมูลที่ได้รับการแชร์ผ่าน contract
-    const getSharedData = useCallback(async () => {
-        try {
-            // เรียกใช้งานฟังก์ชัน shareAccess จาก contract เพื่อดึงข้อมูล
-            const result = await contract.shareAccess();
-            console.log("result", result);
-            // อัปเดตข้อมูลที่ได้รับจาก contract ไปยัง state ของ component
-            setSharedData(result);
-        } catch (e) {
-            // แสดงข้อความแจ้งเตือนในกรณีที่เกิดข้อผิดพลาด
-            //alert("Error fetching shared data");
-            console.log("Error fetching shared data");
-        }
-    }, [contract]);
-
     // เมื่อ component ถูกโหลดหรือ state ที่เกี่ยวข้องมีการเปลี่ยนแปลง
-    // ให้เรียกใช้งานฟังก์ชัน getSharedData เพื่อดึงข้อมูลที่ได้รับการแชร์ใหม่
     useEffect(() => {
-        getSharedData();
         fetchCurrentTimestamp();
-    }, [contract, getSharedData, fetchCurrentTimestamp]);
-
+    }, [contract, fetchCurrentTimestamp]);
 
     return (
         <>
-            <br />
-            <h1 className="text-2xl font-bold text-center">Certificate list</h1>
-            <p className="text-1xl text-center mb-4 mt-2">Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
-            <div className="overflow-x-auto">
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Address Owner</th>
-                            <th>First name</th>
-                            <th>Last name</th>
-                            <th>Student ID</th>
-                            <th>Faculty</th>
-                            <th>Department</th>
-                            <th>Certificate Name</th>
-                            <th>Address User</th>
-                            <th>Access</th>
-                            <th>End Time</th>
-                            <th>Link</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {console.log('Shared Data', sharedData)}
-                        {sharedData.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.studentAddress}</td>
-                                <td>{item.firstName}</td>
-                                <td>{item.lastName}</td>
-                                <td>{item.studentId}</td>
-                                <td>{item.faculty}</td>
-                                <td>{item.department}</td>
-                                <td>{item.certificateName}</td>
-                                <td>{item.user}</td>
-                                <td>{item.access ? "true" : "false"}</td>
-                                {/* <td>{item.endTime?.toString()}</td> */}
-                                <td>{item.endTime ? unixTimestampToDate(item.endTime) : 'N/A'}</td>
-                                <td>
-                                    {item.imageUrl ? (
-                                        <a href={`${item.imageUrl}`} target="_blank" rel="noreferrer">
-                                            View Image
-                                        </a>
-                                    ) : (
-                                        "No Image Link"
-                                    )}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            <div class="mt-6 mb-4 mx-auto max-w-lg sm:mx-4 sm:max-w-none flex flex-col items-center">
+                <h1 class="text-2xl font-bold text-black text-center">Certificate Display</h1>
+                <p class="mt-3 text-center">Block Timestamp: Unix:{Timestamp}, Date:{unixTimestampToDate(Timestamp)}</p>
+                <div class="mt-6">{data}</div>
+                <br />
+                <input
+                    type="text"
+                    placeholder="Enter Address"
+                    class="text-center address border-2 border-gray-300 rounded-md px-4 py-2 w-full max-w-md"
+                ></input>
+                <br /> 
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={getdata}>Get Data</button><br />
             </div>
+
         </>
     );
 }
 
-export default Display;
+export default ViewCertificate

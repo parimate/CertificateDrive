@@ -7,8 +7,9 @@ import Login from "./page/login";
 import Home from "./page/home";
 import UploadFile from "./page/uploadFile";
 import OwnerDisplay from "./page/ownerDisplay";
-import ViewerDisplay from "./page/ownerDisplay";
+import ViewerDisplay from "./page/viewerDisplay";
 import SetPolicy from "./page/setPolicy";
+
 
 
 
