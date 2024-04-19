@@ -5,7 +5,7 @@ import Upload from "../artifacts/contracts/Upload.sol/Upload.json";
 import SharingCertificate from "../components/sharing";
 
 
-function SetPolicy() {
+function SetSharing() {
 
   // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
   const [account, setAccount] = useState("");
@@ -66,4 +66,4 @@ function SetPolicy() {
   );
 }
 
-export default SetPolicy;
+export default SetSharing;

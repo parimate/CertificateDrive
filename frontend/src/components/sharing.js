@@ -3,46 +3,59 @@ import { useNavigate } from 'react-router-dom';
 
 const SharingCertificate = ({ contract }) => {
     const navigate = useNavigate();
+    // สร้าง state สำหรับจัดเก็บข้อมูลเวลา
+    const [endTime, setEndTime] = useState("");
+
     const handleCancelClick = () => {
         navigate('/page/home');
     };
 
-    // สร้าง state สำหรับจัดเก็บข้อมูลเวลา
-    const [endTime, setEndTime] = useState("");
     // ฟังก์ชัน sharing ทำหน้าที่เมื่อผู้ใช้กดปุ่ม Share ใน Modal
     const sharing = async () => {
         const address = document.getElementById("address").value;
         // เรียกใช้ฟังก์ชัน allow ในสัญญาอัจฉริยะเพื่ออนุญาตให้ที่อยู่ที่ระบุมีสิทธิ์เข้าถึงข้อมูลและเวลา
-        await contract.allow(address, endTime);
+        if (address && endTime) {
+            await contract.allow(address, endTime);
+        } else {
+            console.error("Address or endTime is missing.");
+        }
     };
 
+
+    // useEffect สำหรับดึงรายชื่อที่มีสิทธิ์เข้าถึงข้อมูลเมื่อสัญญาอัจฉริยะพร้อมใช้งาน
     useEffect(() => {
-        // ฟังก์ชัน accessList ทำหน้าที่เรียกใช้ฟังก์ชัน shareAccess ในสัญญาอัจฉริยะเพื่อดึงรายชื่อที่อยู่ที่มีสิทธิ์เข้าถึงข้อมูล
         const accessList = async () => {
-            const addressList = await contract.shareAccess();
-            // สร้างตัวเลือกในรายการเลือกและเพิ่มรายชื่อที่อยู่ที่มีสิทธิ์เข้าถึงข้อมูลในรายการ
-            let select = document.querySelector("#selectNumber");// แก้ไขการเลือก element จาก class เป็น id
-            if (select) {
-                const options = addressList;
-                for (let i = 0; i < options.length; i++) {
-                    let opt = options[i];
-                    let e1 = document.createElement("option");
-                    e1.textContent = opt;
-                    e1.value = opt;
-                    select.appendChild(e1);
+            if (contract) {
+                try {
+                    const addressList = await contract.shareAccess();
+                    const select = document.querySelector("#selectNumber");
+
+                    // สร้างตัวเลือกในรายการเลือกและเพิ่มรายชื่อที่อยู่ที่มีสิทธิ์เข้าถึงข้อมูลในรายการ
+                    if (select) {
+                        select.innerHTML = ""; // เคลียร์ตัวเลือกที่มีอยู่ก่อนหน้า
+                        addressList.forEach((opt) => {
+                            let option = document.createElement("option");
+                            option.textContent = opt;
+                            option.value = opt;
+                            select.appendChild(option);
+                        });
+                    } else {
+                        console.error("Element with id 'selectNumber' not found in DOM");
+                    }
+                } catch (error) {
+                    console.error("Error fetching address list:", error.message);
                 }
-            } else {
-                console.error("Element with id 'selectNumber' not found in DOM");
             }
         };
-        // เรียกใช้ฟังก์ชัน accessList เมื่อสัญญาอัจฉริยะพร้อมใช้งาน
+
+        // เรียกใช้งานฟังก์ชัน accessList เมื่อ contract พร้อมใช้งาน
         contract && accessList();
     }, [contract]);
 
     return (
         <>
             <div className="flex flex-col justify-top items-center h-screen bg-base-100 mt-4">
-                <h1 className="text-3xl font-bold mt-16 mb-4">Share Certificate With</h1>
+                <h1 className="text-3xl font-bold mt-14 mb-4">Share Certificate With</h1>
                 <div className="rounded-box w-80 p-4">
                     <label htmlFor="address" className="block mb-2 font-semibold">Address Viewer</label>
                     <input
@@ -51,15 +64,25 @@ const SharingCertificate = ({ contract }) => {
                         className="border border-gray-300 p-2 mb-2 block w-full rounded-md"
                         placeholder="Input Address"
                     />
-                    <label htmlFor="text2" className="block mb-2 font-semibold">End Time</label>
+                    <label htmlFor="endtime" className="block mb-2 font-semibold">End Time</label>
                     <input
                         id="endtime"
-                        type="text"
-                        value={endTime}
-                        className="border border-gray-300 p-2 block w-full rounded-md"
+                        type="text" 
+                        value={endTime} // ใช้ค่าจาก state endTime
                         onChange={(e) => setEndTime(e.target.value)}
                         placeholder="Input End Time (second)"
+                        className="border border-gray-300 p-2 block w-full rounded-md"
                     />
+
+                    <label htmlFor="datetime" className="block mt-2 mb-2 font-semibold">Date and Time</label>
+                    <input
+                        id="datetime"
+                        type="datetime-local"  // ใช้ type datetime-local เพื่อให้ผู้ใช้กรอกวันที่และเวลา
+                        value={endTime}  // ใช้ค่าจาก state endTime
+                        onChange={(e) => setEndTime(new Date(e.target.value).getTime() / 1000)}  // แปลงวันที่และเวลาเป็น Unix Timestamp (วินาที)
+                        className="border border-gray-300 p-2 block w-full rounded-md"
+                    />
+
                     <br></br>
                     <br></br>
                     <div className="flex justify-between">

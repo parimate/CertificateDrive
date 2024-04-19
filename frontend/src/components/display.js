@@ -1,106 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 
-function Display({ contract, account }) {
+function Display({ contract }) {
     // กำหนด state สำหรับเก็บข้อมูลภาพที่ได้รับจาก contract
-    const [data, setData] = useState([]);
     const [sharedData, setSharedData] = useState([]);
     const [Timestamp, setTimestamp] = useState(null);
-    //console.log('App Data', AppData)
-
-    // ฟังก์ชันเพื่อดึงข้อมูลภาพจาก contract
-    const getdata = async () => {
-        await fetchCurrentTimestamp();
-        let dataArray = [];
-
-        // ดึงค่าที่อยู่ที่ต้องการดึงภาพ
-        const Otheraddress = document.querySelector(".address").value;
-
-        try {
-            if (Otheraddress) {
-                // เรียกใช้งานฟังก์ชัน display ใน contract และส่งที่อยู่ที่ต้องการดึงภาพเข้าไป
-                dataArray = await contract.display(Otheraddress);
-                console.log("dataArray:", dataArray);
-                setData(dataArray);
-                //  AppData.setData(dataArray)
-            } else {
-                // ถ้าไม่ได้ใส่ที่อยู่ ให้ดึงภาพของบัญชีปัจจุบัน (account)
-                dataArray = await contract.display(account);
-                console.log("dataArray:", dataArray);
-                setData(dataArray);
-                //AppData.setData(dataArray)
-
-            }
-        } catch (e) {
-            // แสดงข้อความแจ้งเตือนในกรณีที่ไม่สามารถดึงภาพได้
-            alert("You don't have access");
-            fetchCurrentTimestamp();
-            return;
-        }
-
-        // ตรวจสอบว่า dataArray ไม่ใช่ array หรือว่างเปล่า
-        const isEmpty = !Array.isArray(dataArray) || dataArray.length === 0;
-
-        // ถ้า dataArray ไม่ว่างเปล่า
-        if (!isEmpty) {
-            // ตรวจสอบเวลาของแต่ละรายการใน dataArray
-            const filteredData = dataArray.filter(item => {
-                const itemEndTime = parseInt(item.endTime, 10); // ประมวลผลค่า end time ให้เหมือนกันกับ Timestamp  แปลงเป็นเลขฐาน 10
-                return Timestamp < itemEndTime; // ถ้า Timestamp มากกว่าหรือเท่ากับ end time ข้อมูลนี้ไม่ควรแสดง
-            });
-
-            if (filteredData.length > 0) {
-                setData(
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>OwnerAddress</th>
-                                <th>First name</th>
-                                <th>Last name</th>
-                                <th>Student ID</th>
-                                <th>Faculty</th>
-                                <th>Department</th>
-                                <th>Certificate Name</th>
-                                <th>End Time</th>
-                                <th>Link</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredData.map((item, index) => (
-                                <tr key={index}>
-                                    <td>{item.studentAddress}</td>
-                                    <td>{item.firstName}</td>
-                                    <td>{item.lastName}</td>
-                                    <td>{item.studentId}</td>
-                                    <td>{item.faculty}</td>
-                                    <td>{item.department}</td>
-                                    <td>{item.certificateName}</td>
-                                    <td>{unixTimestampToDate(item.endTime)}</td>
-                                    {/* <td>{item.endTime.toString()}</td> */}
-                                    <td>
-                                        {item.imageUrl ? (
-                                            <a href={`${item.imageUrl}`} target="_blank" rel="noreferrer">
-                                                View Image
-                                            </a>
-                                        ) : (
-                                            "No Image Link"
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                );
-            } else {
-                setData(<div>No eligible data to display</div>)
-                alert("No eligible data to display");
-            }
-        } else {
-            // แสดงข้อความแจ้งเตือนในกรณีที่ไม่มีภาพที่ต้องการแสดง
-            alert("No image to display");
-        }
-    };
-
 
     const fetchCurrentTimestamp = useCallback(async () => {
         if (contract) {
@@ -135,8 +39,11 @@ function Display({ contract, account }) {
             // เรียกใช้งานฟังก์ชัน shareAccess จาก contract เพื่อดึงข้อมูล
             const result = await contract.shareAccess();
             console.log("result", result);
+            // // เรียงลำดับข้อมูลใหม่ โดยข้อมูลล่าสุดจะอยู่ด้านบน
+            //result.reverse();
             // อัปเดตข้อมูลที่ได้รับจาก contract ไปยัง state ของ component
             setSharedData(result);
+           
         } catch (e) {
             // แสดงข้อความแจ้งเตือนในกรณีที่เกิดข้อผิดพลาด
             //alert("Error fetching shared data");
@@ -150,6 +57,7 @@ function Display({ contract, account }) {
         getSharedData();
         fetchCurrentTimestamp();
     }, [contract, getSharedData, fetchCurrentTimestamp]);
+
 
 
     return (

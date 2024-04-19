@@ -8,7 +8,7 @@ import Home from "./page/home";
 import UploadFile from "./page/uploadFile";
 import OwnerDisplay from "./page/ownerDisplay";
 import ViewerDisplay from "./page/viewerDisplay";
-import SetPolicy from "./page/setPolicy";
+import SetSharing from "./page/setSharing";
 
 
 
@@ -73,7 +73,7 @@ function App() {
             <Route path="/page/uploadFile" element={<UploadFile />} />
             <Route path="/page/ownerDisplay" element={<OwnerDisplay />} />
             <Route path="/page/viewerDisplay" element={<ViewerDisplay />} />
-            <Route path="/page/setPolicy" element={<SetPolicy />} />
+            <Route path="/page/setSharing" element={<SetSharing />} />
             <Route path="*" element={<div>No Match</div>} />
           </Routes>
       </div>

@@ -17,8 +17,8 @@ function Home() {
     navigate('/page/viewerDisplay');
   };
 
-  const handleSetPolicyClick = () =>{
-    navigate('/page/setPolicy');
+  const handleSetSharingClick = () =>{
+    navigate('/page/setSharing');
   }
 
   return (
@@ -51,7 +51,7 @@ function Home() {
           <p>set permissions for sharing certificate information.</p>
           <div className="card-actions justify-end">
             <button className="btn btn-primary" onClick={handleOwnerClick}>View Certificate</button>
-            <button className="btn btn-primary" onClick={handleSetPolicyClick}>Set Policy</button>
+            <button className="btn btn-primary" onClick={handleSetSharingClick}>Set Sharing</button>
           </div>
         </div>
       </div>
