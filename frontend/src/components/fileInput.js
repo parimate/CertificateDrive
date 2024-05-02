@@ -39,6 +39,7 @@ const FileInput = ({ contract, account }) => {
         const faculty = document.getElementById("faculty").value;
         const department = document.getElementById("department").value;
         const certificateName = document.getElementById("certificateName").value;
+        //const gasLimit = 500000; // Set an appropriate gas limit
 
         // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
@@ -97,79 +98,79 @@ const FileInput = ({ contract, account }) => {
       <div className="container mx-auto mt-3 max-w-2xl w-full">
         <h1 style={{ color: "black", fontSize: "2rem", textAlign: "center" }}>Certificate Upload </h1>
         <form className="mt-3 max-w-full  mx-auto" validated={validated} onSubmit={handleSubmitForm}>
-          <label className="input input-bordered flex items-center gap-2 mb-4">
+          <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
             Student Account
             <input
               id="studentAccount"
               type="text"
-              className="grow"
+              className="grow font-normal"
               placeholder="Input studentAccount"
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 mb-4">
+          <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
             First Name
             <input
               id="firstName"
               type="text"
-              className="grow"
+              className="grow font-normal"
               placeholder="Input FirstName"
-              defaultValue="Satoshi"
+              defaultValue=""
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 mb-4">
+          <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
             Last Name
             <input
               id="lastName"
               type="text"
-              className="grow"
+              className="grow font-normal"
               placeholder="Input LastName"
-              defaultValue="Nakamoto"
+              defaultValue=""
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 mb-4">
+          <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
             Student ID
             <input
               id="studentId"
               type="text"
-              className="grow"
+              className="grow font-normal"
               placeholder="Input ID"
-              defaultValue="6510120030"
+              defaultValue=""
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 mb-4">
+          <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
             Faculty
             <input
               id="faculty"
               type="text"
-              className="grow"
+              className="grow font-normal"
               placeholder="Input Faculty"
-              defaultValue="Engineering"
+              defaultValue=""
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 mb-4">
+          <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
             Department
             <input
               id="department"
               type="text"
-              className="grow"
+              className="grow font-normal"
               placeholder="Input Department"
-              defaultValue="Computer Engineering"
+              defaultValue=""
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 mb-4">
+          <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
             Certificate Name
             <input
               id="certificateName"
               type="text"
-              className="grow"
+              className="grow font-normal"
               placeholder="Input CertificateName"
-              defaultValue="Basic Programing"
+              defaultValue=""
             />
           </label>
         </form>

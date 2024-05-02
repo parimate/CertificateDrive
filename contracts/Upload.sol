@@ -160,9 +160,7 @@ contract Upload {
             for (uint256 i = 0; i <= accessList[msg.sender].length; i++) {
                 if (accessList[msg.sender][i].user == user) {
                     accessList[msg.sender][i].access = true;
-                    accessList[msg.sender][i].endTime =
-                        endTime +
-                        block.timestamp; // อัปเดตเวลาสิ้นสุด
+                    accessList[msg.sender][i].endTime = endTime; // อัปเดตเวลาสิ้นสุด
                 }
             }
         } else {
@@ -177,7 +175,7 @@ contract Upload {
                 accessList[msg.sender][0].certificateName,
                 user,
                 true,
-                endTime + block.timestamp,
+                endTime,
                 accessList[msg.sender][0].imageUrl
             );
             accessList[msg.sender].push(newAccess);

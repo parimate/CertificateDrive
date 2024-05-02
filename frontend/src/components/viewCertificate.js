@@ -139,6 +139,7 @@ function ViewCertificate({ contract, account }) {
                 <p class="mt-3 text-center">Block Timestamp: Unix:{Timestamp}, Date:{unixTimestampToDate(Timestamp)}</p>
                 <div class="mt-6">{data}</div>
                 <br />
+                <label for="addressInput" class="block text-center font-semibold mb-2">Enter the address of the certificate owner</label>
                 <input
                     type="text"
                     placeholder="Enter Address"

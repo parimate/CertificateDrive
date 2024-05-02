@@ -10,9 +10,6 @@ import OwnerDisplay from "./page/ownerDisplay";
 import ViewerDisplay from "./page/viewerDisplay";
 import SetSharing from "./page/setSharing";
 
-
-
-
 function App() {
   // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
   const [account, setAccount] = useState("");
