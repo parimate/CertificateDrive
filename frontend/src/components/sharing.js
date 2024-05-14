@@ -21,6 +21,21 @@ const SharingCertificate = ({ contract }) => {
         }
     };
 
+    // ฟังก์ชันทำหน้าที่เมื่อคลิกปุ่ม "Disallow" เพื่อยกเลิกการแชร์ข้อมูล
+    const disallow = async () => {
+        if (address) {
+            try {
+                await contract.disallow(address);
+                console.log("Disallowed successfully");
+            } catch (error) {
+                console.error("Error disallowing access:", error);
+            }
+        } else {
+            console.error("Address is missing.");
+        }
+    };
+    
+
     return (
         <div className="flex flex-col justify-top items-center h-screen bg-base-100 mt-4">
             <h1 className="text-3xl font-bold mt-14 mb-4">Share Certificate With</h1>
@@ -61,10 +76,14 @@ const SharingCertificate = ({ contract }) => {
                 {/* ปุ่มสำหรับแชร์ข้อมูล */}
                 <div className="flex justify-between">
                     <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onClick={() => sharing()}>
-                        Share
+                        Allow
                     </button>
+                    <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded" onClick={() => disallow()}>
+                        Disallow
+                    </button>
+                    
                     {/* ปุ่มสำหรับยกเลิกการแชร์ */}
-                    <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded" onClick={handleCancelClick}>
+                    <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded" onClick={handleCancelClick}>
                         Cancel
                     </button>
                 </div>
