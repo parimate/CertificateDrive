@@ -34,7 +34,6 @@ const SharingCertificate = ({ contract }) => {
             console.error("Address is missing.");
         }
     };
-    
 
     return (
         <div className="flex flex-col justify-top items-center h-screen bg-base-100 mt-4">
@@ -50,17 +49,7 @@ const SharingCertificate = ({ contract }) => {
                     className="border border-gray-300 p-2 mb-2 block w-full rounded-md"
                     placeholder="Input Address"
                 />
-                {/* ฟิลด์กรอกเวลาสิ้นสุด */}
-                <label htmlFor="endtime" className="block mb-2 font-semibold">End Time</label>
-                <input
-                    id="endtime"
-                    type="text" 
-                    value={endTime}
-                    onChange={(e) => setEndTime(e.target.value)}
-                    className="border border-gray-300 p-2 block w-full rounded-md"
-                    placeholder="Input End Time (second)"
-                />
-
+            
                 {/* ฟิลด์กรอกวันที่และเวลา */}
                 <label htmlFor="datetime" className="block mt-2 mb-2 font-semibold">Date and Time</label>
                 <input
@@ -70,6 +59,24 @@ const SharingCertificate = ({ contract }) => {
                     onChange={(e) => setEndTime(new Date(e.target.value).getTime() / 1000)}
                     className="border border-gray-300 p-2 block w-full rounded-md"
                 />
+
+                 {/* ฟิลด์กรอกเวลาสิ้นสุด */}
+                 <label htmlFor="endtime" className="block mt-2 mb-2 font-semibold">End Time</label>
+                 <p
+                    id="endtime"
+                    className="border border-gray-300 p-2 block w-full rounded-md"
+                >
+                    {endTime ? endTime : "N/A"}
+                </p>
+
+
+                 <p
+                    id="endtime"
+                    className="border border-gray-300 p-2 block w-full rounded-md"
+                >
+                    {endTime ? new Date(endTime * 1000).toLocaleString() : "N/A"}
+                </p>
+
 
                 <br></br>
                 <br></br>

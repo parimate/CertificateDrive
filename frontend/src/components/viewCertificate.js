@@ -136,8 +136,6 @@ function ViewCertificate({ contract, account }) {
         <>
             <div class="mt-6 mb-4 mx-auto max-w-lg sm:mx-4 sm:max-w-none flex flex-col items-center">
                 <h1 class="text-2xl font-bold text-black text-center">Certificate Display</h1>
-                <p class="mt-3 text-center">Block Timestamp: Unix:{Timestamp}, Date:{unixTimestampToDate(Timestamp)}</p>
-                <div class="mt-6">{data}</div>
                 <br />
                 <label for="addressInput" class="block text-center font-semibold mb-2">Enter the address of the certificate owner</label>
                 <input
@@ -147,6 +145,8 @@ function ViewCertificate({ contract, account }) {
                 ></input>
                 <br /> 
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={getdata}>Get Data</button><br />
+                <p class="mt-3 text-center">Block Timestamp: Unix:{Timestamp}, Date:{unixTimestampToDate(Timestamp)}</p>
+                <div class="mt-4">{data}</div>
             </div>
 
         </>
