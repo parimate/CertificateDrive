@@ -33,7 +33,7 @@ function Home() {
         </figure>
         <div className="card-body">
           <h2 className="card-title">Admin</h2>
-          <p>Issue a certificate</p>
+          <p>Issue a certificate.</p>
           <div className="card-actions justify-end">
             <button className="btn btn-primary" onClick={handleUploadClick}>Upload Certificate</button>
             <button className="btn btn-primary" onClick={handleOwnerClick}>View Certificate</button>
@@ -48,7 +48,7 @@ function Home() {
         </figure>
         <div className="card-body">
           <h2 className="card-title">Owner</h2>
-          <p>set permissions for sharing certificate information.</p>
+          <p>Set permissions for sharing certificate.</p>
           <div className="card-actions justify-end">
             <button className="btn btn-primary" onClick={handleOwnerClick}>View Certificate</button>
             <button className="btn btn-primary" onClick={handleSetSharingClick}>Set Sharing</button>
@@ -60,7 +60,7 @@ function Home() {
       <figure><img src="https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849825_1280.jpg" alt="Shoes" /></figure>
         <div className="card-body">
           <h2 className="card-title">Viewer</h2>
-          <p>View certificates authorized by the certificate owner.</p>
+          <p>View certificates authorized by owner.</p><br />
           <div className="card-actions justify-end">
             <button className="btn btn-primary" onClick={handleViewerClick}>View Certificate</button>
           </div>
