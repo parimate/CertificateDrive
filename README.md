@@ -1,6 +1,6 @@
 # Project Setup and Deployment Instructions
 Follow the steps below to set up and deploy the project:
-1. Install Hardhat ```bash
+1. Install Hardhat 
 `npm install hardhat`
 2. Compile the smart contracts
 `npx hardhat compile`
