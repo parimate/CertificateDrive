@@ -73,8 +73,8 @@ function Display({ contract }) {
                             <th>First name</th>
                             <th>Last name</th>
                             <th>Student ID</th>
-                            <th>Faculty</th>
-                            <th>Department</th>
+                            <th>Issue By</th>
+                            <th>Issue Date</th>
                             <th>Certificate Name</th>
                             <th>Address User</th>
                             <th>Access</th>
@@ -90,8 +90,8 @@ function Display({ contract }) {
                                 <td>{item.firstName}</td>
                                 <td>{item.lastName}</td>
                                 <td>{item.studentId}</td>
-                                <td>{item.faculty}</td>
-                                <td>{item.department}</td>
+                                <td>{item.issueBy}</td>
+                                <td>{item.issueDate}</td>
                                 <td>{item.certificateName}</td>
                                 <td>{item.user}</td>
                                 <td>{item.access ? "true" : "false"}</td>

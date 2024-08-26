@@ -56,8 +56,8 @@ function ViewCertificate({ contract, account }) {
                                 <th>First name</th>
                                 <th>Last name</th>
                                 <th>Student ID</th>
-                                <th>Faculty</th>
-                                <th>Department</th>
+                                <th>Issue By</th>
+                                <th>Issue Date</th>
                                 <th>Certificate Name</th>
                                 <th>End Time</th>
                                 <th>Link</th>
@@ -70,8 +70,8 @@ function ViewCertificate({ contract, account }) {
                                     <td>{item.firstName}</td>
                                     <td>{item.lastName}</td>
                                     <td>{item.studentId}</td>
-                                    <td>{item.faculty}</td>
-                                    <td>{item.department}</td>
+                                    <td>{item.issueBy}</td>
+                                    <td>{item.issueDate}</td>
                                     <td>{item.certificateName}</td>
                                     <td>{unixTimestampToDate(item.endTime)}</td>
                                     {/* <td>{item.endTime.toString()}</td> */}

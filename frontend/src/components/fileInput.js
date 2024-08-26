@@ -36,7 +36,7 @@ const FileInput = ({ contract, account }) => {
         const firstName = document.getElementById("firstName").value;
         const lastName = document.getElementById("lastName").value;
         const studentId = document.getElementById("studentId").value;
-        const faculty = document.getElementById("faculty").value;
+        const issueBy = document.getElementById("issueBy").value;
         const department = document.getElementById("department").value;
         const certificateName = document.getElementById("certificateName").value;
         //const gasLimit = 500000; // Set an appropriate gas limit
@@ -45,7 +45,7 @@ const FileInput = ({ contract, account }) => {
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
-        await contract.add(OwnerAddress, firstName, lastName, studentId, faculty, department, certificateName, account, 0, ImgHash);
+        await contract.add(OwnerAddress, firstName, lastName, studentId, issueBy, department, certificateName, account, 0, ImgHash);
 
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
@@ -142,23 +142,23 @@ const FileInput = ({ contract, account }) => {
           </label>
 
           <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
-            Faculty
+            Issue By
             <input
-              id="faculty"
+              id="issueBy"
               type="text"
               className="grow font-normal"
-              placeholder="Input Faculty"
+              placeholder="Input issueBy"
               defaultValue=""
             />
           </label>
 
           <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
-            Department
+            Issue Date
             <input
-              id="department"
+              id="issueDate"
               type="text"
               className="grow font-normal"
-              placeholder="Input Department"
+              placeholder="Input issueDate"
               defaultValue=""
             />
           </label>

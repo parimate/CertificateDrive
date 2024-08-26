@@ -8,8 +8,8 @@ contract Upload {
         string firstName; // ข้อมูลชื่อ
         string lastName; //นามสกุล
         string studentId; // ข้อมูลรหัสนักศึกษา
-        string faculty; // คณะ
-        string department; // ภาควิชา
+        string issueBy; // ผู้ที่ออกใบประกาศณีบัตร
+        string issueDate; // วันที่ออกใบประกาศณีบัตร
         string certificateName; // ชื่อใบประกาศณีบัตร
         address user; // ที่อยู่ของผู้ใช้
         bool access; // สถานะการเข้าถึง (true หมายถึงมีสิทธิ์เข้าถึง, false หมายถึงไม่มีสิทธิ์เข้าถึง)
@@ -60,8 +60,8 @@ contract Upload {
         string memory _firstName,
         string memory _lastName,
         string memory _studentId,
-        string memory _faculty,
-        string memory _department,
+        string memory _issueBy,
+        string memory _issueDate,
         string memory _certificateName,
         address _user,
         uint256 _endTime,
@@ -76,8 +76,8 @@ contract Upload {
                 _firstName,
                 _lastName,
                 _studentId,
-                _faculty,
-                _department,
+                _issueBy,
+                _issueDate,
                 _certificateName,
                 msg.sender,
                 true,
@@ -91,8 +91,8 @@ contract Upload {
                 _firstName,
                 _lastName,
                 _studentId,
-                _faculty,
-                _department,
+                _issueBy,
+                _issueDate,
                 _certificateName,
                 msg.sender,
                 true,
@@ -121,8 +121,8 @@ contract Upload {
                 accessList[msg.sender][0].firstName,
                 accessList[msg.sender][0].lastName,
                 accessList[msg.sender][0].studentId,
-                accessList[msg.sender][0].faculty,
-                accessList[msg.sender][0].department,
+                accessList[msg.sender][0].issueBy,
+                accessList[msg.sender][0].issueDate,
                 accessList[msg.sender][0].certificateName,
                 user,
                 true,
