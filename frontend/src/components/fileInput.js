@@ -190,6 +190,7 @@ const FileInput = ({ contract, account }) => {
                 name="data"
                 onChange={retrieveFile} // เมื่อมีการเลือกไฟล์ใหม่ให้เรียกใช้งานฟังก์ชัน retrieveFile
               />
+               <span className="ml-2">{fileName}</span> {/* Display the selected file's name */}
               <button
                 type="submit"
                 className=" ml-8 btn btn-secondary btn-lg "
