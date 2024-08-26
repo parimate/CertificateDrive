@@ -37,7 +37,7 @@ const FileInput = ({ contract, account }) => {
         const lastName = document.getElementById("lastName").value;
         const studentId = document.getElementById("studentId").value;
         const issueBy = document.getElementById("issueBy").value;
-        const department = document.getElementById("department").value;
+        const issueDate = document.getElementById("issueDate").value;
         const certificateName = document.getElementById("certificateName").value;
         //const gasLimit = 500000; // Set an appropriate gas limit
 
@@ -45,7 +45,7 @@ const FileInput = ({ contract, account }) => {
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
-        await contract.add(OwnerAddress, firstName, lastName, studentId, issueBy, department, certificateName, account, 0, ImgHash);
+        await contract.add(OwnerAddress, firstName, lastName, studentId, issueBy, issueDate, certificateName, account, 0, ImgHash);
 
         alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
