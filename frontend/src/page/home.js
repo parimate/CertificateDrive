@@ -40,7 +40,7 @@ function Home({ account }) { // รับค่า account เป็น prop
         </figure>
         <div className="card-body">
           <h2 className="card-title">Admin</h2>
-          <p>Issue a certificate.</p>
+          <p>Issue certificates.</p>
           <div className="card-actions justify-end">
             <button className="btn btn-primary" onClick={handleUploadClick}>Upload Certificate</button>
             <button className="btn btn-primary" onClick={handleOwnerClick}>View Certificate</button>
@@ -54,7 +54,7 @@ function Home({ account }) { // รับค่า account เป็น prop
           alt="Shoes" />
         </figure>
         <div className="card-body">
-          <h2 className="card-title">Owner</h2>
+          <h2 className="card-title">Student</h2>
           <p>Set permissions for sharing certificate.</p>
           <div className="card-actions justify-end">
             <button className="btn btn-primary" onClick={handleOwnerClick}>View Certificate</button>
