@@ -14,7 +14,7 @@ const SEPOLIA_PRIVATE_KEY = "78410277a433e487aab5dbed6ee0c92a6882e7f7b09e2a753cc
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.24",
+  solidity: "0.8.25",
   networks: {
     hardhat: {
       chainId: 1337,
