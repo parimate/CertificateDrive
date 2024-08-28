@@ -9,12 +9,15 @@ import UploadFile from "./page/uploadFile";
 import OwnerDisplay from "./page/ownerDisplay";
 import ViewerDisplay from "./page/viewerDisplay";
 import SetSharing from "./page/setSharing";
+import withAuth from './page/withAuth'; 
 
 function App() {
   // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
+  const admin = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";
+  const ProtectedUploadFile = withAuth(UploadFile, admin);
 
   // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
   useEffect(() => {
@@ -42,7 +45,7 @@ function App() {
         setAccount(address); // อัปเดต state account ด้วยที่อยู่บัญชีปัจจุบัน
 
         // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract)
-        let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+        let contractAddress = admin;
 
         // สร้าง instance ของ contract ด้วย ethers.Contract
         const contract = new ethers.Contract(
@@ -59,6 +62,7 @@ function App() {
     };
     provider && loadProvider();
   }, []);
+  
 
   return (
     <>
@@ -66,8 +70,8 @@ function App() {
           <Routes>
             <Route index element={<Login />} />
             <Route path="/page/login" element={<Login />} />
-            <Route path="/page/home" element={<Home />} />
-            <Route path="/page/uploadFile" element={<UploadFile />} />
+            <Route path="/page/home" element={<Home account={account} />} />
+            <Route path="/page/uploadFile" element={<ProtectedUploadFile account={account} />} />
             <Route path="/page/ownerDisplay" element={<OwnerDisplay />} />
             <Route path="/page/viewerDisplay" element={<ViewerDisplay />} />
             <Route path="/page/setSharing" element={<SetSharing />} />

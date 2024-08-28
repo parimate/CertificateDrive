@@ -92,6 +92,8 @@ const FileInput = ({ contract, account }) => {
     navigate('/page/ownerDisplay');
   };
 
+   // ตรวจสอบค่า account เพื่อกำหนดการเปิด/ปิดการใช้งานปุ่ม Upload File
+   const isAccountValid = account === "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";
 
   return (
     <>
@@ -194,7 +196,7 @@ const FileInput = ({ contract, account }) => {
               <button
                 type="submit"
                 className=" ml-8 btn btn-secondary btn-lg "
-                disabled={!file}
+                disabled={!isAccountValid || !file} // ปิดการใช้งานปุ่ม Upload File ถ้า account ไม่ตรงตามที่
               >
                 Upload File
               </button>
