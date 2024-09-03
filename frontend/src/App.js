@@ -72,7 +72,7 @@ function App() {
             <Route path="/page/login" element={<Login />} />
             <Route path="/page/home" element={<Home account={account} />} />
             <Route path="/page/uploadFile" element={<ProtectedUploadFile account={account} />} />
-            <Route path="/page/ownerDisplay" element={<OwnerDisplay />} />
+            <Route path="/page/ownerDisplay" element={<OwnerDisplay account={account} contract={contract} provider={provider} />} />
             <Route path="/page/viewerDisplay" element={<ViewerDisplay />} />
             <Route path="/page/setSharing" element={<SetSharing />} />
             <Route path="*" element={<div>No Match</div>} />
