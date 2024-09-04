@@ -35,8 +35,11 @@ function ViewerDisplay() {
                 console.log(address);
                 setAccount(address); // อัปเดต state account ด้วยที่อยู่บัญชีปัจจุบัน
 
-                // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract)
-                let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+                // // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Localhost
+                // let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+
+                // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Network sepolia
+                let contractAddress = "0x24F6CADD02aDE79A5D92BFb3407fD87F276e15D0";
 
                 // สร้าง instance ของ contract ด้วย ethers.Contract
                 const contract = new ethers.Contract(

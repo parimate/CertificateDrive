@@ -16,13 +16,13 @@ const SEPOLIA_PRIVATE_KEY = "78410277a433e487aab5dbed6ee0c92a6882e7f7b09e2a753cc
 module.exports = {
   solidity: "0.8.24",
   networks: {
-    hardhat: {
-      chainId: 1337,
-    },
-    // sepolia: {
-    //   url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
-    //   accounts: [SEPOLIA_PRIVATE_KEY]
+    // hardhat: {
+    //   chainId: 1337,
     // },
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
+      accounts: [SEPOLIA_PRIVATE_KEY]
+    },
   },
   paths: {
     artifacts: "./frontend/src/artifacts",

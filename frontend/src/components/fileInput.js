@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-// Component ชื่อ FileUpload รับ props 3 ตัว contract, account, provider
 const FileInput = ({ contract, account }) => {
   // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
   const [file, setFile] = useState(null);
@@ -93,7 +92,7 @@ const FileInput = ({ contract, account }) => {
   };
 
    // ตรวจสอบค่า account เพื่อกำหนดการเปิด/ปิดการใช้งานปุ่ม Upload File
-   const isAccountValid = account === "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";
+   const isAccountValid = account === "0xDBE7cDFe2c8b3400694c2da0AE1B3D8F92a45374";
 
   return (
     <>

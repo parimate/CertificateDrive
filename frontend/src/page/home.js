@@ -2,12 +2,12 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/navbar';
 
-function Home({ account }) { // รับค่า account เป็น prop
+function Home({ account , admin }) { // รับค่า account เป็น prop
   const navigate = useNavigate();
 
   // ฟังก์ชันจัดการคลิกปุ่ม Upload Certificate 
   const handleUploadClick = () => {
-    if (account !== "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC") {
+    if (account !== admin) {
       console.log(account);
       alert("You are not authorized to upload certificates.");
       return;
