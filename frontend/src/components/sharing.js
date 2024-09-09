@@ -14,10 +14,28 @@ const SharingCertificate = ({ contract }) => {
     // ฟังก์ชันทำหน้าที่เมื่อคลิกปุ่ม "Share" เพื่อแชร์ข้อมูล
     const sharing = async () => {
         if (address && endTime) {
-            // เรียกใช้งานสัญญาอัจฉริยะเพื่ออนุญาตการเข้าถึงข้อมูล
-            await contract.allow(address, endTime);
+            try {
+                // จับเวลาการเริ่มต้นทำธุรกรรม
+                const txStartTime = Date.now();
+    
+                // เรียกใช้งานสัญญาอัจฉริยะเพื่ออนุญาตการเข้าถึงข้อมูล
+                await contract.allow(address, endTime);
+    
+                // จับเวลาสิ้นสุดการทำธุรกรรม
+                const txEndTime = Date.now();
+    
+                // คำนวณระยะเวลาที่ใช้ในการทำธุรกรรม
+                const transactionDuration = (txEndTime - txStartTime) / 1000;
+                console.log(`Transaction completed in ${transactionDuration} seconds.`);
+    
+                alert(`Transaction completed in ${transactionDuration} seconds.`);
+            } catch (error) {
+                console.error("Error allowing access:", error);
+                alert(`Error occurred while processing the transaction: ${error.message}`)
+            }
         } else {
             console.error("Address or endTime is missing.");
+            alert("Please provide both Address and End Time to proceed.");
         }
     };
 
@@ -25,13 +43,27 @@ const SharingCertificate = ({ contract }) => {
     const disallow = async () => {
         if (address) {
             try {
+                // จับเวลาการเริ่มต้นทำธุรกรรม
+                const txStartTime = Date.now();
+    
+                // เรียกใช้งานสัญญาอัจฉริยะเพื่อยกเลิกการเข้าถึงข้อมูล
                 await contract.disallow(address);
-                console.log("Disallowed successfully");
+    
+                // จับเวลาสิ้นสุดการทำธุรกรรม
+                const txEndTime = Date.now();
+    
+                // คำนวณระยะเวลาที่ใช้ในการทำธุรกรรม
+                const transactionDuration = (txEndTime - txStartTime) / 1000;
+                console.log(`Transaction completed in ${transactionDuration} seconds.`);
+    
+                alert(`Transaction completed in ${transactionDuration} seconds.`);
             } catch (error) {
                 console.error("Error disallowing access:", error);
+                alert(`Error occurred while processing the disallow transaction: ${error.message}`);
             }
         } else {
             console.error("Address is missing.");
+            alert("Please provide the Address to proceed.");
         }
     };
 

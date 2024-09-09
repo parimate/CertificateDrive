@@ -11,6 +11,7 @@ function UploadFile(admin) {
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
+  const [transactionTime, setTransactionTime] = useState(null); // State สำหรับเก็บเวลาที่ใช้
 
   // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
   useEffect(() => {
@@ -59,10 +60,39 @@ function UploadFile(admin) {
     provider && loadProvider();
   }, []);
 
+  // ฟังก์ชันสำหรับส่งธุรกรรมและวัดเวลา
+  const sendTransaction = async () => {
+    if (contract) {
+      try {
+        const startTime = Date.now(); // เวลาที่เริ่มต้น
+        const tx = await contract.someFunction(); // เรียกฟังก์ชันใน Smart Contract ที่ต้องการ
+        await tx.wait(); // รอการยืนยันธุรกรรม
+        const endTime = Date.now(); // เวลาที่สิ้นสุด
+
+        const duration = (endTime - startTime) / 1000; // คำนวณเวลาที่ใช้ในวินาที
+        setTransactionTime(duration);
+        console.log(`Transaction time: ${duration} seconds`);
+      } catch (error) {
+        console.error("Transaction failed", error);
+      }
+    }
+  };
+
   return (
     <>
       <Navbar />
-      <FileInput account={account} provider={provider} contract={contract} admin={admin} />
+      <FileInput
+        account={account}
+        provider={provider}
+        contract={contract}
+        admin={admin}
+        sendTransaction={sendTransaction} // ส่งฟังก์ชันไปยัง FileInput
+      />
+      {transactionTime && (
+        <div>
+          <p>Transaction time: {transactionTime} seconds</p>
+        </div>
+      )}
     </>
   );
 }

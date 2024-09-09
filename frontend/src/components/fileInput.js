@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-const FileInput = ({ contract, account }) => {
+const FileInput = ({ account, provider, contract, admin, sendTransaction }) => {
   // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
@@ -16,6 +16,9 @@ const FileInput = ({ contract, account }) => {
 
     if (file) {
       try {
+        // เริ่มจับเวลาที่จุดเริ่มต้นของการส่งไฟล์ไปยัง IPFS
+        const startTime = Date.now();
+        
         const formDataUpload = new FormData();
         formDataUpload.append("file", file);
 
@@ -30,6 +33,9 @@ const FileInput = ({ contract, account }) => {
           },
         });
 
+        const ipfsEndTime = Date.now();
+        const ipfsDuration = (ipfsEndTime - startTime) / 1000;
+
         //เก็บข้อมูลจาก form
         const OwnerAddress = document.getElementById("studentAccount").value;
         const firstName = document.getElementById("firstName").value;
@@ -43,10 +49,17 @@ const FileInput = ({ contract, account }) => {
         // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
+        // เริ่มจับเวลาการทำธุรกรรม
+        const txStartTime = Date.now();
+
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
         await contract.add(OwnerAddress, firstName, lastName, studentId, issueBy, issueDate, certificateName, account, 0, ImgHash);
 
-        alert("Successfully Image Uploaded"); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
+        // สิ้นสุดจับเวลาการทำธุรกรรม
+        const txEndTime = Date.now();
+        const transactionDuration = (txEndTime - txStartTime) / 1000; // วัดระยะเวลาเป็นวินาที
+
+        alert(`Image uploaded to IPFS in ${ipfsDuration} seconds. Transaction completed in ${transactionDuration} seconds.`); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้
       } catch (e) {
@@ -195,6 +208,7 @@ const FileInput = ({ contract, account }) => {
               <button
                 type="submit"
                 className=" ml-8 btn btn-secondary btn-lg "
+                onClick={sendTransaction}
                 disabled={!isAccountValid || !file} // ปิดการใช้งานปุ่ม Upload File ถ้า account ไม่ตรงตามที่
               >
                 Upload File
