@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { ethers } from "ethers";
 
 const SharingCertificate = ({ contract }) => {
     const navigate = useNavigate();
@@ -15,11 +16,19 @@ const SharingCertificate = ({ contract }) => {
     const sharing = async () => {
         if (address && endTime) {
             try {
+                // Validate the Ethereum address
+                if (!ethers.utils.isAddress(address)) {
+                    alert("Invalid Ethereum address.");
+                    return;
+                }
                 // จับเวลาการเริ่มต้นทำธุรกรรม
                 const txStartTime = Date.now();
+
+                 // Set manual gas limit
+                const gasLimit = { gasLimit: ethers.utils.hexlify(3000000) }; 
     
                 // เรียกใช้งานสัญญาอัจฉริยะเพื่ออนุญาตการเข้าถึงข้อมูล
-                await contract.allow(address, endTime);
+                await contract.allow(address, endTime, gasLimit);
     
                 // จับเวลาสิ้นสุดการทำธุรกรรม
                 const txEndTime = Date.now();
@@ -27,8 +36,8 @@ const SharingCertificate = ({ contract }) => {
                 // คำนวณระยะเวลาที่ใช้ในการทำธุรกรรม
                 const transactionDuration = (txEndTime - txStartTime) / 1000;
                 console.log(`Transaction completed in ${transactionDuration} seconds.`);
-    
                 alert(`Transaction completed in ${transactionDuration} seconds.`);
+
             } catch (error) {
                 console.error("Error allowing access:", error);
                 alert(`Error occurred while processing the transaction: ${error.message}`)
@@ -43,11 +52,19 @@ const SharingCertificate = ({ contract }) => {
     const disallow = async () => {
         if (address) {
             try {
+                // Validate the Ethereum address
+                if (!ethers.utils.isAddress(address)) {
+                    alert("Invalid Ethereum address.");
+                    return;
+                }
                 // จับเวลาการเริ่มต้นทำธุรกรรม
                 const txStartTime = Date.now();
+
+                // Set manual gas limit
+                const gasLimit = { gasLimit: ethers.utils.hexlify(3000000) };
     
                 // เรียกใช้งานสัญญาอัจฉริยะเพื่อยกเลิกการเข้าถึงข้อมูล
-                await contract.disallow(address);
+                await contract.disallow(address, gasLimit);
     
                 // จับเวลาสิ้นสุดการทำธุรกรรม
                 const txEndTime = Date.now();
@@ -55,8 +72,8 @@ const SharingCertificate = ({ contract }) => {
                 // คำนวณระยะเวลาที่ใช้ในการทำธุรกรรม
                 const transactionDuration = (txEndTime - txStartTime) / 1000;
                 console.log(`Transaction completed in ${transactionDuration} seconds.`);
-    
                 alert(`Transaction completed in ${transactionDuration} seconds.`);
+                
             } catch (error) {
                 console.error("Error disallowing access:", error);
                 alert(`Error occurred while processing the disallow transaction: ${error.message}`);

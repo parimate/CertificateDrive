@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/navbar';
 
-function Home({ account , admin }) { // รับค่า account เป็น prop
+function Home({ account , admin , contractAddress}) { // รับค่า account เป็น prop
   const navigate = useNavigate();
 
   // ฟังก์ชันจัดการคลิกปุ่ม Upload Certificate 
@@ -30,7 +30,7 @@ function Home({ account , admin }) { // รับค่า account เป็น 
 
   return (
     <>
-      <Navbar />
+       <Navbar account={account} contractAddress={contractAddress} />
       <br />
       <div className="flex justify-center space-x-12 mt-14">
       <div className="card w-96 bg-base-100 shadow-xl">

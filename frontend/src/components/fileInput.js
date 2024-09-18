@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-const FileInput = ({ account, provider, contract, admin, sendTransaction }) => {
+const FileInput = ({ account, contract, admin, sendTransaction }) => {
   // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
@@ -18,7 +18,7 @@ const FileInput = ({ account, provider, contract, admin, sendTransaction }) => {
       try {
         // เริ่มจับเวลาที่จุดเริ่มต้นของการส่งไฟล์ไปยัง IPFS
         const startTime = Date.now();
-        
+
         const formDataUpload = new FormData();
         formDataUpload.append("file", file);
 
@@ -104,8 +104,8 @@ const FileInput = ({ account, provider, contract, admin, sendTransaction }) => {
     navigate('/page/ownerDisplay');
   };
 
-   // ตรวจสอบค่า account เพื่อกำหนดการเปิด/ปิดการใช้งานปุ่ม Upload File
-   const isAccountValid = account === "0xDBE7cDFe2c8b3400694c2da0AE1B3D8F92a45374";
+  // ตรวจสอบค่า account เพื่อกำหนดการเปิด/ปิดการใช้งานปุ่ม Upload File
+  const isAccountValid = account = admin;
 
   return (
     <>
@@ -204,12 +204,12 @@ const FileInput = ({ account, provider, contract, admin, sendTransaction }) => {
                 name="data"
                 onChange={retrieveFile} // เมื่อมีการเลือกไฟล์ใหม่ให้เรียกใช้งานฟังก์ชัน retrieveFile
               />
-               <span className="ml-2">{fileName}</span> {/* Display the selected file's name */}
+              <span className="ml-2">{fileName}</span> {/* Display the selected file's name */}
               <button
                 type="submit"
                 className=" ml-8 btn btn-secondary btn-lg "
                 onClick={sendTransaction}
-                disabled={!isAccountValid || !file} // ปิดการใช้งานปุ่ม Upload File ถ้า account ไม่ตรงตามที่
+                disabled={!isAccountValid || !file} // ปิดการใช้งานปุ่ม Upload File ถ้า account ไม่ตรงตามที่กำหนด
               >
                 Upload File
               </button>

@@ -4,13 +4,11 @@ import { ethers } from "ethers";
 import Upload from "../artifacts/contracts/Upload.sol/Upload.json";
 
 
-function Navbar() {
+function Navbar({contractAddress}) {
     // กำหนด state สำหรับเก็บข้อมูล account, contract และ provider
     const [account, setAccount] = useState("");
     const [contract, setContract] = useState(null);
     const [provider, setProvider] = useState(null);
-
-
 
     // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
     useEffect(() => {
@@ -37,11 +35,11 @@ function Navbar() {
                 console.log(address);
                 setAccount(address); // อัปเดต state account ด้วยที่อยู่บัญชีปัจจุบัน
 
-                // // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract)
+                // // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Localhost Network 
                 // let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
                 // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Network sepolia
-                let contractAddress = "0x24F6CADD02aDE79A5D92BFb3407fD87F276e15D0";
+                let contractAddress = "0x6DF915b5A6Ce0FAb31c493E49BaCD421bBBbE5ff";
 
                 // สร้าง instance ของ contract ด้วย ethers.Contract
                 const contract = new ethers.Contract(

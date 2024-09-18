@@ -19,6 +19,12 @@ function App() {
   const admin = "0xDBE7cDFe2c8b3400694c2da0AE1B3D8F92a45374";
   const ProtectedUploadFile = withAuth(UploadFile, admin);
 
+  //  // Smart contract address Localhost Network 
+  //  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+
+  // Smart contract address Sepolia Test Network
+  const contractAddress = "0x6DF915b5A6Ce0FAb31c493E49BaCD421bBBbE5ff";
+
   // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
   useEffect(() => {
     // สร้าง provider จาก ethers.providers.Web3Provider โดยใช้ window.ethereum
@@ -44,12 +50,6 @@ function App() {
         console.log(address);
         setAccount(address); // อัปเดต state account ด้วยที่อยู่บัญชีปัจจุบัน
 
-        // // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Localhost
-        // let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-
-        // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Network sepolia
-        let contractAddress = "0x24F6CADD02aDE79A5D92BFb3407fD87F276e15D0";
-
         // สร้าง instance ของ contract ด้วย ethers.Contract
         const contract = new ethers.Contract(
           contractAddress,
@@ -73,11 +73,11 @@ function App() {
           <Routes>
             <Route index element={<Login />} />
             <Route path="/page/login" element={<Login />} />
-            <Route path="/page/home" element={<Home account={account} admin={admin} />} />
-            <Route path="/page/uploadFile" element={<ProtectedUploadFile account={account} admin={admin}/>} />
-            <Route path="/page/ownerDisplay" element={<OwnerDisplay account={account} contract={contract} provider={provider} />} />
-            <Route path="/page/viewerDisplay" element={<ViewerDisplay />} />
-            <Route path="/page/setSharing" element={<SetSharing />} />
+            <Route path="/page/home" element={<Home account={account} contract={contract} provider={provider} admin={admin} contractAddress={contractAddress}/>} />
+            <Route path="/page/uploadFile" element={<ProtectedUploadFile account={account} contract={contract} provider={provider} admin={admin} contractAddress={contractAddress}/>} />
+            <Route path="/page/ownerDisplay" element={<OwnerDisplay account={account} contract={contract} provider={provider} contractAddress={contractAddress}/>} />
+            <Route path="/page/viewerDisplay" element={<ViewerDisplay account={account} contract={contract} provider={provider} contractAddress={contractAddress} />} />
+            <Route path="/page/setSharing" element={<SetSharing account={account} contract={contract} provider={provider} contractAddress={contractAddress}/>} />
             <Route path="*" element={<div>No Match</div>} />
           </Routes>
       </div>

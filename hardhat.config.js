@@ -2,7 +2,7 @@ require("@nomicfoundation/hardhat-toolbox");
 
 // Go to https://infura.io, sign up, create a new API key
 // in its dashboard, and replace "KEY" with it
-const INFURA_API_KEY = "f940b5d44c2f4c9191251d9d6a2fe859";
+const INFURA_API_KEY = "6eb4b0df743f4331ba5faf93474a2818";
 
 // Replace this private key with your Sepolia account private key
 // To export your private key from Coinbase Wallet, go to
