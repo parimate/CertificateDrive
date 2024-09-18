@@ -12,6 +12,8 @@ const INFURA_API_KEY = "6eb4b0df743f4331ba5faf93474a2818";
 // Beware: NEVER put real Ether into testing accounts
 const SEPOLIA_PRIVATE_KEY = "78410277a433e487aab5dbed6ee0c92a6882e7f7b09e2a753cc11b21aa238e36";
 
+const AMOY_PRIVATE_KEY = "78410277a433e487aab5dbed6ee0c92a6882e7f7b09e2a753cc11b21aa238e36";
+
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.24",
@@ -19,9 +21,13 @@ module.exports = {
     // hardhat: {
     //   chainId: 1337,
     // },
-    sepolia: {
-      url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
-      accounts: [SEPOLIA_PRIVATE_KEY]
+    // sepolia: {
+    //   url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
+    //   accounts: [SEPOLIA_PRIVATE_KEY]
+    // },
+    amoy: {
+      url: `https://polygon-amoy.infura.io/v3/${INFURA_API_KEY}`,
+      accounts: [AMOY_PRIVATE_KEY]
     },
   },
   paths: {

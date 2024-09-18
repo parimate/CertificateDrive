@@ -25,7 +25,7 @@ const SharingCertificate = ({ contract }) => {
                 const txStartTime = Date.now();
 
                  // Set manual gas limit
-                const gasLimit = { gasLimit: ethers.utils.hexlify(3000000) }; 
+                const gasLimit = { gasLimit: ethers.utils.hexlify(1000000) }; 
     
                 // เรียกใช้งานสัญญาอัจฉริยะเพื่ออนุญาตการเข้าถึงข้อมูล
                 await contract.allow(address, endTime, gasLimit);
