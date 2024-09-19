@@ -21,14 +21,14 @@ module.exports = {
     // hardhat: {
     //   chainId: 1337,
     // },
-    // sepolia: {
-    //   url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
-    //   accounts: [SEPOLIA_PRIVATE_KEY]
-    // },
-    amoy: {
-      url: `https://polygon-amoy.infura.io/v3/${INFURA_API_KEY}`,
-      accounts: [AMOY_PRIVATE_KEY]
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
+      accounts: [SEPOLIA_PRIVATE_KEY]
     },
+    // amoy: {
+    //   url: `https://polygon-amoy.infura.io/v3/${INFURA_API_KEY}`,
+    //   accounts: [AMOY_PRIVATE_KEY]
+    // },
   },
   paths: {
     artifacts: "./frontend/src/artifacts",

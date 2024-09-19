@@ -160,18 +160,16 @@ contract Upload {
             "User is not authorized to view data"
         );
 
-        // สร้างตัวแปรเพื่อเก็บรายการ Access ที่มี endTime มากกว่า 0
+        // สร้างตัวแปรเพื่อเก็บรายการ Access ที่มี endTime มากกว่า 0 และ access = true
         Access[] memory validAccessList = new Access[](
             accessList[userToDisplay].length
         );
         uint256 validAccessCount = 0;
 
-        // วนลูปเพื่อกรองรายการที่มี endTime มากกว่า 0
+        // วนลูปเพื่อกรองรายการที่มี endTime มากกว่า 0 และ access = true
         for (uint256 i = 0; i < accessList[userToDisplay].length; i++) {
-            if (accessList[userToDisplay][i].endTime > 0) {
-                validAccessList[validAccessCount] = accessList[userToDisplay][
-                    i
-                ];
+            if (accessList[userToDisplay][i].endTime > 0 && accessList[userToDisplay][i].access == true) {
+                validAccessList[validAccessCount] = accessList[userToDisplay][i];
                 validAccessCount++;
             }
         }

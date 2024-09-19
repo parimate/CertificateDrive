@@ -38,11 +38,11 @@ function Navbar({contractAddress}) {
                 // // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Localhost Network 
                 // let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
-                // // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Network sepolia
-                // let contractAddress = "0x30CFb67E6A9662018BbEd5177F59f249BD96Bb2C";
+                // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Network sepolia
+                let contractAddress = "0x30CFb67E6A9662018BbEd5177F59f249BD96Bb2C";
 
-                // Smart contract address Amoy Test Network
-                const contractAddress = "0xf49a591156642647295F4bbc7393ddc46Fc617A5";
+                // // Smart contract address Amoy Test Network
+                // const contractAddress = "0xf49a591156642647295F4bbc7393ddc46Fc617A5";
 
                 // สร้าง instance ของ contract ด้วย ethers.Contract
                 const contract = new ethers.Contract(
