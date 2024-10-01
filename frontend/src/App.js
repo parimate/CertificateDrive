@@ -23,7 +23,7 @@ function App() {
   //  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
   // Smart contract address Sepolia Test Network
-  const contractAddress = "0x30CFb67E6A9662018BbEd5177F59f249BD96Bb2C";
+  const contractAddress = "0xb412226a206Aae38C4e91251608898145361F3fc";
 
   // // Smart contract address Amoy Test Network
   // const contractAddress = "0xf49a591156642647295F4bbc7393ddc46Fc617A5";

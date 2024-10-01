@@ -12,7 +12,7 @@ const INFURA_API_KEY = "6eb4b0df743f4331ba5faf93474a2818";
 // Beware: NEVER put real Ether into testing accounts
 const SEPOLIA_PRIVATE_KEY = "78410277a433e487aab5dbed6ee0c92a6882e7f7b09e2a753cc11b21aa238e36";
 
-const AMOY_PRIVATE_KEY = "78410277a433e487aab5dbed6ee0c92a6882e7f7b09e2a753cc11b21aa238e36";
+//const AMOY_PRIVATE_KEY = "78410277a433e487aab5dbed6ee0c92a6882e7f7b09e2a753cc11b21aa238e36";
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
