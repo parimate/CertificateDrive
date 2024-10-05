@@ -22,11 +22,11 @@ function App() {
   //  // Smart contract address Localhost Network 
   //  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
-  // Smart contract address Sepolia Test Network
-  const contractAddress = "0xb412226a206Aae38C4e91251608898145361F3fc";
+  // // Smart contract address Sepolia Test Network
+  // const contractAddress = "0xB2909c361BA96e571D098E2435DA4d8C6Bd61E3A";
 
-  // // Smart contract address Amoy Test Network
-  // const contractAddress = "0xf49a591156642647295F4bbc7393ddc46Fc617A5";
+  // Smart contract address Amoy Test Network
+  const contractAddress = "0x0CACdD407D860597Daec41273c694807B8f94825";
 
   // useEffect ทำงานเมื่อ component ถูกสร้างขึ้น (เมื่อโหลดหน้า App)
   useEffect(() => {

@@ -6,7 +6,7 @@ import axios from "axios";
 const FileInput = ({ account, contract, admin, sendTransaction }) => {
   // สร้าง state 2 ตัวคือ file และ fileName โดยให้เริ่มต้นค่าเป็น null และ "No image selected" ตามลำดับ
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState("No image selected");
+  const [fileName, setFileName] = useState("");
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate();
 
@@ -111,7 +111,7 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
     <>
       <div className="container mx-auto mt-3 max-w-2xl w-full">
         <h1 style={{ color: "black", fontSize: "2rem", textAlign: "center" }}>Certificate Upload </h1>
-        <form className="mt-3 max-w-full  mx-auto" validated={validated} onSubmit={handleSubmitForm}>
+        <form className="mt-5 max-w-full  mx-auto" validated={validated} onSubmit={handleSubmitForm}>
           <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
             Student Account
             <input
@@ -214,7 +214,7 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
                 Upload File
               </button>
               <div >
-                <button className="btn ml-8 btn-primary" onClick={handleOwnerClick}>View Certificate</button>
+                <button className="btn ml-7 btn-primary" onClick={handleOwnerClick}>View Certificate</button>
               </div>
             </div>
           </form>
