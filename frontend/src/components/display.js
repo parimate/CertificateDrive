@@ -65,27 +65,27 @@ function Display({ contract }) {
             <br />
             <h1 className="text-2xl font-bold text-center">Certificate list</h1>
             <p className="text-1xl text-center mb-4 mt-2">Block Timestamp: Unix:{Timestamp} , Date:{unixTimestampToDate(Timestamp)}</p>
-            <div className="overflow-x-auto">
-                <table className="table">
+            <div className="overflow-x-auto w-full">
+                <table className="table table-sm table-pin-rows table-pin-cols">
                     <thead>
                         <tr>
-                            <th>Address Owner</th>
-                            <th>First name</th>
-                            <th>Last name</th>
-                            <th>Student ID</th>
-                            <th>Issue By</th>
-                            <th>Issue Date</th>
-                            <th>Certificate Name</th>
-                            <th>Address User</th>
-                            <th>Access</th>
-                            <th>End Time</th>
-                            <th>Link</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">Address Owner</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">First name</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">Last name</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">Student ID</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">Issue By</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">Issue Date</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">Certificate Name</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">Address User</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">Access</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">End Time</th>
+                            <th className="bg-gray-200 text-gray-700 px-4 py-2">Link</th>
                         </tr>
                     </thead>
                     <tbody>
                         {console.log('Shared Data', sharedData)}
                         {sharedData.map((item, index) => (
-                            <tr key={index}>
+                            <tr key={index} className="hover">
                                 <td>{item.studentAddress}</td>
                                 <td>{item.firstName}</td>
                                 <td>{item.lastName}</td>

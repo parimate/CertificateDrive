@@ -52,20 +52,20 @@ function ViewCertificate({ contract, account }) {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>OwnerAddress</th>
-                                <th>First name</th>
-                                <th>Last name</th>
-                                <th>Student ID</th>
-                                <th>Issue By</th>
-                                <th>Issue Date</th>
-                                <th>Certificate Name</th>
-                                <th>End Time</th>
-                                <th>Link</th>
+                                <th className="bg-gray-200 text-gray-700 px-4 py-2">OwnerAddress</th>
+                                <th className="bg-gray-200 text-gray-700 px-4 py-2">First name</th>
+                                <th className="bg-gray-200 text-gray-700 px-4 py-2">Last name</th>
+                                <th className="bg-gray-200 text-gray-700 px-4 py-2">Student ID</th>
+                                <th className="bg-gray-200 text-gray-700 px-4 py-2">Issue By</th>
+                                <th className="bg-gray-200 text-gray-700 px-4 py-2">Issue Date</th>
+                                <th className="bg-gray-200 text-gray-700 px-4 py-2">Certificate Name</th>
+                                <th className="bg-gray-200 text-gray-700 px-4 py-2">End Time</th>
+                                <th className="bg-gray-200 text-gray-700 px-4 py-2">Link</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredData.map((item, index) => (
-                                <tr key={index}>
+                                <tr key={index} className="hover">
                                     <td>{item.studentAddress}</td>
                                     <td>{item.firstName}</td>
                                     <td>{item.lastName}</td>
