@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom"; 
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import './App.css';
 import { ethers } from "ethers";
 import Upload from "./artifacts/contracts/Upload.sol/Upload.json";
 import Login from "./page/login";
