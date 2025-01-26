@@ -1,6 +1,6 @@
 // import statements สำหรับใช้ useState จาก React และ axios สำหรับการทำ HTTP requests
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 const FileInput = ({ account, contract, admin, sendTransaction }) => {
@@ -22,21 +22,9 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
         const formDataUpload = new FormData();
         formDataUpload.append("file", file);
 
-        const serverResponse = await axios({
-          method:"post",
-          url: "http://localhost:4000/api/upload",
-          data: formDataUpload,
-          header: {
-            "Content-Type" : "multipart/form-data",
-          },
-        });
-
-        console.log("File uploaded to server:", serverResponse.data.filePath);
-
-        // ส่งไฟล์ไปยัง Pinata API เท่านั้น
-        const resPinata = await axios({
+        const resFile = await axios({
           method: "post",
-          url: "https://api.pinata.cloud/pinning/pinFileToIPFS", // Pinata API
+          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formDataUpload,
           headers: {
             pinata_api_key: `1017366b54483158e7bb`,
@@ -44,9 +32,6 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
             "Content-Type": "multipart/form-data",
           },
         });
-
-        // ดึง URL ของไฟล์จาก Pinata
-        const ImgHash = `https://gateway.pinata.cloud/ipfs/${resPinata.data.IpfsHash}`;
 
         const ipfsEndTime = Date.now();
         const ipfsDuration = (ipfsEndTime - startTime) / 1000;
@@ -58,33 +43,23 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
         const studentId = document.getElementById("studentId").value;
         const issueBy = document.getElementById("issueBy").value;
         const issueDate = document.getElementById("issueDate").value;
-        const certificateName =
-          document.getElementById("certificateName").value;
+        const certificateName = document.getElementById("certificateName").value;
+        //const gasLimit = 500000; // Set an appropriate gas limit
+
+        // สร้าง URL ของภาพที่อัปโหลดเพื่อใช้ในการเก็บข้อมูลลงในสัญญาอัจฉริยะบนเครือข่าย Ethereum
+        const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
         // เริ่มจับเวลาการทำธุรกรรม
         const txStartTime = Date.now();
 
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
-        await contract.add(
-          OwnerAddress,
-          firstName,
-          lastName,
-          studentId,
-          issueBy,
-          issueDate,
-          certificateName,
-          account,
-          0,
-          ImgHash
-        );
+        await contract.add(OwnerAddress, firstName, lastName, studentId, issueBy, issueDate, certificateName, account, 0, ImgHash);
 
         // สิ้นสุดจับเวลาการทำธุรกรรม
         const txEndTime = Date.now();
         const transactionDuration = (txEndTime - txStartTime) / 1000; // วัดระยะเวลาเป็นวินาที
 
-        alert(
-          `Image uploaded to IPFS in ${ipfsDuration} seconds. Transaction completed in ${transactionDuration} seconds.` // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
-        );
+        alert(`Image uploaded to IPFS in ${ipfsDuration} seconds. Transaction completed in ${transactionDuration} seconds.`); // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         setFileName("No image selected"); // รีเซ็ตชื่อไฟล์ที่เลือกให้เป็น "No image selected"
         setFile(null); // รีเซ็ต state file เป็น null เพื่อให้สามารถเลือกภาพใหม่ได้
       } catch (e) {
@@ -125,24 +100,18 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
     setValidated(true);
   };
 
-  const handleViewClick = () => {
-    navigate("/page/ownerDisplay");
+  const handleOwnerClick = () => {
+    navigate('/page/ownerDisplay');
   };
 
   // ตรวจสอบค่า account เพื่อกำหนดการเปิด/ปิดการใช้งานปุ่ม Upload File
-  const isAccountValid = (account = admin);
+  const isAccountValid = account = admin;
 
   return (
     <>
       <div className="container mx-auto mt-3 max-w-2xl w-full">
-        <h1 style={{ color: "black", fontSize: "2rem", textAlign: "center" }}>
-          Certificate Upload{" "}
-        </h1>
-        <form
-          className="mt-5 max-w-full  mx-auto"
-          validated={validated}
-          onSubmit={handleSubmitForm}
-        >
+        <h1 style={{ color: "black", fontSize: "2rem", textAlign: "center" }}>Certificate Upload </h1>
+        <form className="mt-5 max-w-full  mx-auto" validated={validated} onSubmit={handleSubmitForm}>
           <label className="input input-bordered flex items-center gap-2 mb-4 font-bold">
             Student Account
             <input
@@ -222,14 +191,8 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
 
         {/* File upload section */}
         <div className="mt-2">
-          <form
-            className="mt-6 ml-6 items-center w-full"
-            onSubmit={handleSubmit}
-          >
-            <label
-              htmlFor="file-upload"
-              className="block text-sm font-medium text-gray-700"
-            >
+          <form className="mt-6 ml-6 items-center w-full" onSubmit={handleSubmit}>
+            <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700">
               Choose Certificate File
             </label>
             <div className="mt-4 ml-1 flex items-center w-full">
@@ -241,8 +204,7 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
                 name="data"
                 onChange={retrieveFile} // เมื่อมีการเลือกไฟล์ใหม่ให้เรียกใช้งานฟังก์ชัน retrieveFile
               />
-              <span className="ml-2">{fileName}</span>{" "}
-              {/* Display the selected file's name */}
+              <span className="ml-2">{fileName}</span> {/* Display the selected file's name */}
               <button
                 type="submit"
                 className=" ml-8 btn btn-secondary btn-lg "
@@ -251,13 +213,8 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
               >
                 Upload File
               </button>
-              <div>
-                <button
-                  className="btn ml-7 btn-primary"
-                  onClick={handleViewClick}
-                >
-                  View Certificate
-                </button>
+              <div >
+                <button className="btn ml-7 btn-primary" onClick={handleOwnerClick}>View Certificate</button>
               </div>
             </div>
           </form>
@@ -265,6 +222,6 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
       </div>
     </>
   );
-};
+}
 
 export default FileInput;
