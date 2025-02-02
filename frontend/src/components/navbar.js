@@ -55,11 +55,12 @@ function Navbar({contractAddress}) {
                 setProvider(provider); // อัปเดต state provider ด้วย provider ที่สร้างขึ้น
             } else {
                 console.error("Metamask is not installed"); // แสดงข้อความแจ้งเตือนในกรณีที่ไม่มี Metamask
+                alert("Please install Metamask to use this application.");
             }
         };
 
         provider && loadProvider();
-    }, []);
+    }, [contractAddress]); // useEffect จะทำงานใหม่เมื่อ contractAddress เปลี่ยน
     return (
         <>
             <div className="navbar bg-base-100 bg-primary">
