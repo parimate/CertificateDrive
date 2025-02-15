@@ -15,14 +15,14 @@ function App() {
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
-  const admin = "0xDBE7cDFe2c8b3400694c2da0AE1B3D8F92a45374";
+  const admin = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
   const ProtectedUploadFile = withAuth(UploadFile, admin);
 
-  //  // Smart contract address Localhost Network 
-  //  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+   // Smart contract address Localhost Network 
+   const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
-  // Smart contract address Sepolia Test Network
-  const contractAddress = "0x7a2A3AC276220bddE5d9Fd77F4C87B485B58bd50";
+  // // Smart contract address Sepolia Test Network
+  // const contractAddress = "0x7a2A3AC276220bddE5d9Fd77F4C87B485B58bd50";
 
   // // Smart contract address Amoy Test Network
   // const contractAddress = "0x0CACdD407D860597Daec41273c694807B8f94825";
