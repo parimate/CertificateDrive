@@ -26,6 +26,11 @@ contract Upload {
     mapping(address => bool) private authorizedViewers; // รายชื่อผู้ที่มีสิทธิ์ในการดูข้อมูลใบประกาศนียบัตร
     mapping(address => bool) private authorizedStudent; // รายชื่อนักศึกษาเจ้าของใบประกาศนียบัตร
 
+    event CertificateAdded(address indexed student, string certificateName, address indexed issuer);
+    event AccessGranted(address indexed owner, address indexed viewer, uint256 endTime);
+    event AccessRevoked(address indexed owner, address indexed viewer);
+    event SomeEvent(address indexed sender, uint256 timestamp);
+
     constructor() {
         authorizedIssuers[msg.sender] = true; // Contract creator is the initial admin
     }
@@ -190,4 +195,8 @@ contract Upload {
     function getCurrentTimestamp() public view returns (uint256) {
         return block.timestamp;
     }
+
+    function someFunction() external {
+        emit SomeEvent(msg.sender, block.timestamp);
+}
 }
