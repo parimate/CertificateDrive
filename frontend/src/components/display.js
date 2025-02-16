@@ -39,8 +39,6 @@ function Display({ contract }) {
       // เรียกใช้งานฟังก์ชัน shareAccess จาก contract เพื่อดึงข้อมูล
       const result = await contract.shareAccess();
       console.log("result", result);
-      // // เรียงลำดับข้อมูลใหม่ โดยข้อมูลล่าสุดจะอยู่ด้านบน
-      //result.reverse();
       // อัปเดตข้อมูลที่ได้รับจาก contract ไปยัง state ของ component
       setSharedData(result);
     } catch (e) {
