@@ -84,7 +84,7 @@ function UploadFile({admin, contractAddress }) {
       />
       {transactionTime && (
         <div>
-          <p>Transaction time: {transactionTime} seconds</p>
+          {/* <p>Transaction time: {transactionTime} seconds</p> */}
         </div>
       )}
     </>
