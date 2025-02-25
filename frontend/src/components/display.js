@@ -42,8 +42,6 @@ function Display({ contract }) {
       // อัปเดตข้อมูลที่ได้รับจาก contract ไปยัง state ของ component
       setSharedData(result);
     } catch (e) {
-      // แสดงข้อความแจ้งเตือนในกรณีที่เกิดข้อผิดพลาด
-      //alert("Error fetching shared data");
       console.log("Error fetching shared data");
     }
   }, [contract]);

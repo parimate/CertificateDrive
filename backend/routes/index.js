@@ -1,11 +1,12 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const multer = require("multer");
 const cors = require("cors");
 const path = require("path");
 const fs = require("fs");
 const app = express();
-const PORT = 4000;
+const PORT = 5000;
+const Certificate = require("../models/certificate.model");
 
 // เปิดใช้งาน CORS
 app.use(cors());
@@ -50,10 +51,50 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 // Static route สำหรับเสิร์ฟไฟล์ที่อัปโหลด
 app.use("/uploads", express.static(uploadDir));
 
+// API สำหรับเพิ่มข้อมูลของ Certificate
+router.post("/api/certificates", async (req, res) => {
+  console.log("Certificate API is working...");
+
+  try {
+    const {
+      ownerAddress,
+      firstName,
+      lastName,
+      studentId,
+      issueBy,
+      issueDate,
+      certificateName,
+      account,
+      imgHash,
+    } = req.body;
+
+    if (!ownerAddress || !firstName || !lastName || !studentId || !issueBy || !issueDate || !certificateName || !account || !imgHash) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const newCertificate = new Certificate({
+      ownerAddress,
+      firstName,
+      lastName,
+      studentId,
+      issueBy,
+      issueDate,
+      certificateName,
+      account,
+      imgHash,
+    });
+
+    await newCertificate.save();
+    res.status(201).json({ message: "Certificate added successfully", certificate: newCertificate });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+
 // เริ่มต้นเซิร์ฟเวอร์
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
 
 module.exports = router;

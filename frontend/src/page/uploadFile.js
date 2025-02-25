@@ -59,7 +59,7 @@ function UploadFile({admin, contractAddress }) {
     if (contract) {
       try {
         const startTime = Date.now(); // เวลาที่เริ่มต้น
-        const tx = await contract.someFunction(); // เรียกฟังก์ชันใน Smart Contract ที่ต้องการ
+        const tx = await contract.logTransaction(); // เรียกฟังก์ชันใน Smart Contract ที่ต้องการ
         await tx.wait(); // รอการยืนยันธุรกรรม
         const endTime = Date.now(); // เวลาที่สิ้นสุด
 

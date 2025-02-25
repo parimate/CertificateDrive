@@ -21,10 +21,11 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
 
         const formDataUpload = new FormData();
         formDataUpload.append("file", file);
-
+        
+         // **อัปโหลดไปยังเซิร์ฟเวอร์**
         const serverResponse = await axios({
           method:"post",
-          url: "http://localhost:4000/api/upload",
+          url: "http://localhost:5000/api/upload",
           data: formDataUpload,
           header: {
             "Content-Type" : "multipart/form-data",
@@ -65,7 +66,7 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
         const txStartTime = Date.now();
 
         // เรียกใช้ function add ในสัญญาอัจฉริยะโดยให้พารามิเตอร์ account และ ImgHash
-        await contract.add(
+        const tx = await contract.add(
           OwnerAddress,
           firstName,
           lastName,
@@ -77,11 +78,28 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
           0,
           ImgHash
         );
-
+        
+        await tx.wait(); // รอให้ธุรกรรมสำเร็จก่อนดำเนินการต่อ
+        console.log("Transaction completed:", tx);
         // สิ้นสุดจับเวลาการทำธุรกรรม
         const txEndTime = Date.now();
         const transactionDuration = (txEndTime - txStartTime) / 1000; // วัดระยะเวลาเป็นวินาที
-
+        
+        // **บันทึกข้อมูลลงฐานข้อมูล**
+        await axios.post("http://localhost:4000/api/certificates", {
+          ownerAddress: OwnerAddress,
+          firstName,
+          lastName,
+          studentId,
+          issueBy,
+          issueDate,
+          certificateName,
+          account,
+          imgHash: ImgHash, 
+        }, {
+          headers: { "Content-Type": "application/json" }
+        });
+        
         alert(
           `Image uploaded to IPFS in ${ipfsDuration} seconds. Transaction completed in ${transactionDuration} seconds.` // แสดงข้อความแจ้งเตือนว่าอัปโหลดภาพสำเร็จ
         );

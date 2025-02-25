@@ -29,7 +29,7 @@ contract Upload {
     event CertificateAdded(address indexed student, string certificateName, address indexed issuer);
     event AccessGranted(address indexed owner, address indexed viewer, uint256 endTime);
     event AccessRevoked(address indexed owner, address indexed viewer);
-    event SomeEvent(address indexed sender, uint256 timestamp);
+    event TransactionEvent(address indexed sender, uint256 timestamp);
 
     constructor() {
         authorizedIssuers[msg.sender] = true; // Contract creator is the initial admin
@@ -196,7 +196,7 @@ contract Upload {
         return block.timestamp;
     }
 
-    function someFunction() external {
-        emit SomeEvent(msg.sender, block.timestamp);
+    function logTransaction() external {
+        emit TransactionEvent(msg.sender, block.timestamp);
 }
 }
