@@ -11,7 +11,6 @@ require('./db.js');
 process.env.DB_HOST
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var certificateRouter = require('./routes/certificate.routes'); // ✅ เพิ่ม API Certificates
 
 var app = express();
@@ -30,7 +29,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/api/certificates', certificateRouter); // ✅ เพิ่ม Route ของ Certificate
 
 // Catch 404 and forward to error handler

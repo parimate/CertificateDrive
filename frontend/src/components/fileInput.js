@@ -33,7 +33,7 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
         });
 
         console.log("File uploaded to server:", serverResponse.data.filePath);
-
+        
         // ส่งไฟล์ไปยัง Pinata API เท่านั้น
         const resPinata = await axios({
           method: "post",
@@ -78,7 +78,7 @@ const FileInput = ({ account, contract, admin, sendTransaction }) => {
           0,
           ImgHash
         );
-        
+
         await tx.wait(); // รอให้ธุรกรรมสำเร็จก่อนดำเนินการต่อ
         console.log("Transaction completed:", tx);
         // สิ้นสุดจับเวลาการทำธุรกรรม
