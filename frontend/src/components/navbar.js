@@ -35,11 +35,11 @@ function Navbar({contractAddress}) {
                 console.log(address);
                 setAccount(address); // อัปเดต state account ด้วยที่อยู่บัญชีปัจจุบัน
 
-                // // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Localhost Network 
-                // let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+                // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Localhost Network 
+                let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
-                // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Network sepolia
-                let contractAddress = "0x7a2A3AC276220bddE5d9Fd77F4C87B485B58bd50";
+                // // กำหนดที่อยู่ของสัญญาอัจฉริยะ (Smart contract) Network sepolia
+                // let contractAddress = "0x7a2A3AC276220bddE5d9Fd77F4C87B485B58bd50";
 
                 // // Smart contract address Amoy Test Network
                 // const contractAddress = "0x0CACdD407D860597Daec41273c694807B8f94825";
